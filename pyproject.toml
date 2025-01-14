@@ -7,6 +7,7 @@ authors = [
 ]
 dependencies = [
     "httpx>=0.28.1",
+    "textual>=1.0.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"
@@ -23,6 +24,7 @@ dev-dependencies = [
     "mypy>=1.14.1",
     "pre-commit>=4.0.1",
     "pytest>=8.3.4",
+    "textual-dev>=1.7.0",
 ]
 
 [tool.hatch.metadata]
