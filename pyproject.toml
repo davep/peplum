@@ -5,7 +5,9 @@ description = "Coming soon"
 authors = [
     { name = "Dave Pearson", email = "davep@davep.org" }
 ]
-dependencies = []
+dependencies = [
+    "httpx>=0.28.1",
+]
 readme = "README.md"
 requires-python = ">= 3.8"
 
