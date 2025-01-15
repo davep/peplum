@@ -17,7 +17,7 @@ from typing_extensions import Self
 
 ##############################################################################
 # Local imports.
-from ..data import PEPs, StatusCount, TypeCount
+from ..data import PEPs, PythonVersionCount, StatusCount, TypeCount
 from .extended_option_list import OptionListEx
 
 
@@ -109,6 +109,22 @@ class StatusView(CountView):
 
 
 ##############################################################################
+class PythonVersionView(CountView):
+    """Option for showing a Python version."""
+
+    def __init__(self, version: PythonVersionCount) -> None:
+        """ "Initialise the object.
+
+        Args:
+            version: The details of the PEP Python version to show.
+        """
+        super().__init__(
+            self.count_prompt(version.version or f"[dim i]None[/]", version.count),
+            id=f"_python_version_{version.version}",
+        )
+
+
+##############################################################################
 class Navigation(OptionListEx):
     """The main navigation panel."""
 
@@ -150,10 +166,22 @@ class Navigation(OptionListEx):
                 self.add_option(StatusView(status))
         return self
 
+    def add_python_versions(self) -> Self:
+        """Add the PEP python versions to navigation.
+
+        Returns:
+            Self.
+        """
+        if self.active_peps:
+            self.add_option(Title("Python Versions"))
+            for version in sorted(self.active_peps.python_versions):
+                self.add_option(PythonVersionView(version))
+        return self
+
     def repopulate(self) -> None:
         """Repopulate navigation panel."""
         with self.preserved_highlight:
-            self.clear_options().add_main().add_types().add_statuses()
+            self.clear_options().add_main().add_types().add_statuses().add_python_versions()
         if self.highlighted is None:
             self.highlighted = 0
 
