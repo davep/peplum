@@ -174,6 +174,7 @@ class PEP:
             python_version=tuple(
                 version.strip()
                 for version in (data.get("python_version") or "").split(",")
+                if version
             ),
             post_history=tuple(
                 PostHistory.from_value(post.strip()) or PostHistory()
