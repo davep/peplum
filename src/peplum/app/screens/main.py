@@ -10,7 +10,7 @@ from textual.widgets import Footer, Header
 ##############################################################################
 # Local imports.
 from ... import __version__
-from ..widgets import Navigation
+from ..widgets import Navigation, PEPsView
 
 
 ##############################################################################
@@ -22,14 +22,18 @@ class Main(Screen[None]):
     DEFAULT_CSS = """
     Main {
         Navigation {
-            width: 2fr;
-            height: 1fr;
+            width: 1fr;
+        }
+
+        PEPsView {
+            width: 4fr;
+        }
+
+        Navigation, PEPsView {
             &> .option-list--option {
                 padding: 0 1;
             }
-        }
-
-        .focus {
+            height: 1fr;
             padding-right: 0;
             border: none;
             border-left: round $border 50%;
@@ -54,7 +58,8 @@ class Main(Screen[None]):
         """Compose the content of the main screen."""
         yield Header()
         with Horizontal():
-            yield Navigation(classes="focus")
+            yield Navigation()
+            yield PEPsView()
         yield Footer()
 
 
