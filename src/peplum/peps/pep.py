@@ -128,8 +128,8 @@ class PEP:
     """The PEPS that this PEP requires."""
     created: date
     """The date the PEP was created."""
-    python_version: str | None
-    """The Python version this PEP relates to."""
+    python_version: tuple[str, ...]
+    """The Python versions this PEP relates to."""
     post_history: tuple[PostHistory, ...]
     """The dates of the posting history for the PEP."""
     resolution: PostHistory | None
@@ -171,7 +171,10 @@ class PEP:
             topic=data.get("topic", ""),
             requires=get_ints("requires"),
             created=parse_date(data.get("created", "")),
-            python_version=data.get("python_version"),
+            python_version=tuple(
+                version.strip()
+                for version in (data.get("python_version") or "").split(",")
+            ),
             post_history=tuple(
                 PostHistory.from_value(post.strip()) or PostHistory()
                 for post in (data.get("post_history", "") or "").split(",")
