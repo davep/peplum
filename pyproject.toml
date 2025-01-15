@@ -9,6 +9,7 @@ dependencies = [
     "httpx>=0.28.1",
     "textual>=1.0.0",
     "xdg-base-dirs>=6.0.2",
+    "typing-extensions>=4.12.2",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"

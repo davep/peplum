@@ -107,6 +107,7 @@ textual-serve==1.1.1
     # via textual-dev
 typing-extensions==4.12.2
     # via mypy
+    # via peplum
     # via textual
     # via textual-dev
 uc-micro-py==1.0.3
