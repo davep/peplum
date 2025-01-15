@@ -6,7 +6,7 @@ from typing import Final, get_args
 
 ##############################################################################
 # Local imports.
-from peplum.app.data import PEPs, StatusCount, TypeCount
+from peplum.app.data import PEPs, PythonVersionCount, StatusCount, TypeCount
 from peplum.peps import PEP, PEPStatus, PEPType
 
 ##############################################################################
@@ -21,7 +21,7 @@ SAMPLE_PEPS: Final[tuple[PEP, ...]] = (
             "type": "Process",
             "topic": "",
             "created": "13-Jun-2000",
-            "python_version": None,
+            "python_version": "3.7, 3.8",
             "post_history": "21-Mar-2001, 29-Jul-2002, 03-May-2003, 05-May-2012, 07-Apr-2013",
             "resolution": None,
             "requires": None,
@@ -212,6 +212,19 @@ def test_type_counts() -> None:
     assert sorted(PEPs(SAMPLE_PEPS).types) == sorted(
         TypeCount(pep_type, 2) for pep_type in get_args(PEPType)
     )
+
+
+##############################################################################
+def test_python_version_counts() -> None:
+    """We should be able to count the Python versions."""
+    assert sorted(PEPs(SAMPLE_PEPS).python_versions) == [
+        PythonVersionCount("", 4),
+        PythonVersionCount("2.0", 2),
+        PythonVersionCount("2.1", 1),
+        PythonVersionCount("3.7", 1),
+        PythonVersionCount("3.8", 1),
+        PythonVersionCount("3.13", 1),
+    ]
 
 
 ### test_peps.py ends here
