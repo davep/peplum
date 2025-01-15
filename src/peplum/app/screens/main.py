@@ -11,7 +11,6 @@ from textual.widgets import Footer, Header
 ##############################################################################
 # Local imports.
 from ... import __version__
-from ...peps import API
 from ..data import PEPs
 from ..widgets import Navigation, PEPsView
 
