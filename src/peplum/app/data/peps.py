@@ -40,6 +40,7 @@ class StatusCount:
 
 ##############################################################################
 @dataclass(frozen=True)
+@total_ordering
 class TypeCount:
     """Holds a count of a particular PEP type."""
 
