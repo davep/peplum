@@ -132,9 +132,10 @@ class Navigation(OptionListEx):
         Returns:
             Self.
         """
-        self.add_option(Title("Type"))
-        for pep_type in sorted(self.active_peps.types):
-            self.add_option(TypeView(pep_type))
+        if self.active_peps:
+            self.add_option(Title("Type"))
+            for pep_type in sorted(self.active_peps.types):
+                self.add_option(TypeView(pep_type))
         return self
 
     def add_statuses(self) -> Self:
@@ -143,9 +144,10 @@ class Navigation(OptionListEx):
         Returns:
             Self.
         """
-        self.add_option(Title(f"Status"))
-        for status in sorted(self.active_peps.statuses):
-            self.add_option(StatusView(status))
+        if self.active_peps:
+            self.add_option(Title(f"Status"))
+            for status in sorted(self.active_peps.statuses):
+                self.add_option(StatusView(status))
         return self
 
     def repopulate(self) -> None:
@@ -155,11 +157,11 @@ class Navigation(OptionListEx):
         if self.highlighted is None:
             self.highlighted = 0
 
-    async def watch_all_peps(self) -> None:
+    def watch_all_peps(self) -> None:
         """React to the full list of PEPs being changed."""
         self.repopulate()
 
-    async def watch_active_peps(self) -> None:
+    def watch_active_peps(self) -> None:
         """React to the active PEPs being changed."""
         self.repopulate()
 
