@@ -34,6 +34,8 @@ mdit-py-plugins==0.4.2
     # via markdown-it-py
 mdurl==0.1.2
     # via markdown-it-py
+packaging==24.2
+    # via peplum
 platformdirs==4.3.6
     # via textual
 pygments==2.19.1

@@ -13,6 +13,10 @@ from operator import concat
 from typing import Iterable, Iterator
 
 ##############################################################################
+# Packaging imports.
+from packaging.version import InvalidVersion, Version
+
+##############################################################################
 # Local imports.
 from ...peps import PEP, PEPStatus, PEPType
 
@@ -74,12 +78,18 @@ class PythonVersionCount:
 
     def __gt__(self, value: object, /) -> bool:
         if isinstance(value, PythonVersionCount):
-            return self.version > value.version
+            try:
+                return Version(self.version) > Version(value.version)
+            except InvalidVersion:
+                return self.version > value.version
         raise NotImplementedError
 
     def __eq__(self, value: object, /) -> bool:
         if isinstance(value, PythonVersionCount):
-            return self.version == value.version
+            try:
+                return Version(self.version) == Version(value.version)
+            except InvalidVersion:
+                return self.version == value.version
         raise NotImplementedError
 
 
