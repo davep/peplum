@@ -8,7 +8,8 @@ from __future__ import annotations
 # Python imports.
 from collections import Counter
 from dataclasses import dataclass
-from functools import total_ordering
+from functools import reduce, total_ordering
+from operator import concat
 from typing import Iterable, Iterator
 
 ##############################################################################
@@ -61,6 +62,28 @@ class TypeCount:
 
 
 ##############################################################################
+@dataclass(frozen=True)
+@total_ordering
+class PythonVersionCount:
+    """Holds a count of a particular PEP python version."""
+
+    version: str
+    """The Python version."""
+    count: int
+    """The count."""
+
+    def __gt__(self, value: object, /) -> bool:
+        if isinstance(value, PythonVersionCount):
+            return self.version > value.version
+        raise NotImplementedError
+
+    def __eq__(self, value: object, /) -> bool:
+        if isinstance(value, PythonVersionCount):
+            return self.version == value.version
+        raise NotImplementedError
+
+
+##############################################################################
 class PEPs:
     """Class that holds a collection of PEPs."""
 
@@ -89,6 +112,21 @@ class PEPs:
         return tuple(
             TypeCount(pep_type, count)
             for pep_type, count in Counter[PEPType](pep.type for pep in self).items()
+        )
+
+    @property
+    def python_versions(self) -> tuple[PythonVersionCount, ...]:
+        """The Python versions and their counts as found in the PEPs.
+
+        Notes:
+            A count for an empty string is included, this is the count of
+            PEPs that have no Python version associated with them.
+        """
+        return tuple(
+            PythonVersionCount(version, count)
+            for version, count in Counter(
+                reduce(concat, (pep.python_version or ("",) for pep in self))
+            ).items()
         )
 
     def __contains__(self, pep: PEP | int) -> bool:
