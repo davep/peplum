@@ -66,11 +66,11 @@ class Main(Screen[None]):
         """Compose the content of the main screen."""
         yield Header()
         with Horizontal():
-            yield Navigation().data_bind(peps=Main.active_peps)
-            yield PEPsView().data_bind(peps=Main.active_peps)
+            yield Navigation().data_bind(Main.all_peps, Main.active_peps)
+            yield PEPsView().data_bind(Main.active_peps)
         yield Footer()
 
-    async def on_mount(self) -> None:
+    def on_mount(self) -> None:
         """Configure the application once the DOM is mounted."""
         # TODO: Get from the API.
         # TODO: Do this as a background process.

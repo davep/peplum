@@ -2,8 +2,9 @@
 
 ##############################################################################
 # Rich imports.
-from rich.console import Group
+from rich.console import Group, RenderableType
 from rich.rule import Rule
+from rich.table import Table
 
 ##############################################################################
 # Textual imports.
@@ -16,7 +17,7 @@ from typing_extensions import Self
 
 ##############################################################################
 # Local imports.
-from ..data import PEPs
+from ..data import PEPs, StatusCount, TypeCount
 from .extended_option_list import OptionListEx
 
 
@@ -38,10 +39,83 @@ class Title(Option):
 
 
 ##############################################################################
+class CountView(Option):
+    """Base class for options that show a count."""
+
+    def count_prompt(self, caption: str, count: int) -> RenderableType:
+        """Create a prompt.
+
+        Args:
+            caption: The caption for the prompt.
+            count: The count for the prompt.
+
+        Returns:
+            The prompt.
+        """
+        prompt = Table.grid(expand=True)
+        prompt.add_column(ratio=1)
+        prompt.add_column(justify="right")
+        prompt.add_row(caption, f"[dim i]{count}[/]")
+        return prompt
+
+
+##############################################################################
+class AllView(CountView):
+    """Option used to signify that we should view all PEPs."""
+
+    def __init__(self, peps: PEPs) -> None:
+        """Initialise the object.
+
+        Args:
+            peps: The full collection of PEPs.
+        """
+        super().__init__(self.count_prompt("All", len(peps)), id=f"_all_peps")
+
+
+##############################################################################
+class TypeView(CountView):
+    """Option for showing a PEP type."""
+
+    def __init__(self, pep_type: TypeCount) -> None:
+        """Initialise the object.
+
+        Args:
+            pep_type: The details of the PEP type to show.
+        """
+        self._type = pep_type
+        """The details of the type to show."""
+        super().__init__(
+            self.count_prompt(pep_type.type, pep_type.count),
+            id=f"_type_{pep_type.type}",
+        )
+
+
+##############################################################################
+class StatusView(CountView):
+    """Option for showing a PEP status."""
+
+    def __init__(self, status: StatusCount) -> None:
+        """ "Initialise the object.
+
+        Args:
+            status: The details of the PEP status to show.
+        """
+        self._status = status
+        """The details of the status to show."""
+        super().__init__(
+            self.count_prompt(status.status, status.count),
+            id=f"_status_{status.status}",
+        )
+
+
+##############################################################################
 class Navigation(OptionListEx):
     """The main navigation panel."""
 
-    peps: var[PEPs] = var(PEPs, always_update=True)
+    all_peps: var[PEPs] = var(PEPs)
+    """The collection of all known PEPs."""
+
+    active_peps: var[PEPs] = var(PEPs)
     """The currently-active collection of PEPs."""
 
     def add_main(self) -> Self:
@@ -50,7 +124,7 @@ class Navigation(OptionListEx):
         Returns:
             Self.
         """
-        return self.add_option(f"All ({len(self.peps)})")
+        return self.add_option(AllView(self.all_peps))
 
     def add_types(self) -> Self:
         """Add the PEP types to navigation.
@@ -59,8 +133,8 @@ class Navigation(OptionListEx):
             Self.
         """
         self.add_option(Title("Type"))
-        for pep_type in sorted(self.peps.types):
-            self.add_option(f"{pep_type.type} ({pep_type.count})")
+        for pep_type in sorted(self.active_peps.types):
+            self.add_option(TypeView(pep_type))
         return self
 
     def add_statuses(self) -> Self:
@@ -69,17 +143,25 @@ class Navigation(OptionListEx):
         Returns:
             Self.
         """
-        self.add_option(Title("Status"))
-        for status in sorted(self.peps.statuses):
-            self.add_option(f"{status.status} ({status.count})")
+        self.add_option(Title(f"Status"))
+        for status in sorted(self.active_peps.statuses):
+            self.add_option(StatusView(status))
         return self
 
-    def watch_peps(self) -> None:
-        """React to the PEPs being changed."""
+    def repopulate(self) -> None:
+        """Repopulate navigation panel."""
         with self.preserved_highlight:
             self.clear_options().add_main().add_types().add_statuses()
         if self.highlighted is None:
             self.highlighted = 0
+
+    async def watch_all_peps(self) -> None:
+        """React to the full list of PEPs being changed."""
+        self.repopulate()
+
+    async def watch_active_peps(self) -> None:
+        """React to the active PEPs being changed."""
+        self.repopulate()
 
 
 ### navigation.py ends here
