@@ -208,7 +208,7 @@ def test_status_counts() -> None:
 
 ##############################################################################
 def test_type_counts() -> None:
-    """We should eb able to count the types."""
+    """We should be able to count the types."""
     assert sorted(PEPs(SAMPLE_PEPS).types) == sorted(
         TypeCount(pep_type, 2) for pep_type in get_args(PEPType)
     )
