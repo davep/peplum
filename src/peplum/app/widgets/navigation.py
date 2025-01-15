@@ -1,12 +1,13 @@
-"""Provides the application's custom widgets."""
+"""The main navigation panel."""
 
 ##############################################################################
 # Local imports.
-from .navigation import Navigation
+from .extended_option_list import OptionListEx
+
 
 ##############################################################################
-# Exports.
-__all__ = ["Navigation"]
+class Navigation(OptionListEx):
+    """The main navigation panel."""
 
 
-### __init__.py ends here
+### navigation.py ends here
