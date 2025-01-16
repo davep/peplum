@@ -168,10 +168,14 @@ class WithPythonVersion(Filter):
         """The type to filter on."""
 
     def __rand__(self, pep: PEP) -> bool:
-        return self._version in pep.python_version
+        return (
+            self._version in pep.python_version
+            if self._version
+            else not pep.python_version
+        )
 
     def __str__(self) -> str:
-        return self._version
+        return self._version or "None"
 
 
 ##############################################################################
