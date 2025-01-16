@@ -3,7 +3,7 @@
 ##############################################################################
 # Local imports.
 from .config import load_configuration, save_configuration, update_configuration
-from .peps import PEPs, PythonVersionCount, StatusCount, TypeCount, WithStatus
+from .peps import PEPs, PythonVersionCount, StatusCount, TypeCount, WithStatus, WithType
 
 ##############################################################################
 # Exports.
@@ -16,6 +16,7 @@ __all__ = [
     "StatusCount",
     "TypeCount",
     "WithStatus",
+    "WithType",
 ]
 
 ### __init__.py ends here

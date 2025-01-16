@@ -13,7 +13,7 @@ from textual.widgets import Footer, Header
 # Local imports.
 from ... import __version__
 from ..commands import ChangeTheme, Command, Escape, Help, Quit
-from ..data import PEPs, WithStatus
+from ..data import PEPs, WithStatus, WithType
 from ..messages import ShowAll, ShowPythonVersion, ShowStatus, ShowType
 from ..widgets import Navigation, PEPsView
 from .help import HelpScreen
@@ -117,8 +117,13 @@ class Main(Screen[None]):
         self.active_peps = self.all_peps
 
     @on(ShowType)
-    def show_type(self, event: ShowType) -> None:
-        self.notify(f"Show {event.type}")
+    def show_type(self, command: ShowType) -> None:
+        """Filter the PEPs by a given type.
+
+        Args:
+            command: The command requesting the filter.
+        """
+        self.active_peps &= WithType(command.type)
 
     @on(ShowStatus)
     def show_status(self, command: ShowStatus) -> None:

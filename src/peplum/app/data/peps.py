@@ -109,9 +109,9 @@ class Filter:
         return (*filters, self)
 
     def __eq__(self, value: object) -> bool:
-        if isinstance(value, Filter):
-            return False
-        raise NotImplementedError
+        if isinstance(value, self.__class__):
+            return str(value) == str(self)
+        return False
 
 
 ##############################################################################
@@ -133,10 +133,25 @@ class WithStatus(Filter):
     def __str__(self) -> str:
         return str(self._status)
 
-    def __eq__(self, value: object) -> bool:
-        if isinstance(value, WithStatus):
-            return str(value) == self._status
-        return super().__eq__(value)
+
+##############################################################################
+class WithType(Filter):
+    """Filter on a PEP's status."""
+
+    def __init__(self, pep_type: PEPType) -> None:
+        """Initialise the object.
+
+        Args:
+            pep_type: The type to filter on.
+        """
+        self._type = pep_type
+        """The type to filter on."""
+
+    def __rand__(self, pep: PEP) -> bool:
+        return pep.type == self._type
+
+    def __str__(self) -> str:
+        return str(self._type)
 
 
 ##############################################################################
