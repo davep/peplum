@@ -127,7 +127,7 @@ class Main(Screen[None]):
         Args:
             command: The command requesting the filter.
         """
-        self.active_peps = self.active_peps & WithStatus(command.status)
+        self.active_peps &= WithStatus(command.status)
 
     @on(ShowPythonVersion)
     def show_python_version(self, event: ShowPythonVersion) -> None:
