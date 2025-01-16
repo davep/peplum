@@ -111,6 +111,10 @@ class Main(Screen[None]):
         """React to the full set of PEPs being updated."""
         self.active_peps = self.all_peps
 
+    def watch_active_peps(self) -> None:
+        """React to the active PEPs being updated."""
+        self.sub_title = self.active_peps.description
+
     @on(ShowAll)
     def show_all(self) -> None:
         """Show all PEPs."""

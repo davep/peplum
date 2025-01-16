@@ -205,6 +205,24 @@ class PEPs:
             ).items()
         )
 
+    @property
+    def description(self) -> str:
+        """The description of the content of the PEPs collection."""
+        filters: list[str] = []
+        if types := [
+            f"{pep_type}"
+            for pep_type in self._filters
+            if isinstance(pep_type, WithType)
+        ]:
+            filters.append(f"Type {' and '.join(types)}")
+        if statuses := [
+            f"{status}" for status in self._filters if isinstance(status, WithStatus)
+        ]:
+            filters.append(f"Status {' and '.join(statuses)}")
+        if not filters:
+            filters = ["All"]
+        return f"{'; '.join(filters)} ({len(self)})"
+
     def __and__(self, new_filter: Filter) -> PEPs:
         """Get the PEPs match a given filter.
 
