@@ -161,7 +161,7 @@ class Navigation(OptionListEx):
             Self.
         """
         if self.active_peps:
-            self.add_option(Title(f"Status"))
+            self.add_option(Title("Status"))
             for status in sorted(self.active_peps.statuses):
                 self.add_option(StatusView(status))
         return self
