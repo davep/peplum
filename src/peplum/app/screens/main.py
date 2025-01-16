@@ -2,6 +2,7 @@
 
 ##############################################################################
 # Textual imports.
+from textual import on
 from textual.app import ComposeResult
 from textual.containers import Horizontal
 from textual.reactive import var
@@ -12,6 +13,7 @@ from textual.widgets import Footer, Header
 # Local imports.
 from ... import __version__
 from ..data import PEPs
+from ..messages import ShowAll, ShowPythonVersion, ShowStatus, ShowType
 from ..widgets import Navigation, PEPsView
 
 
@@ -88,6 +90,22 @@ class Main(Screen[None]):
     def watch_all_peps(self) -> None:
         """React to the full set of PEPs being updated."""
         self.active_peps = self.all_peps
+
+    @on(ShowAll)
+    def show_all(self) -> None:
+        self.notify("Show all")
+
+    @on(ShowType)
+    def show_type(self, event: ShowType) -> None:
+        self.notify(f"Show {event.type}")
+
+    @on(ShowStatus)
+    def show_status(self, event: ShowStatus) -> None:
+        self.notify(f"Show {event.status}")
+
+    @on(ShowPythonVersion)
+    def show_python_version(self, event: ShowPythonVersion) -> None:
+        self.notify(f"Show {event.version}")
 
 
 ### main.py ends here

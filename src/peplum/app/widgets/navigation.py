@@ -1,6 +1,10 @@
 """The main navigation panel."""
 
 ##############################################################################
+# Backward compatibility.
+from __future__ import annotations
+
+##############################################################################
 # Rich imports.
 from rich.console import Group, RenderableType
 from rich.rule import Rule
@@ -8,7 +12,10 @@ from rich.table import Table
 
 ##############################################################################
 # Textual imports.
+from textual import on
+from textual.message import Message
 from textual.reactive import var
+from textual.widgets import OptionList
 from textual.widgets.option_list import Option
 
 ##############################################################################
@@ -18,6 +25,7 @@ from typing_extensions import Self
 ##############################################################################
 # Local imports.
 from ..data import PEPs, PythonVersionCount, StatusCount, TypeCount
+from ..messages import ShowAll, ShowPythonVersion, ShowStatus, ShowType
 from .extended_option_list import OptionListEx
 
 
@@ -58,6 +66,11 @@ class CountView(Option):
         prompt.add_row(caption, f"[dim i]{count}[/]")
         return prompt
 
+    @property
+    def command(self) -> Message:
+        """The command to send when this option is selected."""
+        raise NotImplementedError
+
 
 ##############################################################################
 class AllView(CountView):
@@ -70,6 +83,11 @@ class AllView(CountView):
             peps: The full collection of PEPs.
         """
         super().__init__(self.count_prompt("All", len(peps)), id=f"_all_peps")
+
+    @property
+    def command(self) -> Message:
+        """The command to send when this option is selected."""
+        return ShowAll()
 
 
 ##############################################################################
@@ -89,6 +107,11 @@ class TypeView(CountView):
             id=f"_type_{pep_type.type}",
         )
 
+    @property
+    def command(self) -> Message:
+        """The command to send when this option is selected."""
+        return ShowType(self._type.type)
+
 
 ##############################################################################
 class StatusView(CountView):
@@ -107,6 +130,11 @@ class StatusView(CountView):
             id=f"_status_{status.status}",
         )
 
+    @property
+    def command(self) -> Message:
+        """The command to send when this option is selected."""
+        return ShowStatus(self._status.status)
+
 
 ##############################################################################
 class PythonVersionView(CountView):
@@ -118,10 +146,17 @@ class PythonVersionView(CountView):
         Args:
             version: The details of the PEP Python version to show.
         """
+        self._version = version
+        """The Python version to show."""
         super().__init__(
             self.count_prompt(version.version or f"[dim i]None[/]", version.count),
             id=f"_python_version_{version.version}",
         )
+
+    @property
+    def command(self) -> Message:
+        """The command to send when this option is selected."""
+        return ShowPythonVersion(self._version.version)
 
 
 ##############################################################################
@@ -191,6 +226,12 @@ class Navigation(OptionListEx):
     def watch_active_peps(self) -> None:
         """React to the active PEPs being changed."""
         self.repopulate()
+
+    @on(OptionList.OptionSelected)
+    def navigate(self, event: OptionList.OptionSelected) -> None:
+        event.stop()
+        assert isinstance(event.option, CountView)
+        self.post_message(event.option.command)
 
 
 ### navigation.py ends here
