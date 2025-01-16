@@ -10,7 +10,7 @@ from collections import Counter
 from dataclasses import dataclass
 from functools import reduce, total_ordering
 from operator import concat
-from typing import Iterable, Iterator
+from typing import Iterable, Iterator, TypeAlias
 
 ##############################################################################
 # Packaging imports.
@@ -94,19 +94,70 @@ class PythonVersionCount:
 
 
 ##############################################################################
+Filters: TypeAlias = tuple["Filter", ...]
+"""The type of a collection of filters."""
+
+
+##############################################################################
+class Filter:
+    """Base class for the raindrop filters."""
+
+    def __rand__(self, _: PEP) -> bool:
+        return False
+
+    def __radd__(self, filters: Filters) -> Filters:
+        return (*filters, self)
+
+    def __eq__(self, value: object) -> bool:
+        if isinstance(value, Filter):
+            return False
+        raise NotImplementedError
+
+
+##############################################################################
+class WithStatus(Filter):
+    """Filter on a PEP's status."""
+
+    def __init__(self, status: PEPStatus) -> None:
+        """Initialise the object.
+
+        Args:
+            status: The status to filter on.
+        """
+        self._status = status
+        """The status to filter on."""
+
+    def __rand__(self, pep: PEP) -> bool:
+        return pep.status == self._status
+
+    def __str__(self) -> str:
+        return str(self._status)
+
+    def __eq__(self, value: object) -> bool:
+        if isinstance(value, WithStatus):
+            return str(value) == self._status
+        return super().__eq__(value)
+
+
+##############################################################################
 class PEPs:
     """Class that holds a collection of PEPs."""
 
-    def __init__(self, peps: Iterable[PEP] | None = None) -> None:
+    def __init__(
+        self, peps: Iterable[PEP] | None = None, filters: Filters | None = None
+    ) -> None:
         """Initialise the object.
 
         Args:
             peps: The PEPs to hold.
+            filters: The filters that got to this set of PEPs.
         """
         self._peps: dict[int, PEP] = (
             {} if peps is None else {pep.number: pep for pep in peps}
         )
         """The PEPs."""
+        self._filters = () if filters is None else filters
+        """The filters that got to this set of PEPs."""
 
     @property
     def statuses(self) -> tuple[StatusCount, ...]:
@@ -137,6 +188,24 @@ class PEPs:
             for version, count in Counter(
                 reduce(concat, (pep.python_version or ("",) for pep in self))
             ).items()
+        )
+
+    def __and__(self, new_filter: Filter) -> PEPs:
+        """Get the PEPs match a given filter.
+
+        Args:
+            new_filter: The new filter to apply.
+
+        Returns:
+            The subset of PEPs that match the given filter.
+        """
+        # Don't bother applying a filter we already know about.
+        if new_filter in self._filters:
+            return self
+        # Novel filter, apply it.
+        return PEPs(
+            (pep for pep in self if pep & new_filter),
+            self._filters + new_filter,
         )
 
     def __contains__(self, pep: PEP | int) -> bool:
