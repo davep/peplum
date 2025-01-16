@@ -12,9 +12,11 @@ from textual.widgets import Footer, Header
 ##############################################################################
 # Local imports.
 from ... import __version__
+from ..commands import ChangeTheme, Command, Escape, Help, Quit
 from ..data import PEPs
 from ..messages import ShowAll, ShowPythonVersion, ShowStatus, ShowType
 from ..widgets import Navigation, PEPsView
+from .help import HelpScreen
 
 
 ##############################################################################
@@ -22,6 +24,12 @@ class Main(Screen[None]):
     """The main screen for the application."""
 
     TITLE = f"Peplum v{__version__}"
+
+    HELP = """
+    ## Main application keys and commands
+
+    The following keys and commands can be used anywhere here on the main screen.
+    """
 
     DEFAULT_CSS = """
     Main {
@@ -57,6 +65,18 @@ class Main(Screen[None]):
         }
     }
     """
+
+    COMMAND_MESSAGES = (
+        # Keep these together as they're bound to function keys and destined
+        # for the footer.
+        Help,
+        # Everything else.
+        ChangeTheme,
+        Escape,
+        Quit,
+    )
+
+    BINDINGS = Command.bindings(*COMMAND_MESSAGES)
 
     all_peps: var[PEPs] = var(PEPs)
     """All the PEPs that we know about."""
@@ -106,6 +126,34 @@ class Main(Screen[None]):
     @on(ShowPythonVersion)
     def show_python_version(self, event: ShowPythonVersion) -> None:
         self.notify(f"Show {event.version}")
+
+    @on(Help)
+    def action_help_command(self) -> None:
+        """Toggle the display of the help panel."""
+        self.app.push_screen(HelpScreen(self))
+
+    @on(ChangeTheme)
+    def action_change_theme_command(self) -> None:
+        """Show the theme picker."""
+        self.app.search_themes()
+
+    @on(Quit)
+    def action_quit_command(self) -> None:
+        """Quit the application."""
+        self.app.exit()
+
+    @on(Escape)
+    def action_escape_command(self) -> None:
+        """Handle escaping.
+
+        The action's approach is to step-by-step back out from the 'deepest'
+        level to the topmost, and if we're at the topmost then exit the
+        application.
+        """
+        if self.focused == self.query_one(PEPsView):
+            self.set_focus(self.query_one(Navigation))
+        else:
+            self.app.exit()
 
 
 ### main.py ends here
