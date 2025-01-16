@@ -155,6 +155,26 @@ class WithType(Filter):
 
 
 ##############################################################################
+class WithPythonVersion(Filter):
+    """Filter on a PEP's Python version."""
+
+    def __init__(self, version: str) -> None:
+        """Initialise the object.
+
+        Args:
+            version: The version to filter on.
+        """
+        self._version = version
+        """The type to filter on."""
+
+    def __rand__(self, pep: PEP) -> bool:
+        return self._version in pep.python_version
+
+    def __str__(self) -> str:
+        return self._version
+
+
+##############################################################################
 class PEPs:
     """Class that holds a collection of PEPs."""
 
@@ -219,6 +239,12 @@ class PEPs:
             f"{status}" for status in self._filters if isinstance(status, WithStatus)
         ]:
             filters.append(f"Status {' and '.join(statuses)}")
+        if versions := [
+            f"{version}"
+            for version in self._filters
+            if isinstance(version, WithPythonVersion)
+        ]:
+            filters.append(f"Version {' and '.join(versions)}")
         if not filters:
             filters = ["All"]
         return f"{'; '.join(filters)} ({len(self)})"
