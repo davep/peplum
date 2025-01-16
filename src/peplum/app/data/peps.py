@@ -232,13 +232,15 @@ class PEPs:
         Returns:
             The subset of PEPs that match the given filter.
         """
-        # Don't bother applying a filter we already know about.
-        if new_filter in self._filters:
-            return self
-        # Novel filter, apply it.
-        return PEPs(
-            (pep for pep in self if pep & new_filter),
-            self._filters + new_filter,
+        # Only return a new PEPs object if the filter we've been given isn't
+        # already active.
+        return (
+            self
+            if new_filter in self._filters
+            else PEPs(
+                (pep for pep in self if pep & new_filter),
+                self._filters + new_filter,
+            )
         )
 
     def __contains__(self, pep: PEP | int) -> bool:
