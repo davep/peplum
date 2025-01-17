@@ -48,7 +48,7 @@ def parse_date(date_value: str) -> date:
     Notes:
         The dates in the PEP index use a less-than-ideal date format, being
         of the form DD-MMM-YYYY where MMM is a truncated form of the month
-        name in English. With this in minds the locale is set in the hope
+        name in English. With this in mind the locale is set in the hope
         that it'll help with the parsing with strptime.
     """
     save_locale = getlocale(LC_TIME)
