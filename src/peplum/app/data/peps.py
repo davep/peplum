@@ -8,8 +8,8 @@ from __future__ import annotations
 # Python imports.
 from collections import Counter
 from dataclasses import dataclass
-from functools import reduce, total_ordering
-from operator import concat
+from functools import total_ordering
+from itertools import chain
 from typing import Iterable, Iterator, TypeAlias
 
 ##############################################################################
@@ -272,7 +272,7 @@ class PEPs:
         return tuple(
             PythonVersionCount(version, count)
             for version, count in Counter(
-                reduce(concat, (pep.python_version or ("",) for pep in self))
+                chain(*(pep.python_version or ("",) for pep in self))
             ).items()
         )
 
@@ -281,9 +281,7 @@ class PEPs:
         """The authors and their counts as found in the PEPs."""
         return tuple(
             AuthorCount(author, count)
-            for author, count in Counter(
-                reduce(concat, (pep.authors for pep in self))
-            ).items()
+            for author, count in Counter(chain(*(pep.authors for pep in self))).items()
         )
 
     def _describe(self, name: str, filter_type: type[Filter]) -> str | None:
