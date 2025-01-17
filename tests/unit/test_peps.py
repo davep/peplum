@@ -6,7 +6,13 @@ from typing import Final, get_args
 
 ##############################################################################
 # Local imports.
-from peplum.app.data import PEPs, PythonVersionCount, StatusCount, TypeCount
+from peplum.app.data import (
+    AuthorCount,
+    PEPs,
+    PythonVersionCount,
+    StatusCount,
+    TypeCount,
+)
 from peplum.peps import PEP, PEPStatus, PEPType
 
 ##############################################################################
@@ -15,7 +21,7 @@ SAMPLE_PEPS: Final[tuple[PEP, ...]] = (
         {
             "number": 1,
             "title": "PEP Purpose and Guidelines",
-            "authors": "Barry Warsaw, Jeremy Hylton, David Goodger, Alyssa Coghlan",
+            "authors": "Author 1, Author 2, Author 3",
             "discussions_to": None,
             "status": "Active",
             "type": "Process",
@@ -34,7 +40,7 @@ SAMPLE_PEPS: Final[tuple[PEP, ...]] = (
         {
             "number": 458,
             "title": "Secure PyPI downloads with signed repository metadata",
-            "authors": "Trishank Karthik Kuppusamy, Vladimir Diaz, Marina Moore, Lukas Puehringer, Joshua Lock, Lois Anne DeLong, Justin Cappos",
+            "authors": "Author 1",
             "discussions_to": "https://discuss.python.org/t/pep-458-secure-pypi-downloads-with-package-signing/2648",
             "status": "Accepted",
             "type": "Standards Track",
@@ -53,7 +59,7 @@ SAMPLE_PEPS: Final[tuple[PEP, ...]] = (
         {
             "number": 467,
             "title": "Minor API improvements for binary sequences",
-            "authors": "Alyssa Coghlan, Ethan Furman",
+            "authors": "Author 1, Jr.",
             "discussions_to": "https://discuss.python.org/t/42001",
             "status": "Draft",
             "type": "Informational",
@@ -72,7 +78,7 @@ SAMPLE_PEPS: Final[tuple[PEP, ...]] = (
         {
             "number": 639,
             "title": "Improving License Clarity with Better Package Metadata",
-            "authors": "Philippe Ombredanne, C.A.M. Gerlach, Karolina Surma",
+            "authors": "Author 1, Author 1, Jr.",
             "discussions_to": "https://discuss.python.org/t/53020",
             "status": "Provisional",
             "type": "Process",
@@ -91,7 +97,7 @@ SAMPLE_PEPS: Final[tuple[PEP, ...]] = (
         {
             "number": 213,
             "title": "Attribute Access Handlers",
-            "authors": "Paul Prescod",
+            "authors": "Author 1, Jr., Author 1",
             "discussions_to": None,
             "status": "Deferred",
             "type": "Standards Track",
@@ -110,7 +116,7 @@ SAMPLE_PEPS: Final[tuple[PEP, ...]] = (
         {
             "number": 204,
             "title": "Range Literals",
-            "authors": "Thomas Wouters",
+            "authors": "Author 2",
             "discussions_to": None,
             "status": "Rejected",
             "type": "Informational",
@@ -129,7 +135,7 @@ SAMPLE_PEPS: Final[tuple[PEP, ...]] = (
         {
             "number": 3,
             "title": "Guidelines for Handling Bug Reports",
-            "authors": "Jeremy Hylton",
+            "authors": "Author 1",
             "discussions_to": None,
             "status": "Withdrawn",
             "type": "Process",
@@ -148,7 +154,7 @@ SAMPLE_PEPS: Final[tuple[PEP, ...]] = (
         {
             "number": 100,
             "title": "Python Unicode Integration",
-            "authors": "Marc-Andr\u00e9 Lemburg",
+            "authors": "Author 1",
             "discussions_to": None,
             "status": "Final",
             "type": "Standards Track",
@@ -167,7 +173,7 @@ SAMPLE_PEPS: Final[tuple[PEP, ...]] = (
         {
             "number": 5,
             "title": "Guidelines for Language Evolution",
-            "authors": "Paul Prescod",
+            "authors": "Author 3",
             "discussions_to": None,
             "status": "Superseded",
             "type": "Informational",
@@ -225,6 +231,17 @@ def test_python_version_counts() -> None:
         PythonVersionCount("3.8", 1),
         PythonVersionCount("3.13", 1),
     ]
+
+
+##############################################################################
+def test_author_counts() -> None:
+    """We should be able to count the authors."""
+    assert {(author.author, author.count) for author in PEPs(SAMPLE_PEPS).authors} == {
+        ("Author 1", 6),
+        ("Author 1, Jr.", 3),
+        ("Author 2", 2),
+        ("Author 3", 2),
+    }
 
 
 ### test_peps.py ends here
