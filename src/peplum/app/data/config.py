@@ -22,6 +22,18 @@ class Configuration:
     theme: str | None = None
     """The theme for the application."""
 
+    sort_types_by_count: bool = True
+    """Sort the navigation panel types by their count?"""
+
+    sort_statuses_by_count: bool = True
+    """Sort the navigation panel statuses by their count?"""
+
+    sort_python_versions_by_count: bool = True
+    """Sort the navigation panel Python versions by their count?"""
+
+    sort_authors_by_count: bool = True
+    """Sort the navigation panel authors by their count?"""
+
 
 ##############################################################################
 def configuration_file() -> Path:
