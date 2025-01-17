@@ -231,7 +231,7 @@ class Navigation(OptionListEx):
             Self.
         """
         if self.active_peps:
-            self.add_option(Title("Python Versions"))
+            self.add_option(Title("Python Version"))
             for version in sorted(self.active_peps.python_versions):
                 self.add_option(PythonVersionView(version))
         return self
