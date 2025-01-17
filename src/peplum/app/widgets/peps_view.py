@@ -42,7 +42,9 @@ class PEPView(Option):
         title.add_column(justify="left", ratio=2)
         title.add_column(justify="right", width=28)
         title.add_row(
-            f"{pep.number}", escape(pep.title), f"[dim]{pep.type}, {pep.status}[/]"
+            f"[bold]{pep.number}[/]",
+            escape(pep.title),
+            f"[dim]{pep.type}, {pep.status}[/]",
         )
 
         info = Table.grid(expand=True)
