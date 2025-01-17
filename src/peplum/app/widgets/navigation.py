@@ -118,7 +118,7 @@ class StatusView(CountView):
     """Option for showing a PEP status."""
 
     def __init__(self, status: StatusCount) -> None:
-        """ "Initialise the object.
+        """Initialise the object.
 
         Args:
             status: The details of the PEP status to show.
@@ -141,7 +141,7 @@ class PythonVersionView(CountView):
     """Option for showing a Python version."""
 
     def __init__(self, version: PythonVersionCount) -> None:
-        """ "Initialise the object.
+        """Initialise the object.
 
         Args:
             version: The details of the PEP Python version to show.
