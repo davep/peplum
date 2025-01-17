@@ -94,6 +94,28 @@ class PythonVersionCount:
 
 
 ##############################################################################
+@dataclass(frozen=True)
+@total_ordering
+class AuthorCount:
+    """Holds a count of a particular PEP author."""
+
+    author: str
+    """The PEP author."""
+    count: int
+    """The count."""
+
+    def __gt__(self, value: object, /) -> bool:
+        if isinstance(value, AuthorCount):
+            return self.author.casefold() > value.author.casefold()
+        raise NotImplementedError
+
+    def __eq__(self, value: object, /) -> bool:
+        if isinstance(value, AuthorCount):
+            return self.author.casefold() == value.author.casefold()
+        raise NotImplementedError
+
+
+##############################################################################
 Filters: TypeAlias = tuple["Filter", ...]
 """The type of a collection of filters."""
 
@@ -179,6 +201,27 @@ class WithPythonVersion(Filter):
 
 
 ##############################################################################
+class WithAuthor(Filter):
+    """Filter on a PEP's author."""
+
+    def __init__(self, author: str) -> None:
+        """Initialise the object.
+
+        Args:
+            author: The author to filter on.
+        """
+        self._author = author
+        self._folded_author = author.casefold()
+        """The author to filter on."""
+
+    def __rand__(self, pep: PEP) -> bool:
+        return self._folded_author in (author.casefold() for author in pep.authors)
+
+    def __str__(self) -> str:
+        return str(self._author)
+
+
+##############################################################################
 class PEPs:
     """Class that holds a collection of PEPs."""
 
@@ -230,6 +273,16 @@ class PEPs:
         )
 
     @property
+    def authors(self) -> tuple[AuthorCount, ...]:
+        """The authors and their counts as found in the PEPs."""
+        return tuple(
+            AuthorCount(author, count)
+            for author, count in Counter(
+                reduce(concat, (pep.authors for pep in self))
+            ).items()
+        )
+
+    @property
     def description(self) -> str:
         """The description of the content of the PEPs collection."""
         filters: list[str] = []
@@ -249,6 +302,10 @@ class PEPs:
             if isinstance(version, WithPythonVersion)
         ]:
             filters.append(f"Version {' and '.join(versions)}")
+        if authors := [
+            f"{author}" for author in self._filters if isinstance(author, WithAuthor)
+        ]:
+            filters.append(f"Author {' and '.join(authors)}")
         if not filters:
             filters = ["All"]
         return f"{'; '.join(filters)} ({len(self)})"

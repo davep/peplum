@@ -45,4 +45,13 @@ class ShowPythonVersion(Message):
     """The Python version to show."""
 
 
+##############################################################################
+@dataclass
+class ShowAuthor(Message):
+    """Message that requests that PEPs of a certain author are shown."""
+
+    author: str
+    """The author to show."""
+
+
 ### main.py ends here

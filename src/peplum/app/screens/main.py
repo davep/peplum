@@ -9,12 +9,14 @@ from textual.reactive import var
 from textual.screen import Screen
 from textual.widgets import Footer, Header
 
+from peplum.app.data.peps import WithAuthor
+
 ##############################################################################
 # Local imports.
 from ... import __version__
 from ..commands import ChangeTheme, Command, Escape, Help, Quit
 from ..data import PEPs, WithPythonVersion, WithStatus, WithType
-from ..messages import ShowAll, ShowPythonVersion, ShowStatus, ShowType
+from ..messages import ShowAll, ShowAuthor, ShowPythonVersion, ShowStatus, ShowType
 from ..widgets import Navigation, PEPsView
 from .help import HelpScreen
 
@@ -146,6 +148,15 @@ class Main(Screen[None]):
             command: The command requesting the filter.
         """
         self.active_peps &= WithPythonVersion(command.version)
+
+    @on(ShowAuthor)
+    def show_author(self, command: ShowAuthor) -> None:
+        """Filter the PEPs by a given author.
+
+        Args:
+            command: The command requesting the filter.
+        """
+        self.active_peps &= WithAuthor(command.author)
 
     @on(Help)
     def action_help_command(self) -> None:

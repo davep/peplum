@@ -2,12 +2,13 @@
 
 ##############################################################################
 # Local imports.
-from .main import ShowAll, ShowPythonVersion, ShowStatus, ShowType
+from .main import ShowAll, ShowAuthor, ShowPythonVersion, ShowStatus, ShowType
 
 ##############################################################################
 # Exports.
 __all__ = [
     "ShowAll",
+    "ShowAuthor",
     "ShowPythonVersion",
     "ShowStatus",
     "ShowType",

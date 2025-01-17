@@ -24,8 +24,8 @@ from typing_extensions import Self
 
 ##############################################################################
 # Local imports.
-from ..data import PEPs, PythonVersionCount, StatusCount, TypeCount
-from ..messages import ShowAll, ShowPythonVersion, ShowStatus, ShowType
+from ..data import AuthorCount, PEPs, PythonVersionCount, StatusCount, TypeCount
+from ..messages import ShowAll, ShowAuthor, ShowPythonVersion, ShowStatus, ShowType
 from .extended_option_list import OptionListEx
 
 
@@ -160,6 +160,29 @@ class PythonVersionView(CountView):
 
 
 ##############################################################################
+class AuthorView(CountView):
+    """Option for showing a PEP author."""
+
+    def __init__(self, author: AuthorCount) -> None:
+        """Initialise the object.
+
+        Args:
+            author: The details of the PEP author to show.
+        """
+        self._author = author
+        """The details of the author to show."""
+        super().__init__(
+            self.count_prompt(author.author, author.count),
+            id=f"_author_{author.author}",
+        )
+
+    @property
+    def command(self) -> Message:
+        """The command to send when this option is selected."""
+        return ShowAuthor(self._author.author)
+
+
+##############################################################################
 class Navigation(OptionListEx):
     """The main navigation panel."""
 
@@ -213,10 +236,22 @@ class Navigation(OptionListEx):
                 self.add_option(PythonVersionView(version))
         return self
 
+    def add_authors(self) -> Self:
+        """Add the PEP authos to navigation.
+
+        Returns:
+            Self.
+        """
+        if self.active_peps:
+            self.add_option(Title("Author"))
+            for author in sorted(self.active_peps.authors):
+                self.add_option(AuthorView(author))
+        return self
+
     def repopulate(self) -> None:
         """Repopulate navigation panel."""
         with self.preserved_highlight:
-            self.clear_options().add_main().add_types().add_statuses().add_python_versions()
+            self.clear_options().add_main().add_types().add_statuses().add_python_versions().add_authors()
             self._refresh_lines()  # https://github.com/Textualize/textual/issues/5431
 
     def watch_all_peps(self) -> None:
