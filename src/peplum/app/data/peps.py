@@ -282,33 +282,45 @@ class PEPs:
             ).items()
         )
 
+    def _describe(self, name: str, filter_type: type[Filter]) -> str | None:
+        """Describe the user's use of a particular filter.
+
+        Args:
+            name: The name to give the filter.
+            filter_type: The type of filter to look for.
+
+        Returns:
+            A description if the filter is used, or `None`.
+        """
+        return (
+            f"{name} {' and '.join(filters)}"
+            if (
+                filters := [
+                    f"{candidate}"
+                    for candidate in self._filters
+                    if isinstance(candidate, filter_type)
+                ]
+            )
+            else None
+        )
+
     @property
     def description(self) -> str:
         """The description of the content of the PEPs collection."""
-        filters: list[str] = []
-        if types := [
-            f"{pep_type}"
-            for pep_type in self._filters
-            if isinstance(pep_type, WithType)
-        ]:
-            filters.append(f"Type {' and '.join(types)}")
-        if statuses := [
-            f"{status}" for status in self._filters if isinstance(status, WithStatus)
-        ]:
-            filters.append(f"Status {' and '.join(statuses)}")
-        if versions := [
-            f"{version}"
-            for version in self._filters
-            if isinstance(version, WithPythonVersion)
-        ]:
-            filters.append(f"Version {' and '.join(versions)}")
-        if authors := [
-            f"{author}" for author in self._filters if isinstance(author, WithAuthor)
-        ]:
-            filters.append(f"Author {' and '.join(authors)}")
-        if not filters:
-            filters = ["All"]
-        return f"{'; '.join(filters)} ({len(self)})"
+        filters = [
+            candidate
+            for candidate in [
+                self._describe(name, filter_type)
+                for name, filter_type in (
+                    ("Type", WithType),
+                    ("Status", WithStatus),
+                    ("Version", WithPythonVersion),
+                    ("Author", WithAuthor),
+                )
+            ]
+            if candidate
+        ]
+        return "; ".join(filters) if filters else "All"
 
     def __and__(self, new_filter: Filter) -> PEPs:
         """Get the PEPs match a given filter.
