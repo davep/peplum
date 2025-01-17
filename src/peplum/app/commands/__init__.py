@@ -12,6 +12,6 @@ from .main import ChangeTheme, Escape, Help, Quit
 
 ##############################################################################
 # Exports.
-__all__ = ["Command", "ChangeTheme", "Escape", "Help", "Quit,"]
+__all__ = ["Command", "ChangeTheme", "Escape", "Help", "Quit"]
 
 ### __init__.py ends here
