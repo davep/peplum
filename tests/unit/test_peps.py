@@ -6,13 +6,7 @@ from typing import Final, get_args
 
 ##############################################################################
 # Local imports.
-from peplum.app.data import (
-    AuthorCount,
-    PEPs,
-    PythonVersionCount,
-    StatusCount,
-    TypeCount,
-)
+from peplum.app.data import PEPs
 from peplum.peps import PEP, PEPStatus, PEPType
 
 ##############################################################################
@@ -207,30 +201,33 @@ def test_has_peps() -> None:
 ##############################################################################
 def test_status_counts() -> None:
     """We should be able to count the statuses."""
-    assert sorted(PEPs(SAMPLE_PEPS).statuses) == sorted(
-        StatusCount(status, 1) for status in get_args(PEPStatus)
-    )
+    assert {(status.status, status.count) for status in PEPs(SAMPLE_PEPS).statuses} == {
+        (status, 1) for status in get_args(PEPStatus)
+    }
 
 
 ##############################################################################
 def test_type_counts() -> None:
     """We should be able to count the types."""
-    assert sorted(PEPs(SAMPLE_PEPS).types) == sorted(
-        TypeCount(pep_type, 2) for pep_type in get_args(PEPType)
-    )
+    assert {
+        (pep_type.type, pep_type.count) for pep_type in PEPs(SAMPLE_PEPS).types
+    } == {(pep_type, 3) for pep_type in get_args(PEPType)}
 
 
 ##############################################################################
 def test_python_version_counts() -> None:
     """We should be able to count the Python versions."""
-    assert sorted(PEPs(SAMPLE_PEPS).python_versions) == [
-        PythonVersionCount("", 4),
-        PythonVersionCount("2.0", 2),
-        PythonVersionCount("2.1", 1),
-        PythonVersionCount("3.7", 1),
-        PythonVersionCount("3.8", 1),
-        PythonVersionCount("3.13", 1),
-    ]
+    assert {
+        (version.version, version.count)
+        for version in PEPs(SAMPLE_PEPS).python_versions
+    } == {
+        ("", 4),
+        ("2.0", 2),
+        ("2.1", 1),
+        ("3.7", 1),
+        ("3.8", 1),
+        ("3.13", 1),
+    }
 
 
 ##############################################################################
