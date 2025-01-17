@@ -141,6 +141,39 @@ class PEP:
     url: str
     """The URL for the PEP."""
 
+    _AUTHOR_SPLIT = compile(r",(?! +Jr)")
+    """The regular expression for splitting up authors.
+
+    Notes:
+        This is 'good enough' but not ideal. It might need updating and
+        improvement later on.
+    """
+
+    @classmethod
+    def _authors(cls, authors: str) -> tuple[str, ...]:
+        """Get the authors from a string.
+
+        Args:
+            authors: The authors to parse.
+
+        Returns:
+            A tuple of the authors found.
+
+        Notes:
+            The authors in the PEPs are a comma-separated string of author
+            names. The problem is, as of the time of writing, there's at
+            least one author who has a comma in their name. So this method
+            makes an effort to split up the authors while also keeping such
+            a name intact.
+
+            Yes, this is going to be brittle.
+
+            Yes, the code here is a bit of a hack.
+
+            https://www.kalzumeus.com/2010/06/17/falsehoods-programmers-believe-about-names/
+        """
+        return tuple(author.strip() for author in cls._AUTHOR_SPLIT.split(authors))
+
     @classmethod
     def from_json(cls, data: dict[str, Any]) -> PEP:
         """Create a PEP from the given JSON data.
@@ -160,9 +193,7 @@ class PEP:
         return cls(
             number=data.get("number", -1),
             title=data.get("title", ""),
-            authors=tuple(
-                author.strip() for author in data.get("authors", "").split(",")
-            ),
+            authors=cls._authors(data.get("authors", "")),
             sponsor=data.get("sponsor"),
             delegate=data.get("delegate"),
             discussions_to=data.get("discussions_to"),
