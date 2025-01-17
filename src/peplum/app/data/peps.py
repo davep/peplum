@@ -116,6 +116,10 @@ class AuthorCount:
 
 
 ##############################################################################
+PEPCount: TypeAlias = StatusCount | TypeCount | PythonVersionCount | AuthorCount
+"""The type of the various counts."""
+
+##############################################################################
 Filters: TypeAlias = tuple["Filter", ...]
 """The type of a collection of filters."""
 

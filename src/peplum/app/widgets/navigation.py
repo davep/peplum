@@ -4,6 +4,8 @@
 # Backward compatibility.
 from __future__ import annotations
 
+from typing import Callable
+
 ##############################################################################
 # Rich imports.
 from rich.console import Group, RenderableType
@@ -24,7 +26,14 @@ from typing_extensions import Self
 
 ##############################################################################
 # Local imports.
-from ..data import AuthorCount, PEPs, PythonVersionCount, StatusCount, TypeCount
+from ..data import (
+    AuthorCount,
+    PEPCount,
+    PEPs,
+    PythonVersionCount,
+    StatusCount,
+    TypeCount,
+)
 from ..messages import ShowAll, ShowAuthor, ShowPythonVersion, ShowStatus, ShowType
 from .extended_option_list import OptionListEx
 
@@ -192,6 +201,18 @@ class Navigation(OptionListEx):
     active_peps: var[PEPs] = var(PEPs)
     """The currently-active collection of PEPs."""
 
+    sort_types_by_count: var[bool] = var(True)
+    """Sort the types by their count?"""
+
+    sort_statuses_by_count: var[bool] = var(True)
+    """Sort the statuses by their count?"""
+
+    sort_python_versions_by_count: var[bool] = var(True)
+    """Sort the Python versions by their count?"""
+
+    sort_authors_by_count: var[bool] = var(True)
+    """Sort the authors by their count?"""
+
     def add_main(self) -> Self:
         """Add the main navigation options.
 
@@ -199,6 +220,22 @@ class Navigation(OptionListEx):
             Self.
         """
         return self.add_option(AllView(self.all_peps))
+
+    @staticmethod
+    def _filter_key(by_count: bool) -> Callable[[PEPCount], int | PEPCount]:
+        """Get a key for sorting a filter in navigation.
+
+        Args:
+            by_count: Should we sort by count?
+
+        Returns:
+            A function to get the correct key to sort on.
+        """
+
+        def _key(count: PEPCount) -> int | PEPCount:
+            return -count.count if by_count else count
+
+        return _key
 
     def add_types(self) -> Self:
         """Add the PEP types to navigation.
@@ -208,7 +245,9 @@ class Navigation(OptionListEx):
         """
         if self.active_peps:
             self.add_option(Title("Type"))
-            for pep_type in sorted(self.active_peps.types):
+            for pep_type in sorted(
+                self.active_peps.types, key=self._filter_key(self.sort_types_by_count)
+            ):
                 self.add_option(TypeView(pep_type))
         return self
 
@@ -220,7 +259,10 @@ class Navigation(OptionListEx):
         """
         if self.active_peps:
             self.add_option(Title("Status"))
-            for status in sorted(self.active_peps.statuses):
+            for status in sorted(
+                self.active_peps.statuses,
+                key=self._filter_key(self.sort_statuses_by_count),
+            ):
                 self.add_option(StatusView(status))
         return self
 
@@ -232,7 +274,10 @@ class Navigation(OptionListEx):
         """
         if self.active_peps:
             self.add_option(Title("Python Version"))
-            for version in sorted(self.active_peps.python_versions):
+            for version in sorted(
+                self.active_peps.python_versions,
+                key=self._filter_key(self.sort_python_versions_by_count),
+            ):
                 self.add_option(PythonVersionView(version))
         return self
 
@@ -244,7 +289,10 @@ class Navigation(OptionListEx):
         """
         if self.active_peps:
             self.add_option(Title("Author"))
-            for author in sorted(self.active_peps.authors):
+            for author in sorted(
+                self.active_peps.authors,
+                key=self._filter_key(self.sort_authors_by_count),
+            ):
                 self.add_option(AuthorView(author))
         return self
 

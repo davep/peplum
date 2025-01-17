@@ -5,6 +5,7 @@
 from .config import load_configuration, save_configuration, update_configuration
 from .peps import (
     AuthorCount,
+    PEPCount,
     PEPs,
     PythonVersionCount,
     StatusCount,
@@ -23,6 +24,7 @@ __all__ = [
     "update_configuration",
     "AuthorCount",
     "PEPs",
+    "PEPCount",
     "PythonVersionCount",
     "StatusCount",
     "TypeCount",
