@@ -12,6 +12,7 @@ from textual.widgets import Footer, Header
 ##############################################################################
 # Local imports.
 from ... import __version__
+from ...peps import PEP
 from ..commands import ChangeTheme, Command, Escape, Help, Quit, TogglePEPDetails
 from ..data import PEPs, WithAuthor, WithPythonVersion, WithStatus, WithType
 from ..messages import ShowAll, ShowAuthor, ShowPythonVersion, ShowStatus, ShowType
@@ -110,14 +111,19 @@ class Main(Screen[None]):
     active_peps: var[PEPs] = var(PEPs)
     """The currently-active set of PEPs."""
 
+    selected_pep: var[PEP | None] = var(None)
+    """The currently-selected PEP."""
+
     def compose(self) -> ComposeResult:
         """Compose the content of the main screen."""
         yield Header()
         with Horizontal():
-            yield Navigation().data_bind(Main.all_peps, Main.active_peps)
-            with Vertical(id="content"):
-                yield PEPsView().data_bind(Main.active_peps)
-                yield PEPDetails()
+            yield Navigation(classes="panel focus").data_bind(
+                Main.all_peps, Main.active_peps
+            )
+            with Vertical(id="content", classes="panel"):
+                yield PEPsView(classes="focus").data_bind(Main.active_peps)
+                yield PEPDetails(classes="focus").data_bind(pep=Main.selected_pep)
         yield Footer()
 
     def on_mount(self) -> None:
@@ -127,8 +133,6 @@ class Main(Screen[None]):
         # self.all_peps = PEPs(await API().get_peps())
         from json import loads
         from pathlib import Path
-
-        from peplum.peps import PEP
 
         self.all_peps = PEPs(
             PEP.from_json(pep)
@@ -142,6 +146,11 @@ class Main(Screen[None]):
     def watch_active_peps(self) -> None:
         """React to the active PEPs being updated."""
         self.sub_title = f"{self.active_peps.description} ({len(self.active_peps)})"
+
+    @on(PEPsView.PEPHighlighted)
+    def select_pep(self, message: PEPsView.PEPHighlighted) -> None:
+        """Make the currently-selected PEP the one to view."""
+        self.selected_pep = message.pep
 
     @on(ShowAll)
     def show_all(self) -> None:
