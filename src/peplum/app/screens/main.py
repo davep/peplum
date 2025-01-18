@@ -9,13 +9,11 @@ from textual.reactive import var
 from textual.screen import Screen
 from textual.widgets import Footer, Header
 
-from peplum.app.data.peps import WithAuthor
-
 ##############################################################################
 # Local imports.
 from ... import __version__
 from ..commands import ChangeTheme, Command, Escape, Help, Quit
-from ..data import PEPs, WithPythonVersion, WithStatus, WithType
+from ..data import PEPs, WithAuthor, WithPythonVersion, WithStatus, WithType
 from ..messages import ShowAll, ShowAuthor, ShowPythonVersion, ShowStatus, ShowType
 from ..widgets import Navigation, PEPsView
 from .help import HelpScreen
