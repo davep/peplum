@@ -4,7 +4,7 @@
 # Textual imports.
 from textual import on
 from textual.app import ComposeResult
-from textual.containers import Horizontal
+from textual.containers import Horizontal, Vertical
 from textual.reactive import var
 from textual.screen import Screen
 from textual.widgets import Footer, Header
@@ -12,10 +12,10 @@ from textual.widgets import Footer, Header
 ##############################################################################
 # Local imports.
 from ... import __version__
-from ..commands import ChangeTheme, Command, Escape, Help, Quit
+from ..commands import ChangeTheme, Command, Escape, Help, Quit, TogglePEPDetails
 from ..data import PEPs, WithAuthor, WithPythonVersion, WithStatus, WithType
 from ..messages import ShowAll, ShowAuthor, ShowPythonVersion, ShowStatus, ShowType
-from ..widgets import Navigation, PEPsView
+from ..widgets import Navigation, PEPDetails, PEPsView
 from .help import HelpScreen
 
 
@@ -35,17 +35,33 @@ class Main(Screen[None]):
     Main {
         Navigation {
             width: 1fr;
+            height: 1fr;
         }
 
-        PEPsView {
+        #content {
             width: 4fr;
         }
 
-        Navigation, PEPsView {
+        PEPsView {
+            height: 3fr;
+        }
+
+        PEPDetails {
+            display: none;
+            height: 1fr;
+            background: $panel 50% !important;
+            &:focus {
+                background: $panel !important;
+            }
+            &.visible {
+                display: block;
+            }
+        }
+
+        Navigation, #content > * {
             &> .option-list--option {
                 padding: 0 1;
             }
-            height: 1fr;
             padding-right: 0;
             border: none;
             border-left: round $border 50%;
@@ -74,6 +90,7 @@ class Main(Screen[None]):
         ChangeTheme,
         Escape,
         Quit,
+        TogglePEPDetails,
     )
 
     BINDINGS = Command.bindings(*COMMAND_MESSAGES)
@@ -89,7 +106,9 @@ class Main(Screen[None]):
         yield Header()
         with Horizontal():
             yield Navigation().data_bind(Main.all_peps, Main.active_peps)
-            yield PEPsView().data_bind(Main.active_peps)
+            with Vertical(id="content"):
+                yield PEPsView().data_bind(Main.active_peps)
+                yield PEPDetails()
         yield Footer()
 
     def on_mount(self) -> None:
@@ -183,6 +202,11 @@ class Main(Screen[None]):
             self.set_focus(self.query_one(Navigation))
         else:
             self.app.exit()
+
+    @on(TogglePEPDetails)
+    def action_toggle_pep_details_command(self) -> None:
+        """Toggle the display of the PEP details panel."""
+        self.query_one(PEPDetails).toggle_class("visible")
 
 
 ### main.py ends here

@@ -8,10 +8,10 @@ information, etc.
 ##############################################################################
 # Local imports.
 from .base import Command
-from .main import ChangeTheme, Escape, Help, Quit
+from .main import ChangeTheme, Escape, Help, Quit, TogglePEPDetails
 
 ##############################################################################
 # Exports.
-__all__ = ["Command", "ChangeTheme", "Escape", "Help", "Quit"]
+__all__ = ["Command", "ChangeTheme", "Escape", "Help", "Quit", "TogglePEPDetails"]
 
 ### __init__.py ends here

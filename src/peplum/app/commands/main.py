@@ -35,4 +35,14 @@ class Quit(Command):
     BINDING_KEY = "f10, ctrl+q"
 
 
+##############################################################################
+class TogglePEPDetails(Command):
+    """Toggle the display of the PEP details panel"""
+
+    COMMAND = "Toggle PEP details"
+    BINDING_KEY = "space"
+    SHOW_IN_FOOTER = False
+    ACTION = "toggle_pep_details_command"
+
+
 ### main.py ends here
