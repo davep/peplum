@@ -107,7 +107,7 @@ class PEP:
     """A class that holds data about a PEP."""
 
     number: int
-    """The numbe of the PEP."""
+    """The number of the PEP."""
     title: str
     """The title of the PEP."""
     authors: tuple[str, ...]
