@@ -33,50 +33,59 @@ class Main(Screen[None]):
 
     DEFAULT_CSS = """
     Main {
-        Navigation {
-            width: 1fr;
-            height: 1fr;
-        }
-
-        #content {
-            width: 4fr;
-        }
-
-        PEPsView {
-            height: 3fr;
-        }
-
-        PEPDetails {
-            display: none;
-            height: 1fr;
-            background: $panel 50% !important;
-            &:focus {
-                background: $panel !important;
-            }
-            &.visible {
-                display: block;
-            }
-        }
-
-        Navigation, #content > * {
-            &> .option-list--option {
-                padding: 0 1;
-            }
-            padding-right: 0;
+        .panel {
             border: none;
             border-left: round $border 50%;
+            &:focus, &:focus-within {
+                border: none;
+                border-left: round $border;
+            }
+        }
+
+        .focus {
             background: $surface;
-            scrollbar-gutter: stable;
             scrollbar-background: $surface;
             scrollbar-background-hover: $surface;
             scrollbar-background-active: $surface;
             &:focus, &:focus-within {
-                border: none;
-                border-left: round $border;
                 background: $panel 80%;
                 scrollbar-background: $panel;
                 scrollbar-background-hover: $panel;
                 scrollbar-background-active: $panel;
+            }
+        }
+
+        Navigation {
+            width: 1fr;
+            height: 1fr;
+            padding-right: 0;
+            scrollbar-gutter: stable;
+            &> .option-list--option {
+                padding: 0 1;
+            }
+        }
+
+        #content {
+            width: 4fr;
+
+            PEPsView {
+                padding-right: 0;
+                height: 1fr;
+                border: none;
+            }
+
+            PEPDetails {
+                display: none;
+                height: auto;
+                border-title-color: $text-primary;
+                border-top: panel $border 50%;
+                &:focus {
+                    border-title-color: $text;
+                    border-top: panel $border;
+                }
+                &.visible {
+                    display: block;
+                }
             }
         }
     }
