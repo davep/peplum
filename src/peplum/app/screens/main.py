@@ -14,7 +14,14 @@ from textual.widgets import Footer, Header
 from ... import __version__
 from ...peps import PEP
 from ..commands import ChangeTheme, Command, Escape, Help, Quit, TogglePEPDetails
-from ..data import PEPs, WithAuthor, WithPythonVersion, WithStatus, WithType
+from ..data import (
+    PEPs,
+    WithAuthor,
+    WithPythonVersion,
+    WithStatus,
+    WithType,
+    load_configuration,
+)
 from ..messages import ShowAll, ShowAuthor, ShowPythonVersion, ShowStatus, ShowType
 from ..providers import MainCommands
 from ..widgets import Navigation, PEPDetails, PEPsView
@@ -121,7 +128,7 @@ class Main(Screen[None]):
         """Compose the content of the main screen."""
         yield Header()
         with Horizontal():
-            yield Navigation(classes="panel focus").data_bind(
+            yield Navigation(load_configuration(), classes="panel focus").data_bind(
                 Main.all_peps, Main.active_peps
             )
             with Vertical(id="content", classes="panel"):

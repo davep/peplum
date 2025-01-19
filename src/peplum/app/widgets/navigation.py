@@ -28,6 +28,7 @@ from typing_extensions import Self
 # Local imports.
 from ..data import (
     AuthorCount,
+    Configuration,
     PEPCount,
     PEPs,
     PythonVersionCount,
@@ -212,6 +213,29 @@ class Navigation(OptionListEx):
 
     sort_authors_by_count: var[bool] = var(True)
     """Sort the authors by their count?"""
+
+    def __init__(
+        self, config: Configuration, id: str | None = None, classes: str | None = None
+    ):
+        """Initialise the widget.
+
+        Args:
+            config: THe configuration for the application.
+            id: The ID for the widget.
+            classes: The classes for the widget.
+        """
+        super().__init__(id=id, classes=classes)
+        self.set_reactive(Navigation.sort_types_by_count, config.sort_types_by_count)
+        self.set_reactive(
+            Navigation.sort_statuses_by_count, config.sort_statuses_by_count
+        )
+        self.set_reactive(
+            Navigation.sort_python_versions_by_count,
+            config.sort_python_versions_by_count,
+        )
+        self.set_reactive(
+            Navigation.sort_authors_by_count, config.sort_authors_by_count
+        )
 
     def add_main(self) -> Self:
         """Add the main navigation options.
