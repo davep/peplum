@@ -21,4 +21,12 @@ class ToggleStatusesSortOrder(Command):
     SHOW_IN_FOOTER = False
 
 
+##############################################################################
+class TogglePythonVersionsSortOrder(Command):
+    """Toggle the sort order of Python versions in the navigation panel"""
+
+    BINDING_KEY = "v"
+    SHOW_IN_FOOTER = False
+
+
 ### navigation_sorting.py ends here

@@ -9,6 +9,8 @@ from textual.reactive import var
 from textual.screen import Screen
 from textual.widgets import Footer, Header
 
+from peplum.app.commands.navigation_sorting import TogglePythonVersionsSortOrder
+
 ##############################################################################
 # Local imports.
 from ... import __version__
@@ -20,6 +22,7 @@ from ..commands import (
     Help,
     Quit,
     TogglePEPDetails,
+    TogglePythonVersionsSortOrder,
     ToggleStatusesSortOrder,
     ToggleTypesSortOrder,
 )
@@ -119,6 +122,7 @@ class Main(Screen[None]):
         Escape,
         Quit,
         TogglePEPDetails,
+        TogglePythonVersionsSortOrder,
         ToggleStatusesSortOrder,
         ToggleTypesSortOrder,
     )
@@ -263,6 +267,17 @@ class Main(Screen[None]):
             self.query_one(
                 Navigation
             ).sort_statuses_by_count = config.sort_statuses_by_count
+
+    @on(TogglePythonVersionsSortOrder)
+    def action_toggle_python_versions_sort_order_command(self) -> None:
+        """Toggle the sort order of the Python Versions."""
+        with update_configuration() as config:
+            config.sort_python_versions_by_count = (
+                not config.sort_python_versions_by_count
+            )
+            self.query_one(
+                Navigation
+            ).sort_python_versions_by_count = config.sort_python_versions_by_count
 
 
 ### main.py ends here

@@ -342,6 +342,10 @@ class Navigation(OptionListEx):
         """React to the statuses sort order being changed."""
         self.repopulate()
 
+    def watch_sort_python_versions_by_count(self) -> None:
+        """React to the Python versions sort order being changed."""
+        self.repopulate()
+
     @on(OptionList.OptionSelected)
     def navigate(self, event: OptionList.OptionSelected) -> None:
         event.stop()
