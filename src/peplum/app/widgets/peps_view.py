@@ -72,6 +72,12 @@ class PEPView(Option):
 class PEPsView(OptionListEx):
     """A widget for viewing a list of PEPs."""
 
+    HELP = """
+    ## The PEPs List
+
+    This is a list of all PEPs that match your current filter.
+    """
+
     active_peps: var[PEPs] = var(PEPs)
     """The currently-active collection of PEPs."""
 
