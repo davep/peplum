@@ -109,18 +109,6 @@ class List(OptionList):
 class PEPDetails(VerticalScroll):
     """A widget for showing details of a PEP."""
 
-    DEFAULT_CSS = """
-    PEPDetails {
-        Markdown {
-            padding: 0 1 0 1;
-            background: transparent;
-            MarkdownH2 {
-                margin: 0;
-            }
-        }
-    }
-    """
-
     pep: var[PEP | None] = var(None)
     """The PEP to show the details of."""
 
@@ -161,9 +149,6 @@ class PEPDetails(VerticalScroll):
     def watch_pep(self) -> None:
         """React to the PEP being changed."""
         with self.app.batch_update():
-            self.border_title = (
-                f"PEP {self.pep.number}" if self.pep is not None else "No PEP selected"
-            )
             self.query_one(Field).set_class(self.pep is None, "hidden")
             if self.pep is not None:
                 self.query_one("#title", Label).update(self.pep.title)
