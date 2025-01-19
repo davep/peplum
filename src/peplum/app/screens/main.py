@@ -79,7 +79,7 @@ class Main(Screen[None]):
         }
 
         Navigation {
-            width: 1fr;
+            width: 2fr;
             height: 1fr;
             padding-right: 0;
             scrollbar-gutter: stable;
@@ -88,27 +88,31 @@ class Main(Screen[None]):
             }
         }
 
-        #content {
-            width: 4fr;
+        PEPsView {
+            width: 8fr;
+            height: 1fr;
+            padding-right: 0;
+            border: none;
+        }
 
-            PEPsView {
-                padding-right: 0;
-                height: 1fr;
-                border: none;
+        PEPDetails {
+            width: 3fr;
+            display: none;
+            height: 1fr;
+            border-title-color: $text-primary;
+            border-top: panel $border 50%;
+            &:focus {
+                border-title-color: $text;
+                border-top: panel $border;
             }
+        }
 
+        &.details-visible {
+            PEPsView {
+                width: 5fr;
+            }
             PEPDetails {
-                display: none;
-                height: auto;
-                border-title-color: $text-primary;
-                border-top: panel $border 50%;
-                &:focus {
-                    border-title-color: $text;
-                    border-top: panel $border;
-                }
-                &.visible {
-                    display: block;
-                }
+                display: block;
             }
         }
     }
@@ -149,9 +153,8 @@ class Main(Screen[None]):
             yield Navigation(load_configuration(), classes="panel focus").data_bind(
                 Main.all_peps, Main.active_peps
             )
-            with Vertical(id="content", classes="panel"):
-                yield PEPsView(classes="focus").data_bind(Main.active_peps)
-                yield PEPDetails(classes="focus").data_bind(pep=Main.selected_pep)
+            yield PEPsView(classes="panel focus").data_bind(Main.active_peps)
+            yield PEPDetails(classes="panel focus").data_bind(pep=Main.selected_pep)
         yield Footer()
 
     def on_mount(self) -> None:
@@ -252,7 +255,7 @@ class Main(Screen[None]):
     @on(TogglePEPDetails)
     def action_toggle_pep_details_command(self) -> None:
         """Toggle the display of the PEP details panel."""
-        self.query_one(PEPDetails).toggle_class("visible")
+        self.toggle_class("details-visible")
 
     @on(ToggleTypesSortOrder)
     def action_toggle_types_sort_order_command(self) -> None:
