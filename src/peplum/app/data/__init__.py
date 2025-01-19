@@ -2,7 +2,12 @@
 
 ##############################################################################
 # Local imports.
-from .config import load_configuration, save_configuration, update_configuration
+from .config import (
+    Configuration,
+    load_configuration,
+    save_configuration,
+    update_configuration,
+)
 from .peps import (
     AuthorCount,
     PEPCount,
@@ -19,15 +24,16 @@ from .peps import (
 ##############################################################################
 # Exports.
 __all__ = [
-    "load_configuration",
-    "save_configuration",
-    "update_configuration",
     "AuthorCount",
-    "PEPs",
+    "Configuration",
+    "load_configuration",
     "PEPCount",
+    "PEPs",
     "PythonVersionCount",
+    "save_configuration",
     "StatusCount",
     "TypeCount",
+    "update_configuration",
     "WithAuthor",
     "WithPythonVersion",
     "WithStatus",
