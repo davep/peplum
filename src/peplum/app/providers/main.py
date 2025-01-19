@@ -8,6 +8,7 @@ from ..commands import (
     Help,
     Quit,
     TogglePEPDetails,
+    ToggleStatusesSortOrder,
     ToggleTypesSortOrder,
 )
 from .commands_provider import CommandHits, CommandsProvider
@@ -28,6 +29,7 @@ class MainCommands(CommandsProvider):
         yield Help()
         yield Quit()
         yield TogglePEPDetails()
+        yield ToggleStatusesSortOrder()
         yield ToggleTypesSortOrder()
 
 

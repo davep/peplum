@@ -20,6 +20,7 @@ from ..commands import (
     Help,
     Quit,
     TogglePEPDetails,
+    ToggleStatusesSortOrder,
     ToggleTypesSortOrder,
 )
 from ..data import (
@@ -118,6 +119,7 @@ class Main(Screen[None]):
         Escape,
         Quit,
         TogglePEPDetails,
+        ToggleStatusesSortOrder,
         ToggleTypesSortOrder,
     )
 
@@ -252,6 +254,15 @@ class Main(Screen[None]):
         with update_configuration() as config:
             config.sort_types_by_count = not config.sort_types_by_count
             self.query_one(Navigation).sort_types_by_count = config.sort_types_by_count
+
+    @on(ToggleStatusesSortOrder)
+    def action_toggle_statuses_sort_order_command(self) -> None:
+        """Toggle the sort order of the statuses."""
+        with update_configuration() as config:
+            config.sort_statuses_by_count = not config.sort_statuses_by_count
+            self.query_one(
+                Navigation
+            ).sort_statuses_by_count = config.sort_statuses_by_count
 
 
 ### main.py ends here

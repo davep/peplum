@@ -9,7 +9,7 @@ information, etc.
 # Local imports.
 from .base import Command
 from .main import ChangeTheme, Escape, Help, Quit, TogglePEPDetails
-from .navigation_sorting import ToggleTypesSortOrder
+from .navigation_sorting import ToggleStatusesSortOrder, ToggleTypesSortOrder
 
 ##############################################################################
 # Exports.
@@ -20,6 +20,7 @@ __all__ = [
     "Help",
     "Quit",
     "TogglePEPDetails",
+    "ToggleStatusesSortOrder",
     "ToggleTypesSortOrder",
 ]
 

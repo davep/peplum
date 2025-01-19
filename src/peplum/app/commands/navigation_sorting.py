@@ -13,4 +13,12 @@ class ToggleTypesSortOrder(Command):
     SHOW_IN_FOOTER = False
 
 
+##############################################################################
+class ToggleStatusesSortOrder(Command):
+    """Toggle the sort order of the statuses in the navigation panel"""
+
+    BINDING_KEY = "s"
+    SHOW_IN_FOOTER = False
+
+
 ### navigation_sorting.py ends here
