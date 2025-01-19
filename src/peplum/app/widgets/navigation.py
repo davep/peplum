@@ -196,6 +196,12 @@ class AuthorView(CountView):
 class Navigation(OptionListEx):
     """The main navigation panel."""
 
+    HELP = """
+    ## Navigation Panel
+
+    Select items in this panel to filter the list of PEPs.
+    """
+
     all_peps: var[PEPs] = var(PEPs)
     """The collection of all known PEPs."""
 
