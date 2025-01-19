@@ -29,4 +29,12 @@ class TogglePythonVersionsSortOrder(Command):
     SHOW_IN_FOOTER = False
 
 
+##############################################################################
+class ToggleAuthorsSortOrder(Command):
+    """Toggle the sort order of the authors in the navigation panel"""
+
+    BINDING_KEY = "a"
+    SHOW_IN_FOOTER = False
+
+
 ### navigation_sorting.py ends here

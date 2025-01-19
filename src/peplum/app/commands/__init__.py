@@ -10,6 +10,7 @@ information, etc.
 from .base import Command
 from .main import ChangeTheme, Escape, Help, Quit, TogglePEPDetails
 from .navigation_sorting import (
+    ToggleAuthorsSortOrder,
     TogglePythonVersionsSortOrder,
     ToggleStatusesSortOrder,
     ToggleTypesSortOrder,
@@ -23,6 +24,7 @@ __all__ = [
     "Escape",
     "Help",
     "Quit",
+    "ToggleAuthorsSortOrder",
     "TogglePEPDetails",
     "TogglePythonVersionsSortOrder",
     "ToggleStatusesSortOrder",

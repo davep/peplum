@@ -21,6 +21,7 @@ from ..commands import (
     Escape,
     Help,
     Quit,
+    ToggleAuthorsSortOrder,
     TogglePEPDetails,
     TogglePythonVersionsSortOrder,
     ToggleStatusesSortOrder,
@@ -121,6 +122,7 @@ class Main(Screen[None]):
         ChangeTheme,
         Escape,
         Quit,
+        ToggleAuthorsSortOrder,
         TogglePEPDetails,
         TogglePythonVersionsSortOrder,
         ToggleStatusesSortOrder,
@@ -278,6 +280,15 @@ class Main(Screen[None]):
             self.query_one(
                 Navigation
             ).sort_python_versions_by_count = config.sort_python_versions_by_count
+
+    @on(ToggleAuthorsSortOrder)
+    def action_toggle_authors_sort_order_command(self) -> None:
+        """Toggle the sort order of the authors."""
+        with update_configuration() as config:
+            config.sort_authors_by_count = not config.sort_authors_by_count
+            self.query_one(
+                Navigation
+            ).sort_authors_by_count = config.sort_authors_by_count
 
 
 ### main.py ends here
