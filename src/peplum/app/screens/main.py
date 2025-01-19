@@ -16,6 +16,7 @@ from ...peps import PEP
 from ..commands import ChangeTheme, Command, Escape, Help, Quit, TogglePEPDetails
 from ..data import PEPs, WithAuthor, WithPythonVersion, WithStatus, WithType
 from ..messages import ShowAll, ShowAuthor, ShowPythonVersion, ShowStatus, ShowType
+from ..providers import MainCommands
 from ..widgets import Navigation, PEPDetails, PEPsView
 from .help import HelpScreen
 
@@ -104,6 +105,8 @@ class Main(Screen[None]):
     )
 
     BINDINGS = Command.bindings(*COMMAND_MESSAGES)
+
+    COMMANDS = {MainCommands}
 
     all_peps: var[PEPs] = var(PEPs)
     """All the PEPs that we know about."""

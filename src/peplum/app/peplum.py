@@ -63,6 +63,8 @@ class Peplum(App[None]):
         ),
     ]
 
+    COMMANDS = set()
+
     def __init__(self) -> None:
         """Initialise the application."""
         super().__init__()
