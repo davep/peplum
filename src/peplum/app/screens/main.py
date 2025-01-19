@@ -13,7 +13,15 @@ from textual.widgets import Footer, Header
 # Local imports.
 from ... import __version__
 from ...peps import PEP
-from ..commands import ChangeTheme, Command, Escape, Help, Quit, TogglePEPDetails
+from ..commands import (
+    ChangeTheme,
+    Command,
+    Escape,
+    Help,
+    Quit,
+    TogglePEPDetails,
+    ToggleTypesSortOrder,
+)
 from ..data import (
     PEPs,
     WithAuthor,
@@ -21,6 +29,7 @@ from ..data import (
     WithStatus,
     WithType,
     load_configuration,
+    update_configuration,
 )
 from ..messages import ShowAll, ShowAuthor, ShowPythonVersion, ShowStatus, ShowType
 from ..providers import MainCommands
@@ -109,6 +118,7 @@ class Main(Screen[None]):
         Escape,
         Quit,
         TogglePEPDetails,
+        ToggleTypesSortOrder,
     )
 
     BINDINGS = Command.bindings(*COMMAND_MESSAGES)
@@ -235,6 +245,13 @@ class Main(Screen[None]):
     def action_toggle_pep_details_command(self) -> None:
         """Toggle the display of the PEP details panel."""
         self.query_one(PEPDetails).toggle_class("visible")
+
+    @on(ToggleTypesSortOrder)
+    def action_toggle_types_sort_order_command(self) -> None:
+        """Toggle the sort order of the types."""
+        with update_configuration() as config:
+            config.sort_types_by_count = not config.sort_types_by_count
+            self.query_one(Navigation).sort_types_by_count = config.sort_types_by_count
 
 
 ### main.py ends here

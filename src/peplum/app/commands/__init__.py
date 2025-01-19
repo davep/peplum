@@ -9,9 +9,18 @@ information, etc.
 # Local imports.
 from .base import Command
 from .main import ChangeTheme, Escape, Help, Quit, TogglePEPDetails
+from .navigation_sorting import ToggleTypesSortOrder
 
 ##############################################################################
 # Exports.
-__all__ = ["Command", "ChangeTheme", "Escape", "Help", "Quit", "TogglePEPDetails"]
+__all__ = [
+    "Command",
+    "ChangeTheme",
+    "Escape",
+    "Help",
+    "Quit",
+    "TogglePEPDetails",
+    "ToggleTypesSortOrder",
+]
 
 ### __init__.py ends here

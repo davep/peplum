@@ -2,7 +2,14 @@
 
 ##############################################################################
 # Local imports.
-from ..commands import ChangeTheme, Escape, Help, Quit, TogglePEPDetails
+from ..commands import (
+    ChangeTheme,
+    Escape,
+    Help,
+    Quit,
+    TogglePEPDetails,
+    ToggleTypesSortOrder,
+)
 from .commands_provider import CommandHits, CommandsProvider
 
 
@@ -21,6 +28,7 @@ class MainCommands(CommandsProvider):
         yield Help()
         yield Quit()
         yield TogglePEPDetails()
+        yield ToggleTypesSortOrder()
 
 
 ### main.py ends here

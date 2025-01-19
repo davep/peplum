@@ -334,6 +334,10 @@ class Navigation(OptionListEx):
         """React to the active PEPs being changed."""
         self.repopulate()
 
+    def watch_sort_types_by_count(self) -> None:
+        """React to the types sort order being changed."""
+        self.repopulate()
+
     @on(OptionList.OptionSelected)
     def navigate(self, event: OptionList.OptionSelected) -> None:
         event.stop()
