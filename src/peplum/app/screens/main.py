@@ -166,6 +166,7 @@ class Main(Screen[None]):
             PEP.from_json(pep)
             for pep in loads(Path("/Users/davep/peps.json").read_text()).values()
         )
+        self.set_class(load_configuration().details_visble, "details-visible")
 
     def watch_all_peps(self) -> None:
         """React to the full set of PEPs being updated."""
@@ -253,6 +254,8 @@ class Main(Screen[None]):
     def action_toggle_pep_details_command(self) -> None:
         """Toggle the display of the PEP details panel."""
         self.toggle_class("details-visible")
+        with update_configuration() as config:
+            config.details_visble = self.has_class("details-visible")
 
     @on(ToggleTypesSortOrder)
     def action_toggle_types_sort_order_command(self) -> None:
