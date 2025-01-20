@@ -34,6 +34,9 @@ class Configuration:
     sort_authors_by_count: bool = True
     """Sort the navigation panel authors by their count?"""
 
+    details_visble: bool = False
+    """Is the PEP details panel visible?"""
+
 
 ##############################################################################
 def configuration_file() -> Path:
