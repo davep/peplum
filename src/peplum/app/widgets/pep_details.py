@@ -15,11 +15,12 @@ from textual.app import ComposeResult
 from textual.containers import Vertical, VerticalScroll
 from textual.events import DescendantBlur, DescendantFocus
 from textual.reactive import var
-from textual.widgets import Label, OptionList
+from textual.widgets import Label
 
 ##############################################################################
 # Local imports.
 from ...peps import PEP
+from .extended_option_list import OptionListEx
 
 
 ##############################################################################
@@ -99,7 +100,7 @@ class URL(HidableValue, can_focus=True):
 
 
 ##############################################################################
-class List(OptionList):
+class List(OptionListEx):
     """Show a list of values that the user can pick from."""
 
     DEFAULT_CSS = """
