@@ -247,6 +247,11 @@ class Main(Screen[None]):
         """
         if self.focused == self.query_one(PEPsView):
             self.set_focus(self.query_one(Navigation))
+        elif (
+            self.focused
+            and self.query_one(PEPDetails) in self.focused.ancestors_with_self
+        ):
+            self.set_focus(self.query_one(PEPsView))
         else:
             self.app.exit()
 
