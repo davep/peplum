@@ -94,6 +94,20 @@ class URL(HidableValue, can_focus=True):
 class List(OptionList):
     """Show a list of values that the user can pick from."""
 
+    DEFAULT_CSS = """
+    List, List:focus {
+        height: auto;
+        width: auto;
+        border: none;
+        background: transparent !important;
+        margin: 0;
+        padding: 0;
+        /* Stop a flash of unnecessary scrollbar. */
+        scrollbar-size-vertical: 0;
+        overflow-y: hidden;
+    }
+    """
+
     def show(self, options: tuple[str | int, ...]) -> None:
         """Show the list.
 
