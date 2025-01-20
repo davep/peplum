@@ -7,6 +7,7 @@ from types import TracebackType
 ##############################################################################
 # Textual imports.
 from textual.binding import Binding
+from textual.geometry import Size
 from textual.widgets import OptionList
 from textual.widgets.option_list import OptionDoesNotExist
 
@@ -89,6 +90,12 @@ class OptionListEx(OptionList):
     def preserved_highlight(self) -> PreservedHighlight:
         """Provides a context that preserves the highlight location."""
         return PreservedHighlight(self)
+
+    def get_content_width(self, container: Size, viewport: Size) -> int:
+        """Workaround for https://github.com/Textualize/textual/issues/5489"""
+        return (
+            super().get_content_width(container, viewport) if self.option_count else 0
+        )
 
 
 ### extended_option_list.py ends here
