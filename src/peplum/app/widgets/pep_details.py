@@ -62,12 +62,12 @@ class Field(Vertical):
         Args:
             title: The title to give the widget.
         """
-        super().__init__()
+        super().__init__(classes="hidden")
         self.compose_add_child(Label(title, id="_field_title"))
 
 
 ##############################################################################
-class HidableValue(Label):
+class Value(Label):
     """A label that will hide itself if empty or `None`."""
 
     def show(self, text: str | int | None) -> None:
@@ -86,7 +86,7 @@ class HidableValue(Label):
 
 
 ##############################################################################
-class URL(HidableValue, can_focus=True):
+class URL(Value, can_focus=True):
     """A widget that is a clickable URL that can also be focused."""
 
     DEFAULT_CSS = """
@@ -147,35 +147,35 @@ class PEPDetails(VerticalScroll):
 
     def compose(self) -> ComposeResult:
         with Field("Title"):
-            yield Label(id="title")
+            yield Value(id="title")
         with Field("Author"):
             yield List(id="author")
         with Field("Sponsor"):
-            yield HidableValue(id="sponsor")
+            yield Value(id="sponsor")
         with Field("Delegate"):
-            yield HidableValue(id="delegate")
+            yield Value(id="delegate")
         with Field("Discussions To"):
             yield URL(id="discussions_to")
         with Field("Status"):
-            yield Label(id="status")
+            yield Value(id="status")
         with Field("Type"):
-            yield Label(id="type")
+            yield Value(id="type")
         with Field("Topic"):
-            yield HidableValue(id="topic")
+            yield Value(id="topic")
         with Field("Requires"):
             yield List(id="requires")
         with Field("Replaces"):
             yield List(id="replaces")
         with Field("Superseded By"):
-            yield HidableValue(id="superseded_by")
+            yield Value(id="superseded_by")
         with Field("Created"):
-            yield Label(id="created")
+            yield Value(id="created")
         with Field("Python Version"):
             yield List(id="python_versions")
         with Field("Post History"):
-            yield Label("TODO")
+            yield Value("TODO")
         with Field("Resolution"):
-            yield Label("TODO")
+            yield Value("TODO")
         with Field("URL"):
             yield URL(id="url")
 
@@ -191,20 +191,18 @@ class PEPDetails(VerticalScroll):
         with self.app.batch_update():
             self.query_one(Field).set_class(self.pep is None, "hidden")
             if self.pep is not None:
-                self.query_one("#title", Label).update(self.pep.title)
+                self.query_one("#title", Value).show(self.pep.title)
                 self.query_one("#author", List).show(self.pep.authors)
-                self.query_one("#sponsor", HidableValue).show(self.pep.sponsor)
-                self.query_one("#delegate", HidableValue).show(self.pep.delegate)
+                self.query_one("#sponsor", Value).show(self.pep.sponsor)
+                self.query_one("#delegate", Value).show(self.pep.delegate)
                 self.query_one("#discussions_to", URL).show(self.pep.discussions_to)
-                self.query_one("#status", Label).update(self.pep.status)
-                self.query_one("#type", Label).update(self.pep.type)
-                self.query_one("#topic", HidableValue).show(self.pep.topic)
+                self.query_one("#status", Value).show(self.pep.status)
+                self.query_one("#type", Value).show(self.pep.type)
+                self.query_one("#topic", Value).show(self.pep.topic)
                 self.query_one("#requires", List).show(self.pep.requires)
                 self.query_one("#replaces", List).show(self.pep.replaces)
-                self.query_one("#superseded_by", HidableValue).show(
-                    self.pep.superseded_by
-                )
-                self.query_one("#created", Label).update(date_display(self.pep.created))
+                self.query_one("#superseded_by", Value).show(self.pep.superseded_by)
+                self.query_one("#created", Value).show(date_display(self.pep.created))
                 self.query_one("#python_versions", List).show(self.pep.python_version)
                 self.query_one("#url", URL).show(self.pep.url)
 
