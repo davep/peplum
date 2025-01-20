@@ -46,6 +46,12 @@ class Field(Vertical):
         &.hidden {
             display: none;
         }
+
+        & > #_field_title {
+            color: $text-accent;
+            width: 1fr;
+            background: $boost;
+        }
     }
     """
 
@@ -56,7 +62,7 @@ class Field(Vertical):
             title: The title to give the widget.
         """
         super().__init__()
-        self.compose_add_child(Label(f"{title}:"))
+        self.compose_add_child(Label(title, id="_field_title"))
 
 
 ##############################################################################
