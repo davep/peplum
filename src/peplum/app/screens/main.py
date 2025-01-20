@@ -63,9 +63,6 @@ class Main(Screen[None]):
                 border: none;
                 border-left: round $border;
             }
-        }
-
-        .focus {
             background: $surface;
             scrollbar-background: $surface;
             scrollbar-background-hover: $surface;
@@ -150,11 +147,11 @@ class Main(Screen[None]):
         """Compose the content of the main screen."""
         yield Header()
         with Horizontal():
-            yield Navigation(load_configuration(), classes="panel focus").data_bind(
+            yield Navigation(load_configuration(), classes="panel").data_bind(
                 Main.all_peps, Main.active_peps
             )
-            yield PEPsView(classes="panel focus").data_bind(Main.active_peps)
-            yield PEPDetails(classes="panel focus").data_bind(pep=Main.selected_pep)
+            yield PEPsView(classes="panel").data_bind(Main.active_peps)
+            yield PEPDetails(classes="panel").data_bind(pep=Main.selected_pep)
         yield Footer()
 
     def on_mount(self) -> None:
