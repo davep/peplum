@@ -119,12 +119,12 @@ class Main(Screen[None]):
         # Keep these together as they're bound to function keys and destined
         # for the footer.
         Help,
+        TogglePEPDetails,
+        Quit,
         # Everything else.
         ChangeTheme,
         Escape,
-        Quit,
         ToggleAuthorsSortOrder,
-        TogglePEPDetails,
         TogglePythonVersionsSortOrder,
         ToggleStatusesSortOrder,
         ToggleTypesSortOrder,
