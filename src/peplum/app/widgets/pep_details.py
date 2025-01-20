@@ -10,8 +10,10 @@ from humanize import naturaltime
 
 ##############################################################################
 # Textual imports.
+from textual import on
 from textual.app import ComposeResult
 from textual.containers import Vertical, VerticalScroll
+from textual.events import DescendantBlur, DescendantFocus
 from textual.reactive import var
 from textual.widgets import Label, OptionList
 
@@ -169,6 +171,13 @@ class PEPDetails(VerticalScroll):
             yield Label("TODO")
         with Field("URL"):
             yield URL(id="url")
+
+    @on(DescendantBlur)
+    @on(DescendantFocus)
+    def _textual_5488_workaround(self) -> None:
+        """Workaround for https://github.com/Textualize/textual/issues/5488"""
+        for widget in self.query(List):
+            widget._refresh_lines()
 
     def watch_pep(self) -> None:
         """React to the PEP being changed."""
