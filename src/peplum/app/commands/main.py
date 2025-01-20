@@ -39,9 +39,9 @@ class Quit(Command):
 class TogglePEPDetails(Command):
     """Toggle the display of the PEP details panel"""
 
+    FOOTER_TEXT = "Details"
     COMMAND = "Toggle PEP details"
-    BINDING_KEY = "space"
-    SHOW_IN_FOOTER = False
+    BINDING_KEY = "f3"
     ACTION = "toggle_pep_details_command"
 
 
