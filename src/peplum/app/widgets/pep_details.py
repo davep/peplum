@@ -105,6 +105,15 @@ class List(OptionList):
         self.parent.set_class(not bool(options), "hidden")
         self.clear_options().add_options([str(option) for option in options])
 
+    def on_focus(self) -> None:
+        """Ensure the highlight appears when we get focus."""
+        if self.highlighted is None and self.option_count:
+            self.highlighted = 0
+
+    def on_blur(self) -> None:
+        """Remove the highlight when we no longer have focus."""
+        self.highlighted = None
+
 
 ##############################################################################
 class PEPDetails(VerticalScroll):
