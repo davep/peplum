@@ -40,6 +40,7 @@ class Field(Vertical):
     DEFAULT_CSS = """
     Field {
         height: auto;
+        margin-bottom: 1;
         &.hidden {
             display: none;
         }
