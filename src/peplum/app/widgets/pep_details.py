@@ -149,7 +149,7 @@ class PEPDetails(VerticalScroll):
         with Field("Delegate"):
             yield Value(id="delegate")
         with Field("Discussions To"):
-            yield List(id="discussions_to")
+            yield Value(id="discussions_to")
         with Field("Status"):
             yield List(id="status")
         with Field("Type"):
@@ -188,7 +188,7 @@ class PEPDetails(VerticalScroll):
                 self.query_one("#author", List).show(self.pep.authors)
                 self.query_one("#sponsor", Value).show(self.pep.sponsor)
                 self.query_one("#delegate", Value).show(self.pep.delegate)
-                self.query_one("#discussions_to", List).show(self.pep.discussions_to)
+                self.query_one("#discussions_to", Value).show(self.pep.discussions_to)
                 self.query_one("#status", List).show(self.pep.status)
                 self.query_one("#type", List).show(self.pep.type)
                 self.query_one("#topic", Value).show(self.pep.topic)
