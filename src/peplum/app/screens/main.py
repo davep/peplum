@@ -4,7 +4,7 @@
 # Textual imports.
 from textual import on
 from textual.app import ComposeResult
-from textual.containers import Horizontal, Vertical
+from textual.containers import Horizontal
 from textual.reactive import var
 from textual.screen import Screen
 from textual.widgets import Footer, Header
