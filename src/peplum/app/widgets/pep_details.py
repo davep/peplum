@@ -156,7 +156,7 @@ class List(OptionListEx):
         )
 
     @show.register
-    def _(self, values: str | int | None) -> None:
+    def _(self, values: Item | str | int | None) -> None:
         if values is not None:
             self.show([values])
 
