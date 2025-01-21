@@ -5,6 +5,7 @@
 from datetime import date, datetime
 from functools import singledispatchmethod
 from typing import Sequence
+from webbrowser import open as visit_url
 
 ##############################################################################
 # Humanize imports
@@ -121,6 +122,29 @@ class Author(Item):
             parent: The parent list for the item.
         """
         parent.post_message(ShowAuthor(self._author))
+
+
+##############################################################################
+class URL(Item):
+    """Type of an item that shows a URL."""
+
+    def __init__(self, url: str, title: str | None = None) -> None:
+        """Initialise the object.
+
+        Args:
+            url: The URL.
+            title: An optional title for the URL.
+        """
+        self._url = url
+        super().__init__(title or url)
+
+    def select(self, parent: OptionListEx) -> None:
+        """Perform the selection action for the item.
+
+        Args:
+            parent: The parent list for the item.
+        """
+        visit_url(self._url)
 
 
 ##############################################################################
@@ -244,7 +268,7 @@ class PEPDetails(VerticalScroll):
                 self.query_one("#python_versions", List).show(self.pep.python_version)
                 self.query_one("#post_history", List).show("TODO")
                 self.query_one("#resolution", Value).show("TODO")
-                self.query_one("#url", List).show(self.pep.url)
+                self.query_one("#url", List).show(URL(self.pep.url))
 
 
 ### pep_details.py ends here
