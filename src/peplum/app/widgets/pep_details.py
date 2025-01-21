@@ -142,7 +142,7 @@ class List(OptionListEx):
     """
 
     @singledispatchmethod
-    def show(self, values: Sequence[Item | str | int | None]) -> None:
+    def show(self, values: Sequence[Item | str | int]) -> None:
         """Show the list.
 
         Args:
@@ -151,8 +151,9 @@ class List(OptionListEx):
         if self.parent is None:
             return
         self.parent.set_class(not bool(values), "hidden")
-        values = [str(value) if isinstance(value, int) else value for value in values]
-        self.clear_options().add_options(values)
+        self.clear_options().add_options(
+            [str(value) if isinstance(value, int) else value for value in values]
+        )
 
     @show.register
     def _(self, values: str | int | None) -> None:
