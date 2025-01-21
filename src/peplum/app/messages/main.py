@@ -10,7 +10,7 @@ from textual.message import Message
 
 ##############################################################################
 # Local imports.
-from ...peps import PEPStatus, PEPType
+from ...peps import PEP, PEPStatus, PEPType
 
 
 ##############################################################################
@@ -52,6 +52,15 @@ class ShowAuthor(Message):
 
     author: str
     """The author to show."""
+
+
+##############################################################################
+@dataclass
+class VisitPEP(Message):
+    """Message that makes a request to visit the URL of a given PEP."""
+
+    pep: PEP
+    """The PEP to visit."""
 
 
 ### main.py ends here

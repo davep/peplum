@@ -24,7 +24,7 @@ from textual.widgets.option_list import Option
 ##############################################################################
 # Local imports.
 from ...peps import PEP
-from ..messages import ShowAuthor
+from ..messages import ShowAuthor, VisitPEP
 from .extended_option_list import OptionListEx
 
 
@@ -206,6 +206,8 @@ class PEPDetails(VerticalScroll):
     pep: var[PEP | None] = var(None)
     """The PEP to show the details of."""
 
+    BINDINGS = [("enter", "visit_pep")]
+
     def compose(self) -> ComposeResult:
         with Field("Title"):
             yield Value(id="title")
@@ -269,6 +271,11 @@ class PEPDetails(VerticalScroll):
                 self.query_one("#post_history", List).show("TODO")
                 self.query_one("#resolution", Value).show("TODO")
                 self.query_one("#url", List).show(URL(self.pep.url))
+
+    def action_visit_pep(self) -> None:
+        """Action that visits the current PEP."""
+        if self.pep is not None:
+            self.post_message(VisitPEP(self.pep))
 
 
 ### pep_details.py ends here

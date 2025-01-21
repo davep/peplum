@@ -1,6 +1,10 @@
 """Provides the main screen for the application."""
 
 ##############################################################################
+# Python imports.
+from webbrowser import open as visit_url
+
+##############################################################################
 # Textual imports.
 from textual import on
 from textual.app import ComposeResult
@@ -34,7 +38,14 @@ from ..data import (
     load_configuration,
     update_configuration,
 )
-from ..messages import ShowAll, ShowAuthor, ShowPythonVersion, ShowStatus, ShowType
+from ..messages import (
+    ShowAll,
+    ShowAuthor,
+    ShowPythonVersion,
+    ShowStatus,
+    ShowType,
+    VisitPEP,
+)
 from ..providers import MainCommands
 from ..widgets import Navigation, PEPDetails, PEPsView
 from .help import HelpScreen
@@ -219,6 +230,18 @@ class Main(Screen[None]):
             command: The command requesting the filter.
         """
         self.active_peps &= WithAuthor(command.author)
+
+    @on(VisitPEP)
+    def visit_pep(self, command: VisitPEP) -> None:
+        """Visit a given PEP's webpage.
+
+        Args:
+            command: The command requesting the visit.
+        """
+        if command.pep.url:
+            visit_url(command.pep.url)
+        else:
+            self.notify(f"PEP{command.pep.number} has no associated URL")
 
     @on(Help)
     def action_help_command(self) -> None:

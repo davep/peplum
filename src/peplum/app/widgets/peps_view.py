@@ -24,6 +24,7 @@ from textual.widgets.option_list import Option
 # Local imports.
 from ...peps import PEP
 from ..data import PEPs
+from ..messages import VisitPEP
 from .extended_option_list import OptionListEx
 
 
@@ -99,6 +100,13 @@ class PEPsView(OptionListEx):
         message.stop()
         assert isinstance(message.option, PEPView)
         self.post_message(self.PEPHighlighted(message.option.pep))
+
+    @on(OptionList.OptionSelected)
+    def visit_pep(self, message: OptionList.OptionSelected) -> None:
+        """Send a message to say the user wants to visit a PEP's webpage."""
+        message.stop()
+        assert isinstance(message.option, PEPView)
+        self.post_message(VisitPEP(message.option.pep))
 
 
 ### peps_view.py ends here

@@ -2,7 +2,7 @@
 
 ##############################################################################
 # Local imports.
-from .main import ShowAll, ShowAuthor, ShowPythonVersion, ShowStatus, ShowType
+from .main import ShowAll, ShowAuthor, ShowPythonVersion, ShowStatus, ShowType, VisitPEP
 
 ##############################################################################
 # Exports.
@@ -12,6 +12,7 @@ __all__ = [
     "ShowPythonVersion",
     "ShowStatus",
     "ShowType",
+    "VisitPEP",
 ]
 
 ### __init__.py ends here
