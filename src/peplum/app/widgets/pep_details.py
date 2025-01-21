@@ -18,10 +18,12 @@ from textual.containers import Vertical, VerticalScroll
 from textual.events import DescendantBlur, DescendantFocus
 from textual.reactive import var
 from textual.widgets import Label
+from textual.widgets.option_list import Option
 
 ##############################################################################
 # Local imports.
 from ...peps import PEP
+from ..messages import ShowAuthor
 from .extended_option_list import OptionListEx
 
 
@@ -88,6 +90,40 @@ class Value(Label):
 
 
 ##############################################################################
+class Item(Option):
+    """Type of an item that goes in a list."""
+
+    def select(self, parent: OptionListEx) -> None:
+        """Perform the selection action for the item.
+
+        Args:
+            parent: The parent list for the item.
+        """
+
+
+##############################################################################
+class Author(Item):
+    """Type of an item that shows an author."""
+
+    def __init__(self, author: str) -> None:
+        """Initialise the object.
+
+        Args:
+            author: The author.
+        """
+        self._author = author
+        super().__init__(author)
+
+    def select(self, parent: OptionListEx) -> None:
+        """Perform the selection action for the item.
+
+        Args:
+            parent: The parent list for the item.
+        """
+        parent.post_message(ShowAuthor(self._author))
+
+
+##############################################################################
 class List(OptionListEx):
     """Show a list of values that the user can pick from."""
 
@@ -106,7 +142,7 @@ class List(OptionListEx):
     """
 
     @singledispatchmethod
-    def show(self, values: Sequence[str | int | None]) -> None:
+    def show(self, values: Sequence[Item | str | int | None]) -> None:
         """Show the list.
 
         Args:
@@ -115,7 +151,8 @@ class List(OptionListEx):
         if self.parent is None:
             return
         self.parent.set_class(not bool(values), "hidden")
-        self.clear_options().add_options([str(value) for value in values])
+        values = [str(value) if isinstance(value, int) else value for value in values]
+        self.clear_options().add_options(values)
 
     @show.register
     def _(self, values: str | int | None) -> None:
@@ -130,6 +167,11 @@ class List(OptionListEx):
     def on_blur(self) -> None:
         """Remove the highlight when we no longer have focus."""
         self.highlighted = None
+
+    @on(OptionListEx.OptionSelected)
+    def select(self, message: OptionListEx.OptionSelected) -> None:
+        assert isinstance(message.option, Item)
+        message.option.select(self)
 
 
 ##############################################################################
@@ -185,7 +227,9 @@ class PEPDetails(VerticalScroll):
         with self.app.batch_update():
             if self.pep is not None:
                 self.query_one("#title", Value).show(self.pep.title)
-                self.query_one("#author", List).show(self.pep.authors)
+                self.query_one("#author", List).show(
+                    [Author(author) for author in self.pep.authors]
+                )
                 self.query_one("#sponsor", Value).show(self.pep.sponsor)
                 self.query_one("#delegate", Value).show(self.pep.delegate)
                 self.query_one("#discussions_to", Value).show(self.pep.discussions_to)
