@@ -3,6 +3,8 @@
 ##############################################################################
 # Python imports.
 from datetime import date, datetime
+from functools import singledispatchmethod
+from typing import Sequence
 
 ##############################################################################
 # Humanize imports
@@ -86,20 +88,6 @@ class Value(Label):
 
 
 ##############################################################################
-class URL(Value, can_focus=True):
-    """A widget that is a clickable URL that can also be focused."""
-
-    DEFAULT_CSS = """
-    URL {
-        &:focus {
-            color: $block-cursor-foreground;
-            background: $block-cursor-background;
-        }
-    }
-    """
-
-
-##############################################################################
 class List(OptionListEx):
     """Show a list of values that the user can pick from."""
 
@@ -117,16 +105,22 @@ class List(OptionListEx):
     }
     """
 
-    def show(self, options: tuple[str | int, ...]) -> None:
+    @singledispatchmethod
+    def show(self, values: Sequence[str | int | None]) -> None:
         """Show the list.
 
         Args:
-            options: The options to show.
+            values: The values to show.
         """
         if self.parent is None:
             return
-        self.parent.set_class(not bool(options), "hidden")
-        self.clear_options().add_options([str(option) for option in options])
+        self.parent.set_class(not bool(values), "hidden")
+        self.clear_options().add_options([str(value) for value in values])
+
+    @show.register
+    def _(self, values: str | int | None) -> None:
+        if values is not None:
+            self.show([values])
 
     def on_focus(self) -> None:
         """Ensure the highlight appears when we get focus."""
@@ -155,11 +149,11 @@ class PEPDetails(VerticalScroll):
         with Field("Delegate"):
             yield Value(id="delegate")
         with Field("Discussions To"):
-            yield URL(id="discussions_to")
+            yield List(id="discussions_to")
         with Field("Status"):
-            yield Value(id="status")
+            yield List(id="status")
         with Field("Type"):
-            yield Value(id="type")
+            yield List(id="type")
         with Field("Topic"):
             yield Value(id="topic")
         with Field("Requires"):
@@ -167,17 +161,17 @@ class PEPDetails(VerticalScroll):
         with Field("Replaces"):
             yield List(id="replaces")
         with Field("Superseded By"):
-            yield Value(id="superseded_by")
+            yield List(id="superseded_by")
         with Field("Created"):
             yield Value(id="created")
         with Field("Python Version"):
             yield List(id="python_versions")
         with Field("Post History"):
-            yield Value("TODO")
+            yield List("TODO")
         with Field("Resolution"):
             yield Value("TODO")
         with Field("URL"):
-            yield URL(id="url")
+            yield List(id="url")
 
     @on(DescendantBlur)
     @on(DescendantFocus)
@@ -194,16 +188,16 @@ class PEPDetails(VerticalScroll):
                 self.query_one("#author", List).show(self.pep.authors)
                 self.query_one("#sponsor", Value).show(self.pep.sponsor)
                 self.query_one("#delegate", Value).show(self.pep.delegate)
-                self.query_one("#discussions_to", URL).show(self.pep.discussions_to)
-                self.query_one("#status", Value).show(self.pep.status)
-                self.query_one("#type", Value).show(self.pep.type)
+                self.query_one("#discussions_to", List).show(self.pep.discussions_to)
+                self.query_one("#status", List).show(self.pep.status)
+                self.query_one("#type", List).show(self.pep.type)
                 self.query_one("#topic", Value).show(self.pep.topic)
                 self.query_one("#requires", List).show(self.pep.requires)
                 self.query_one("#replaces", List).show(self.pep.replaces)
-                self.query_one("#superseded_by", Value).show(self.pep.superseded_by)
+                self.query_one("#superseded_by", List).show(self.pep.superseded_by)
                 self.query_one("#created", Value).show(date_display(self.pep.created))
                 self.query_one("#python_versions", List).show(self.pep.python_version)
-                self.query_one("#url", URL).show(self.pep.url)
+                self.query_one("#url", List).show(self.pep.url)
 
 
 ### pep_details.py ends here
