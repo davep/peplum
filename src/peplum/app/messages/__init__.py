@@ -2,11 +2,20 @@
 
 ##############################################################################
 # Local imports.
-from .main import ShowAll, ShowAuthor, ShowPythonVersion, ShowStatus, ShowType, VisitPEP
+from .main import (
+    GotoPEP,
+    ShowAll,
+    ShowAuthor,
+    ShowPythonVersion,
+    ShowStatus,
+    ShowType,
+    VisitPEP,
+)
 
 ##############################################################################
 # Exports.
 __all__ = [
+    "GotoPEP",
     "ShowAll",
     "ShowAuthor",
     "ShowPythonVersion",

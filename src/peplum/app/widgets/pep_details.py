@@ -24,7 +24,7 @@ from textual.widgets.option_list import Option
 ##############################################################################
 # Local imports.
 from ...peps import PEP
-from ..messages import ShowAuthor, VisitPEP
+from ..messages import GotoPEP, ShowAuthor, VisitPEP
 from .extended_option_list import OptionListEx
 
 
@@ -103,6 +103,28 @@ class Item(Option):
 
 
 ##############################################################################
+class PEPNumber(Item):
+    """Type of an item that is a PEP number."""
+
+    def __init__(self, pep: int) -> None:
+        """Initialise the object.
+
+        Args:
+            pep: The number of the pep.
+        """
+        self._pep = pep
+        super().__init__(f"PEP{pep}")
+
+    def select(self, parent: OptionListEx) -> None:
+        """Perform the selection action for the item.
+
+        Args:
+            parent: The parent list for the item.
+        """
+        parent.post_message(GotoPEP(self._pep))
+
+
+##############################################################################
 class Author(Item):
     """Type of an item that shows an author."""
 
@@ -166,7 +188,7 @@ class List(OptionListEx):
     """
 
     @singledispatchmethod
-    def show(self, values: Sequence[Item | str | int]) -> None:
+    def show(self, values: Sequence[Item | str | None]) -> None:
         """Show the list.
 
         Args:
@@ -174,15 +196,14 @@ class List(OptionListEx):
         """
         if self.parent is None:
             return
-        self.parent.set_class(not bool(values), "hidden")
         self.clear_options().add_options(
-            [str(value) if isinstance(value, int) else value for value in values]
+            [value for value in values if value is not None]
         )
+        self.parent.set_class(not bool(self.option_count), "hidden")
 
     @show.register
-    def _(self, values: Item | str | int | None) -> None:
-        if values is not None:
-            self.show([values])
+    def _(self, values: Item | str | None) -> None:
+        self.show([values])
 
     def on_focus(self) -> None:
         """Ensure the highlight appears when we get focus."""
@@ -263,9 +284,17 @@ class PEPDetails(VerticalScroll):
                 self.query_one("#status", List).show(self.pep.status)
                 self.query_one("#type", List).show(self.pep.type)
                 self.query_one("#topic", Value).show(self.pep.topic)
-                self.query_one("#requires", List).show(self.pep.requires)
-                self.query_one("#replaces", List).show(self.pep.replaces)
-                self.query_one("#superseded_by", List).show(self.pep.superseded_by)
+                self.query_one("#requires", List).show(
+                    [PEPNumber(pep) for pep in self.pep.requires]
+                )
+                self.query_one("#replaces", List).show(
+                    [PEPNumber(pep) for pep in self.pep.replaces]
+                )
+                self.query_one("#superseded_by", List).show(
+                    None
+                    if self.pep.superseded_by is None
+                    else PEPNumber(self.pep.superseded_by)
+                )
                 self.query_one("#created", Value).show(date_display(self.pep.created))
                 self.query_one("#python_versions", List).show(self.pep.python_version)
                 self.query_one("#post_history", List).show("TODO")

@@ -61,7 +61,19 @@ class PEPView(Option):
         self._pep = pep
         """The PEP that this option is showing."""
 
-        super().__init__(Group(title, info, self.RULE), id=f"PEP{pep.number}")
+        super().__init__(Group(title, info, self.RULE), id=self.make_id(pep.number))
+
+    @staticmethod
+    def make_id(number: int) -> str:
+        """Make an ID from a given PEP number.
+
+        Args:
+            number: The number of the PEP to make an ID for.
+
+        Returns:
+            The ID for the PEP.
+        """
+        return f"PEP{number}"
 
     @property
     def pep(self) -> PEP:
@@ -107,6 +119,11 @@ class PEPsView(OptionListEx):
         message.stop()
         assert isinstance(message.option, PEPView)
         self.post_message(VisitPEP(message.option.pep))
+
+    def goto_pep(self, pep: int) -> None:
+        """Jump to a specific PEP."""
+        self.highlighted = self.get_option_index(PEPView.make_id(pep))
+        self.screen.set_focus(self)
 
 
 ### peps_view.py ends here

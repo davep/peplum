@@ -14,6 +14,15 @@ from ...peps import PEP, PEPStatus, PEPType
 
 
 ##############################################################################
+@dataclass
+class GotoPEP(Message):
+    """Message that requests we go to a specific PEP."""
+
+    number: int
+    """The number of the PEP to go to."""
+
+
+##############################################################################
 class ShowAll(Message):
     """Message that requests that all PEPs be shown."""
 

@@ -39,6 +39,7 @@ from ..data import (
     update_configuration,
 )
 from ..messages import (
+    GotoPEP,
     ShowAll,
     ShowAuthor,
     ShowPythonVersion,
@@ -230,6 +231,29 @@ class Main(Screen[None]):
             command: The command requesting the filter.
         """
         self.active_peps &= WithAuthor(command.author)
+
+    @on(GotoPEP)
+    def goto_pep(self, command: GotoPEP) -> None:
+        """Visit a specific PEP by its number.
+
+        Args:
+            command: The command requesting the PEP by number.
+        """
+        if command.number in self.active_peps:
+            self.query_one(PEPsView).goto_pep(command.number)
+        elif command.number in self.all_peps:
+            self.notify(
+                f"PEP{command.number} wasn't in the active filter; switching to all PEPs...",
+                severity="warning",
+            )
+            self.active_peps = self.all_peps
+            self.call_after_refresh(self.query_one(PEPsView).goto_pep, command.number)
+        else:
+            self.notify(
+                f"PEP{command.number} doesn't exist. Perhaps you'll be the one to write it?",
+                title="No such PEP",
+                severity="error",
+            )
 
     @on(VisitPEP)
     def visit_pep(self, command: VisitPEP) -> None:
