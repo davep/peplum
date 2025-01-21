@@ -9,8 +9,6 @@ from textual.reactive import var
 from textual.screen import Screen
 from textual.widgets import Footer, Header
 
-from peplum.app.commands.navigation_sorting import TogglePythonVersionsSortOrder
-
 ##############################################################################
 # Local imports.
 from ... import __version__
