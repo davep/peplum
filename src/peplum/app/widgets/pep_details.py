@@ -167,9 +167,9 @@ class PEPDetails(VerticalScroll):
         with Field("Python Version"):
             yield List(id="python_versions")
         with Field("Post History"):
-            yield List("TODO")
+            yield List(id="post_history")
         with Field("Resolution"):
-            yield Value("TODO")
+            yield Value(id="resolution")
         with Field("URL"):
             yield List(id="url")
 
@@ -197,6 +197,8 @@ class PEPDetails(VerticalScroll):
                 self.query_one("#superseded_by", List).show(self.pep.superseded_by)
                 self.query_one("#created", Value).show(date_display(self.pep.created))
                 self.query_one("#python_versions", List).show(self.pep.python_version)
+                self.query_one("#post_history", List).show("TODO")
+                self.query_one("#resolution", Value).show("TODO")
                 self.query_one("#url", List).show(self.pep.url)
 
 
