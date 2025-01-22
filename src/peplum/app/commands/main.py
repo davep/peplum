@@ -36,6 +36,16 @@ class Quit(Command):
 
 
 ##############################################################################
+class RedownloadPEPs(Command):
+    """Redownload the list of PEPs"""
+
+    FOOTER_TEXT = "Redownload"
+    COMMAND = "Redownload all PEPs"
+    BINDING_KEY = "ctrl+r"
+    ACTION = "redownload_peps_command"
+
+
+##############################################################################
 class TogglePEPDetails(Command):
     """Toggle the display of the PEP details panel"""
 

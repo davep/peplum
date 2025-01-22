@@ -7,6 +7,7 @@ from ..commands import (
     Escape,
     Help,
     Quit,
+    RedownloadPEPs,
     ShowAll,
     ToggleAuthorsSortOrder,
     TogglePEPDetails,
@@ -31,6 +32,7 @@ class MainCommands(CommandsProvider):
         yield Escape()
         yield Help()
         yield Quit()
+        yield RedownloadPEPs()
         yield ShowAll()
         yield ToggleAuthorsSortOrder()
         yield TogglePEPDetails()

@@ -9,7 +9,7 @@ information, etc.
 # Local imports.
 from .base import Command
 from .filtering import ShowAll
-from .main import ChangeTheme, Escape, Help, Quit, TogglePEPDetails
+from .main import ChangeTheme, Escape, Help, Quit, RedownloadPEPs, TogglePEPDetails
 from .navigation_sorting import (
     ToggleAuthorsSortOrder,
     TogglePythonVersionsSortOrder,
@@ -25,6 +25,7 @@ __all__ = [
     "Escape",
     "Help",
     "Quit",
+    "RedownloadPEPs",
     "ShowAll",
     "ToggleAuthorsSortOrder",
     "TogglePEPDetails",

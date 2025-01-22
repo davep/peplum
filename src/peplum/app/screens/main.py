@@ -26,6 +26,7 @@ from ..commands import (
     Escape,
     Help,
     Quit,
+    RedownloadPEPs,
     ShowAll,
     ToggleAuthorsSortOrder,
     TogglePEPDetails,
@@ -135,6 +136,7 @@ class Main(Screen[None]):
         Help,
         TogglePEPDetails,
         Quit,
+        RedownloadPEPs,
         # Everything else.
         ChangeTheme,
         Escape,
@@ -194,7 +196,7 @@ class Main(Screen[None]):
     @work(thread=True)
     async def download_pep_data(self) -> None:
         """Download a fresh copy of the PEP data."""
-        self.notify("Downloading")
+        self.notify("Downloading PEPs from the API...")
         peps, raw_data = await API().get_peps()
         try:
             pep_data().write_text(dumps(raw_data, indent=4), encoding="utf-8")
@@ -303,6 +305,11 @@ class Main(Screen[None]):
             visit_url(command.pep.url)
         else:
             self.notify(f"PEP{command.pep.number} has no associated URL")
+
+    @on(RedownloadPEPs)
+    def action_redownload_peps_command(self) -> None:
+        """Redownload PEPs from the API."""
+        self.download_pep_data()
 
     @on(Help)
     def action_help_command(self) -> None:
