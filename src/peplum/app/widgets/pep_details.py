@@ -224,7 +224,12 @@ class PostItem(Item):
             post: The post.
         """
         self._post = post
-        super().__init__(post.title)
+        title = "Unknown"
+        if post.date:
+            title = date_display(post.date)
+        elif post.url:
+            title = post.url
+        super().__init__(title)
 
     def select(self, parent: OptionListEx) -> None:
         """Perform the selection action for the item.
