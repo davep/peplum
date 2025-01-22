@@ -23,6 +23,7 @@ from ..commands import (
     Escape,
     Help,
     Quit,
+    ShowAll,
     ToggleAuthorsSortOrder,
     TogglePEPDetails,
     TogglePythonVersionsSortOrder,
@@ -40,7 +41,6 @@ from ..data import (
 )
 from ..messages import (
     GotoPEP,
-    ShowAll,
     ShowAuthor,
     ShowPythonVersion,
     ShowStatus,
@@ -134,6 +134,7 @@ class Main(Screen[None]):
         # Everything else.
         ChangeTheme,
         Escape,
+        ShowAll,
         ToggleAuthorsSortOrder,
         TogglePythonVersionsSortOrder,
         ToggleStatusesSortOrder,
@@ -192,7 +193,7 @@ class Main(Screen[None]):
         self.selected_pep = message.pep
 
     @on(ShowAll)
-    def show_all(self) -> None:
+    def action_show_all_command(self) -> None:
         """Show all PEPs."""
         self.active_peps = self.all_peps
 

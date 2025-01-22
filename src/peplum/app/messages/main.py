@@ -23,11 +23,6 @@ class GotoPEP(Message):
 
 
 ##############################################################################
-class ShowAll(Message):
-    """Message that requests that all PEPs be shown."""
-
-
-##############################################################################
 @dataclass
 class ShowType(Message):
     """Message that requests that PEPs of a certain type are shown."""

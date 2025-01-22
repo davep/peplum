@@ -7,6 +7,7 @@ from ..commands import (
     Escape,
     Help,
     Quit,
+    ShowAll,
     ToggleAuthorsSortOrder,
     TogglePEPDetails,
     TogglePythonVersionsSortOrder,
@@ -30,6 +31,7 @@ class MainCommands(CommandsProvider):
         yield Escape()
         yield Help()
         yield Quit()
+        yield ShowAll()
         yield ToggleAuthorsSortOrder()
         yield TogglePEPDetails()
         yield TogglePythonVersionsSortOrder()

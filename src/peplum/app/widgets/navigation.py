@@ -26,6 +26,7 @@ from typing_extensions import Self
 
 ##############################################################################
 # Local imports.
+from ..commands import ShowAll
 from ..data import (
     AuthorCount,
     Configuration,
@@ -35,7 +36,7 @@ from ..data import (
     StatusCount,
     TypeCount,
 )
-from ..messages import ShowAll, ShowAuthor, ShowPythonVersion, ShowStatus, ShowType
+from ..messages import ShowAuthor, ShowPythonVersion, ShowStatus, ShowType
 from .extended_option_list import OptionListEx
 
 
@@ -86,13 +87,16 @@ class CountView(Option):
 class AllView(CountView):
     """Option used to signify that we should view all PEPs."""
 
-    def __init__(self, peps: PEPs) -> None:
+    def __init__(self, peps: PEPs, key: str, key_colour: str | None) -> None:
         """Initialise the object.
 
         Args:
             peps: The full collection of PEPs.
         """
-        super().__init__(self.count_prompt("All", len(peps)), id=f"_all_peps")
+        super().__init__(
+            self.count_prompt(f"All [{(key_colour or 'dim')}]\\[{key}][/]", len(peps)),
+            id=f"_all_peps",
+        )
 
     @property
     def command(self) -> Message:
@@ -249,7 +253,15 @@ class Navigation(OptionListEx):
         Returns:
             Self.
         """
-        return self.add_option(AllView(self.all_peps))
+        return self.add_option(
+            AllView(
+                self.all_peps,
+                key=ShowAll.key_binding(),
+                key_colour=None
+                if self.app.current_theme is None
+                else self.app.current_theme.accent,
+            )
+        )
 
     @staticmethod
     def _filter_key(by_count: bool) -> Callable[[PEPCount], int | PEPCount]:

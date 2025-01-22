@@ -4,7 +4,6 @@
 # Local imports.
 from .main import (
     GotoPEP,
-    ShowAll,
     ShowAuthor,
     ShowPythonVersion,
     ShowStatus,
@@ -16,7 +15,6 @@ from .main import (
 # Exports.
 __all__ = [
     "GotoPEP",
-    "ShowAll",
     "ShowAuthor",
     "ShowPythonVersion",
     "ShowStatus",
