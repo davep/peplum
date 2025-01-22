@@ -105,7 +105,7 @@ class Item(Option):
 
 
 ##############################################################################
-class Status(Item):
+class StatusItem(Item):
     """Type of an item that is a PEP status."""
 
     def __init__(self, status: PEPStatus) -> None:
@@ -149,7 +149,7 @@ class TypeItem(Item):
 
 
 ##############################################################################
-class PEPNumber(Item):
+class PEPItem(Item):
     """Type of an item that is a PEP number."""
 
     def __init__(self, pep: int) -> None:
@@ -171,7 +171,7 @@ class PEPNumber(Item):
 
 
 ##############################################################################
-class Author(Item):
+class AuthorItem(Item):
     """Type of an item that shows an author."""
 
     def __init__(self, author: str) -> None:
@@ -193,7 +193,7 @@ class Author(Item):
 
 
 ##############################################################################
-class URL(Item):
+class URLItem(Item):
     """Type of an item that shows a URL."""
 
     def __init__(self, url: str, title: str | None = None) -> None:
@@ -322,30 +322,30 @@ class PEPDetails(VerticalScroll):
             if self.pep is not None:
                 self.query_one("#title", Value).show(self.pep.title)
                 self.query_one("#author", List).show(
-                    [Author(author) for author in self.pep.authors]
+                    [AuthorItem(author) for author in self.pep.authors]
                 )
                 self.query_one("#sponsor", Value).show(self.pep.sponsor)
                 self.query_one("#delegate", Value).show(self.pep.delegate)
                 self.query_one("#discussions_to", Value).show(self.pep.discussions_to)
-                self.query_one("#status", List).show(Status(self.pep.status))
+                self.query_one("#status", List).show(StatusItem(self.pep.status))
                 self.query_one("#type", List).show(TypeItem(self.pep.type))
                 self.query_one("#topic", Value).show(self.pep.topic)
                 self.query_one("#requires", List).show(
-                    [PEPNumber(pep) for pep in self.pep.requires]
+                    [PEPItem(pep) for pep in self.pep.requires]
                 )
                 self.query_one("#replaces", List).show(
-                    [PEPNumber(pep) for pep in self.pep.replaces]
+                    [PEPItem(pep) for pep in self.pep.replaces]
                 )
                 self.query_one("#superseded_by", List).show(
                     None
                     if self.pep.superseded_by is None
-                    else PEPNumber(self.pep.superseded_by)
+                    else PEPItem(self.pep.superseded_by)
                 )
                 self.query_one("#created", Value).show(date_display(self.pep.created))
                 self.query_one("#python_versions", List).show(self.pep.python_version)
                 self.query_one("#post_history", List).show("TODO")
                 self.query_one("#resolution", Value).show("TODO")
-                self.query_one("#url", List).show(URL(self.pep.url))
+                self.query_one("#url", List).show(URLItem(self.pep.url))
 
     def action_visit_pep(self) -> None:
         """Action that visits the current PEP."""
