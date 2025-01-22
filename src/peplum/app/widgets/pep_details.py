@@ -216,11 +216,11 @@ class URLItem(Item):
 
 
 ##############################################################################
-class List(OptionListEx):
-    """Show a list of values that the user can pick from."""
+class ClickableValue(OptionListEx):
+    """Show a value that the user can interact with."""
 
     DEFAULT_CSS = """
-    List, List:focus {
+    ClickableValue, ClickableValue:focus {
         height: auto;
         width: auto;
         border: none;
@@ -235,20 +235,23 @@ class List(OptionListEx):
 
     @singledispatchmethod
     def show(self, values: Sequence[Item | str | None]) -> None:
-        """Show the list.
+        """Show a list of values.
 
         Args:
             values: The values to show.
+
+        Notes:
+            Any values that are empty will be removed. If the list is empty
+            after this filter the field will be hidden.
         """
         if self.parent is None:
             return
-        self.clear_options().add_options(
-            [value for value in values if value is not None]
-        )
+        self.clear_options().add_options([value for value in values if value])
         self.parent.set_class(not bool(self.option_count), "hidden")
 
     @show.register
     def _(self, values: Item | str | None) -> None:
+        """Show a single value."""
         self.show([values])
 
     def on_focus(self) -> None:
@@ -279,7 +282,7 @@ class PEPDetails(VerticalScroll):
         with Field("Title"):
             yield Value(id="title")
         with Field("Author"):
-            yield List(id="author")
+            yield ClickableValue(id="author")
         with Field("Sponsor"):
             yield Value(id="sponsor")
         with Field("Delegate"):
@@ -287,33 +290,33 @@ class PEPDetails(VerticalScroll):
         with Field("Discussions To"):
             yield Value(id="discussions_to")
         with Field("Status"):
-            yield List(id="status")
+            yield ClickableValue(id="status")
         with Field("Type"):
-            yield List(id="type")
+            yield ClickableValue(id="type")
         with Field("Topic"):
             yield Value(id="topic")
         with Field("Requires"):
-            yield List(id="requires")
+            yield ClickableValue(id="requires")
         with Field("Replaces"):
-            yield List(id="replaces")
+            yield ClickableValue(id="replaces")
         with Field("Superseded By"):
-            yield List(id="superseded_by")
+            yield ClickableValue(id="superseded_by")
         with Field("Created"):
             yield Value(id="created")
         with Field("Python Version"):
-            yield List(id="python_versions")
+            yield ClickableValue(id="python_versions")
         with Field("Post History"):
-            yield List(id="post_history")
+            yield ClickableValue(id="post_history")
         with Field("Resolution"):
             yield Value(id="resolution")
         with Field("URL"):
-            yield List(id="url")
+            yield ClickableValue(id="url")
 
     @on(DescendantBlur)
     @on(DescendantFocus)
     def _textual_5488_workaround(self) -> None:
         """Workaround for https://github.com/Textualize/textual/issues/5488"""
-        for widget in self.query(List):
+        for widget in self.query(ClickableValue):
             widget._refresh_lines()
 
     def watch_pep(self) -> None:
@@ -321,31 +324,35 @@ class PEPDetails(VerticalScroll):
         with self.app.batch_update():
             if self.pep is not None:
                 self.query_one("#title", Value).show(self.pep.title)
-                self.query_one("#author", List).show(
+                self.query_one("#author", ClickableValue).show(
                     [AuthorItem(author) for author in self.pep.authors]
                 )
                 self.query_one("#sponsor", Value).show(self.pep.sponsor)
                 self.query_one("#delegate", Value).show(self.pep.delegate)
                 self.query_one("#discussions_to", Value).show(self.pep.discussions_to)
-                self.query_one("#status", List).show(StatusItem(self.pep.status))
-                self.query_one("#type", List).show(TypeItem(self.pep.type))
+                self.query_one("#status", ClickableValue).show(
+                    StatusItem(self.pep.status)
+                )
+                self.query_one("#type", ClickableValue).show(TypeItem(self.pep.type))
                 self.query_one("#topic", Value).show(self.pep.topic)
-                self.query_one("#requires", List).show(
+                self.query_one("#requires", ClickableValue).show(
                     [PEPItem(pep) for pep in self.pep.requires]
                 )
-                self.query_one("#replaces", List).show(
+                self.query_one("#replaces", ClickableValue).show(
                     [PEPItem(pep) for pep in self.pep.replaces]
                 )
-                self.query_one("#superseded_by", List).show(
+                self.query_one("#superseded_by", ClickableValue).show(
                     None
                     if self.pep.superseded_by is None
                     else PEPItem(self.pep.superseded_by)
                 )
                 self.query_one("#created", Value).show(date_display(self.pep.created))
-                self.query_one("#python_versions", List).show(self.pep.python_version)
-                self.query_one("#post_history", List).show("TODO")
+                self.query_one("#python_versions", ClickableValue).show(
+                    self.pep.python_version
+                )
+                self.query_one("#post_history", ClickableValue).show("TODO")
                 self.query_one("#resolution", Value).show("TODO")
-                self.query_one("#url", List).show(URLItem(self.pep.url))
+                self.query_one("#url", ClickableValue).show(URLItem(self.pep.url))
 
     def action_visit_pep(self) -> None:
         """Action that visits the current PEP."""
