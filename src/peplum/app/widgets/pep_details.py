@@ -24,7 +24,14 @@ from textual.widgets.option_list import Option
 ##############################################################################
 # Local imports.
 from ...peps import PEP, PEPStatus, PEPType, PostHistory
-from ..messages import GotoPEP, ShowAuthor, ShowStatus, ShowType, VisitPEP
+from ..messages import (
+    GotoPEP,
+    ShowAuthor,
+    ShowPythonVersion,
+    ShowStatus,
+    ShowType,
+    VisitPEP,
+)
 from .extended_option_list import OptionListEx
 
 
@@ -188,6 +195,28 @@ class AuthorItem(Item):
             parent: The parent list for the item.
         """
         parent.post_message(ShowAuthor(self._author))
+
+
+##############################################################################
+class PythonVersionItem(Item):
+    """Type of an item that is a Python version."""
+
+    def __init__(self, python_version: str) -> None:
+        """Initialise the object.
+
+        Args:
+            python_version: The Python version.
+        """
+        self._version = python_version
+        super().__init__(python_version)
+
+    def select(self, parent: OptionListEx) -> None:
+        """Perform the selection action for the item.
+
+        Args:
+            parent: The parent list for the item.
+        """
+        parent.post_message(ShowPythonVersion(self._version))
 
 
 ##############################################################################
@@ -412,7 +441,7 @@ class PEPDetails(VerticalScroll):
                 )
                 self.query_one("#created", Value).show(date_display(self.pep.created))
                 self.query_one("#python_versions", ClickableValue).show(
-                    self.pep.python_version
+                    PythonVersionItem(version) for version in self.pep.python_version
                 )
                 self.query_one("#post_history", ClickableValue).show(
                     [PostItem(post) for post in self.pep.post_history]
