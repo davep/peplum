@@ -4,7 +4,7 @@
 # Python imports.
 from datetime import date, datetime
 from functools import singledispatchmethod
-from typing import Literal, Sequence
+from typing import Sequence
 from webbrowser import open as visit_url
 
 ##############################################################################
