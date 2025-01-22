@@ -4,7 +4,7 @@
 # Python imports.
 from datetime import date, datetime
 from functools import singledispatchmethod
-from typing import Sequence
+from typing import Literal, Sequence
 from webbrowser import open as visit_url
 
 ##############################################################################
@@ -13,11 +13,12 @@ from humanize import naturaltime
 
 ##############################################################################
 # Textual imports.
-from textual import on
+from textual import _widget_navigation, on
 from textual.app import ComposeResult
 from textual.containers import Vertical, VerticalScroll
 from textual.events import DescendantBlur, DescendantFocus
 from textual.reactive import var
+from textual.types import Direction
 from textual.widgets import Label
 from textual.widgets.option_list import Option
 
@@ -350,6 +351,39 @@ class ClickableValue(OptionListEx):
     def select(self, message: OptionListEx.OptionSelected) -> None:
         assert isinstance(message.option, Item)
         message.option.select(self)
+
+    def _cursor_move(self, direction: Direction) -> int | None:
+        """Work out the impact of an intended cursor move.
+
+        Args:
+            direction: The direction to move.
+
+        Returns:
+            The location to move the highlight to.
+        """
+        return _widget_navigation.find_next_enabled(
+            self._options,
+            anchor=self.highlighted,
+            direction=direction,
+        )
+
+    def action_cursor_up(self) -> None:
+        """Handle a cursor up action."""
+        if (target := self._cursor_move(-1)) is None or self.highlighted is None:
+            return
+        if target >= self.highlighted:
+            self.screen.focus_previous()
+        else:
+            self.highlighted = target
+
+    def action_cursor_down(self) -> None:
+        """Handle a cursor down action."""
+        if (target := self._cursor_move(1)) is None or self.highlighted is None:
+            return
+        if target <= self.highlighted:
+            self.screen.focus_next()
+        else:
+            self.highlighted = target
 
 
 ##############################################################################
