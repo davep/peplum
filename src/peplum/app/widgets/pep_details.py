@@ -23,7 +23,7 @@ from textual.widgets.option_list import Option
 
 ##############################################################################
 # Local imports.
-from ...peps import PEP, PEPStatus, PEPType
+from ...peps import PEP, PEPStatus, PEPType, PostHistory
 from ..messages import GotoPEP, ShowAuthor, ShowStatus, ShowType, VisitPEP
 from .extended_option_list import OptionListEx
 
@@ -214,6 +214,31 @@ class URLItem(Item):
 
 
 ##############################################################################
+class PostItem(Item):
+    """Type of an item that is a post."""
+
+    def __init__(self, post: PostHistory) -> None:
+        """Initialise the object.
+
+        Args:
+            post: The post.
+        """
+        self._post = post
+        super().__init__(post.title)
+
+    def select(self, parent: OptionListEx) -> None:
+        """Perform the selection action for the item.
+
+        Args:
+            parent: The parent list for the item.
+        """
+        if self._post.url:
+            visit_url(self._post.url)
+        else:
+            parent.notify("There is no URL associated with this.", title="No URL")
+
+
+##############################################################################
 class ClickableValue(OptionListEx):
     """Show a value that the user can interact with."""
 
@@ -232,7 +257,7 @@ class ClickableValue(OptionListEx):
     """
 
     @singledispatchmethod
-    def show(self, values: Sequence[Item | str | None]) -> None:
+    def show(self, values: Sequence[Item | None]) -> None:
         """Show a list of values.
 
         Args:
@@ -248,7 +273,7 @@ class ClickableValue(OptionListEx):
         self.parent.set_class(not bool(self.option_count), "hidden")
 
     @show.register
-    def _(self, values: Item | str | None) -> None:
+    def _(self, values: Item | None) -> None:
         """Show a single value."""
         self.show([values])
 
@@ -306,7 +331,7 @@ class PEPDetails(VerticalScroll):
         with Field("Post History"):
             yield ClickableValue(id="post_history")
         with Field("Resolution"):
-            yield Value(id="resolution")
+            yield ClickableValue(id="resolution")
         with Field("URL"):
             yield ClickableValue(id="url")
 
@@ -348,8 +373,14 @@ class PEPDetails(VerticalScroll):
                 self.query_one("#python_versions", ClickableValue).show(
                     self.pep.python_version
                 )
-                self.query_one("#post_history", ClickableValue).show("TODO")
-                self.query_one("#resolution", Value).show("TODO")
+                self.query_one("#post_history", ClickableValue).show(
+                    [PostItem(post) for post in self.pep.post_history]
+                )
+                self.query_one("#resolution", ClickableValue).show(
+                    None
+                    if self.pep.resolution is None
+                    else PostItem(self.pep.resolution)
+                )
                 self.query_one("#url", ClickableValue).show(URLItem(self.pep.url))
 
     def action_visit_pep(self) -> None:
