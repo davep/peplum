@@ -383,7 +383,9 @@ class PEPDetails(VerticalScroll):
                     StatusItem(self.pep.status)
                 )
                 self.query_one("#type", ClickableValue).show(TypeItem(self.pep.type))
-                self.query_one("#topic", Value).show(self.pep.topic)
+                self.query_one("#topic", Value).show(
+                    (self.pep.topic or "").capitalize()
+                )
                 self.query_one("#requires", ClickableValue).show(
                     [PEPItem(pep) for pep in self.pep.requires]
                 )
