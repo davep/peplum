@@ -3,7 +3,7 @@
 ##############################################################################
 # Python imports.
 from ssl import SSLCertVerificationError
-from typing import Final
+from typing import Any, Final
 
 ##############################################################################
 # HTTPX imports.
@@ -42,7 +42,7 @@ class API:
             self._client_ = AsyncClient()
         return self._client_
 
-    async def get_peps(self) -> list[PEP]:
+    async def get_peps(self) -> tuple[list[PEP], dict[int, dict[str, Any]]]:
         """Download a fresh list of all known PEPs.
 
         Returns:
@@ -60,7 +60,7 @@ class API:
         except HTTPStatusError as error:
             raise self.RequestError(str(error)) from None
 
-        return [PEP.from_json(pep) for pep in response.json().values()]
+        return [PEP.from_json(pep) for pep in response.json().values()], response.json()
 
 
 ### api.py ends here
