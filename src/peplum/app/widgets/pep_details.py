@@ -256,6 +256,24 @@ class ClickableValue(OptionListEx):
     }
     """
 
+    def __init__(self, id: str | None = None):
+        """Initialise the object.
+
+        Args:
+            id: The ID of the object.
+        """
+        super().__init__(id=id)
+        self._highlighted_memory: int | None = None
+        """Holds the last highlighted item.
+
+        This is to help `on_focus` and `on_blur`. Normally, as the user tabs
+        through the widget, I want it to highlight and highlight; I'm doing
+        this using focus and blur. However, when the user clicks away from
+        the terminal this will also have the same effect. There I want them
+        to be where they were when they comeback. So I use this to try and
+        settle back in the right location.
+        """
+
     @singledispatchmethod
     def show(self, values: Sequence[Item | None]) -> None:
         """Show a list of values.
@@ -267,6 +285,7 @@ class ClickableValue(OptionListEx):
             Any values that are empty will be removed. If the list is empty
             after this filter the field will be hidden.
         """
+        self._highlighted_memory = None
         if self.parent is None:
             return
         self.clear_options().add_options([value for value in values if value])
@@ -280,10 +299,17 @@ class ClickableValue(OptionListEx):
     def on_focus(self) -> None:
         """Ensure the highlight appears when we get focus."""
         if self.highlighted is None and self.option_count:
-            self.highlighted = 0
+            if (
+                self._highlighted_memory is not None
+                and self._highlighted_memory <= self.option_count
+            ):
+                self.highlighted = self._highlighted_memory
+            else:
+                self.highlighted = 0
 
     def on_blur(self) -> None:
         """Remove the highlight when we no longer have focus."""
+        self._highlighted_memory = self.highlighted
         self.highlighted = None
 
     @on(OptionListEx.OptionSelected)
