@@ -19,11 +19,13 @@ from .peps import (
     WithPythonVersion,
     WithStatus,
     WithType,
+    pep_data,
 )
 
 ##############################################################################
 # Exports.
 __all__ = [
+    "pep_data",
     "AuthorCount",
     "Configuration",
     "load_configuration",

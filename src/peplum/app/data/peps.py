@@ -10,6 +10,7 @@ from collections import Counter
 from dataclasses import dataclass
 from functools import total_ordering
 from itertools import chain
+from pathlib import Path
 from typing import Iterable, Iterator, TypeAlias
 
 ##############################################################################
@@ -19,6 +20,13 @@ from packaging.version import InvalidVersion, Version
 ##############################################################################
 # Local imports.
 from ...peps import PEP, PEPStatus, PEPType
+from .locations import data_dir
+
+
+##############################################################################
+def pep_data() -> Path:
+    """The path to the local copy of the PEP data."""
+    return data_dir() / "peps.json"
 
 
 ##############################################################################
