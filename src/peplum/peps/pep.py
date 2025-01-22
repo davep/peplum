@@ -100,6 +100,15 @@ class PostHistory:
             return PostHistory(date=parse_date(match["date"]), url=match["url"])
         raise ValueError(f"Can't parse `{value}` as PostHistory")
 
+    @property
+    def title(self) -> str:
+        """A title for the post history."""
+        if self.date:
+            return f"{self.date}"
+        if self.url:
+            return self.url
+        return "Empty"
+
 
 ##############################################################################
 @dataclass(frozen=True)
