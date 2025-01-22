@@ -327,6 +327,14 @@ class ClickableValue(OptionListEx):
 class PEPDetails(VerticalScroll):
     """A widget for showing details of a PEP."""
 
+    HELP = """
+    ## The Highlighted PEP's Details
+
+    This panel shows the main details about the currently-highlighted PEP.
+    `Tab` through the interactive fields and use them to apply more
+    filtering or to visit external resources relating to the PEP.
+    """
+
     pep: var[PEP | None] = var(None)
     """The PEP to show the details of."""
 
