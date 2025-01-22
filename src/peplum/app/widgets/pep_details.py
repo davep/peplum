@@ -23,8 +23,8 @@ from textual.widgets.option_list import Option
 
 ##############################################################################
 # Local imports.
-from ...peps import PEP
-from ..messages import GotoPEP, ShowAuthor, VisitPEP
+from ...peps import PEP, PEPStatus
+from ..messages import GotoPEP, ShowAuthor, ShowStatus, VisitPEP
 from .extended_option_list import OptionListEx
 
 
@@ -100,6 +100,28 @@ class Item(Option):
         Args:
             parent: The parent list for the item.
         """
+
+
+##############################################################################
+class Status(Item):
+    """Type of an item that is a PEP status."""
+
+    def __init__(self, status: PEPStatus) -> None:
+        """Initialise the object.
+
+        Args:
+            status: The status.
+        """
+        self._status: PEPStatus = status
+        super().__init__(status)
+
+    def select(self, parent: OptionListEx) -> None:
+        """Perform the selection action for the item.
+
+        Args:
+            parent: The parent list for the item.
+        """
+        parent.post_message(ShowStatus(self._status))
 
 
 ##############################################################################
@@ -281,7 +303,7 @@ class PEPDetails(VerticalScroll):
                 self.query_one("#sponsor", Value).show(self.pep.sponsor)
                 self.query_one("#delegate", Value).show(self.pep.delegate)
                 self.query_one("#discussions_to", Value).show(self.pep.discussions_to)
-                self.query_one("#status", List).show(self.pep.status)
+                self.query_one("#status", List).show(Status(self.pep.status))
                 self.query_one("#type", List).show(self.pep.type)
                 self.query_one("#topic", Value).show(self.pep.topic)
                 self.query_one("#requires", List).show(
