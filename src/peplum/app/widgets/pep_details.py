@@ -21,10 +21,12 @@ from textual.reactive import var
 from textual.widgets import Label
 from textual.widgets.option_list import Option
 
+from peplum.peps.pep import PEPType
+
 ##############################################################################
 # Local imports.
 from ...peps import PEP, PEPStatus
-from ..messages import GotoPEP, ShowAuthor, ShowStatus, VisitPEP
+from ..messages import GotoPEP, ShowAuthor, ShowStatus, ShowType, VisitPEP
 from .extended_option_list import OptionListEx
 
 
@@ -122,6 +124,28 @@ class Status(Item):
             parent: The parent list for the item.
         """
         parent.post_message(ShowStatus(self._status))
+
+
+##############################################################################
+class TypeItem(Item):
+    """Type of an item that is a PEP type."""
+
+    def __init__(self, pep_type: PEPType) -> None:
+        """Initialise the object.
+
+        Args:
+            pep_type: The PEP type.
+        """
+        self._type: PEPType = pep_type
+        super().__init__(pep_type)
+
+    def select(self, parent: OptionListEx) -> None:
+        """Perform the selection action for the item.
+
+        Args:
+            parent: The parent list for the item.
+        """
+        parent.post_message(ShowType(self._type))
 
 
 ##############################################################################
@@ -304,7 +328,7 @@ class PEPDetails(VerticalScroll):
                 self.query_one("#delegate", Value).show(self.pep.delegate)
                 self.query_one("#discussions_to", Value).show(self.pep.discussions_to)
                 self.query_one("#status", List).show(Status(self.pep.status))
-                self.query_one("#type", List).show(self.pep.type)
+                self.query_one("#type", List).show(TypeItem(self.pep.type))
                 self.query_one("#topic", Value).show(self.pep.topic)
                 self.query_one("#requires", List).show(
                     [PEPNumber(pep) for pep in self.pep.requires]
