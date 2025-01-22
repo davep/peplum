@@ -416,7 +416,7 @@ class PEPDetails(VerticalScroll):
             if self.pep is not None:
                 self.query_one("#title", Value).show(self.pep.title)
                 self.query_one("#author", ClickableValue).show(
-                    [AuthorItem(author) for author in self.pep.authors]
+                    AuthorItem(author) for author in self.pep.authors
                 )
                 self.query_one("#sponsor", Value).show(self.pep.sponsor)
                 self.query_one("#delegate", Value).show(self.pep.delegate)
@@ -429,10 +429,10 @@ class PEPDetails(VerticalScroll):
                     (self.pep.topic or "").capitalize()
                 )
                 self.query_one("#requires", ClickableValue).show(
-                    [PEPItem(pep) for pep in self.pep.requires]
+                    PEPItem(pep) for pep in self.pep.requires
                 )
                 self.query_one("#replaces", ClickableValue).show(
-                    [PEPItem(pep) for pep in self.pep.replaces]
+                    PEPItem(pep) for pep in self.pep.replaces
                 )
                 self.query_one("#superseded_by", ClickableValue).show(
                     None
@@ -444,7 +444,7 @@ class PEPDetails(VerticalScroll):
                     PythonVersionItem(version) for version in self.pep.python_version
                 )
                 self.query_one("#post_history", ClickableValue).show(
-                    [PostItem(post) for post in self.pep.post_history]
+                    PostItem(post) for post in self.pep.post_history
                 )
                 self.query_one("#resolution", ClickableValue).show(
                     None
