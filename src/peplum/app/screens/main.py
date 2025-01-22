@@ -2,13 +2,16 @@
 
 ##############################################################################
 # Python imports.
+from dataclasses import dataclass
+from json import dumps, loads
 from webbrowser import open as visit_url
 
 ##############################################################################
 # Textual imports.
-from textual import on
+from textual import on, work
 from textual.app import ComposeResult
 from textual.containers import Horizontal
+from textual.message import Message
 from textual.reactive import var
 from textual.screen import Screen
 from textual.widgets import Footer, Header
@@ -16,7 +19,7 @@ from textual.widgets import Footer, Header
 ##############################################################################
 # Local imports.
 from ... import __version__
-from ...peps import PEP
+from ...peps import API, PEP
 from ..commands import (
     ChangeTheme,
     Command,
@@ -37,6 +40,7 @@ from ..data import (
     WithStatus,
     WithType,
     load_configuration,
+    pep_data,
     update_configuration,
 )
 from ..messages import (
@@ -165,19 +169,51 @@ class Main(Screen[None]):
             yield PEPDetails(classes="panel").data_bind(pep=Main.selected_pep)
         yield Footer()
 
+    @dataclass
+    class Loaded(Message):
+        """A message sent when PEP data is loaded."""
+
+        peps: PEPs
+        """The PEP data that was loaded."""
+
+    @work(thread=True)
+    def load_pep_data(self) -> None:
+        """Load the local copy of the PEP data."""
+        try:
+            self.post_message(
+                self.Loaded(
+                    PEPs(
+                        PEP.from_json(pep)
+                        for pep in loads(pep_data().read_text()).values()
+                    )
+                )
+            )
+        except IOError as error:
+            self.notify(str(error), title="Error loading PEP data", severity="error")
+
+    @on(Loaded)
+    def load_fresh_peps(self, message: Loaded) -> None:
+        """React to a fresh set of PEPs being made available."""
+        self.all_peps = message.peps
+
+    @work(thread=True)
+    async def download_pep_data(self) -> None:
+        """Download a fresh copy of the PEP data."""
+        self.notify("Downloading")
+        peps, raw_data = await API().get_peps()
+        try:
+            pep_data().write_text(dumps(raw_data, indent=4), encoding="utf-8")
+        except IOError as error:
+            self.notify(str(error), title="Error saving PEP data", severity="error")
+        self.post_message(self.Loaded(PEPs(peps)))
+
     def on_mount(self) -> None:
         """Configure the application once the DOM is mounted."""
-        # TODO: Get from the API.
-        # TODO: Do this as a background process.
-        # self.all_peps = PEPs(await API().get_peps())
-        from json import loads
-        from pathlib import Path
-
-        self.all_peps = PEPs(
-            PEP.from_json(pep)
-            for pep in loads(Path("/Users/davep/peps.json").read_text()).values()
-        )
         self.set_class(load_configuration().details_visble, "details-visible")
+        if pep_data().exists():
+            self.load_pep_data()
+        else:
+            self.download_pep_data()
 
     def watch_all_peps(self) -> None:
         """React to the full set of PEPs being updated."""
