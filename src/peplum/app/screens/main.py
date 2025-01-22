@@ -191,11 +191,6 @@ class Main(Screen[None]):
         except IOError as error:
             self.notify(str(error), title="Error loading PEP data", severity="error")
 
-    @on(Loaded)
-    def load_fresh_peps(self, message: Loaded) -> None:
-        """React to a fresh set of PEPs being made available."""
-        self.all_peps = message.peps
-
     @work(thread=True)
     async def download_pep_data(self) -> None:
         """Download a fresh copy of the PEP data."""
@@ -206,6 +201,11 @@ class Main(Screen[None]):
         except IOError as error:
             self.notify(str(error), title="Error saving PEP data", severity="error")
         self.post_message(self.Loaded(PEPs(peps)))
+
+    @on(Loaded)
+    def load_fresh_peps(self, message: Loaded) -> None:
+        """React to a fresh set of PEPs being made available."""
+        self.all_peps = message.peps
 
     def on_mount(self) -> None:
         """Configure the application once the DOM is mounted."""
