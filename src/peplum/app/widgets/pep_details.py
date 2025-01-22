@@ -21,11 +21,9 @@ from textual.reactive import var
 from textual.widgets import Label
 from textual.widgets.option_list import Option
 
-from peplum.peps.pep import PEPType
-
 ##############################################################################
 # Local imports.
-from ...peps import PEP, PEPStatus
+from ...peps import PEP, PEPStatus, PEPType
 from ..messages import GotoPEP, ShowAuthor, ShowStatus, ShowType, VisitPEP
 from .extended_option_list import OptionListEx
 
