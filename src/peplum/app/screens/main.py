@@ -29,6 +29,7 @@ from ..commands import (
     Help,
     Quit,
     RedownloadPEPs,
+    Search,
     SearchAuthor,
     SearchPythonVersion,
     SearchStatus,
@@ -41,6 +42,7 @@ from ..commands import (
     ToggleTypesSortOrder,
 )
 from ..data import (
+    Containing,
     PEPs,
     WithAuthor,
     WithPythonVersion,
@@ -69,6 +71,7 @@ from ..providers import (
 )
 from ..widgets import Navigation, PEPDetails, PEPsView
 from .help import HelpScreen
+from .search_input import SearchInput
 
 
 ##############################################################################
@@ -147,6 +150,7 @@ class Main(Screen[None]):
         ChangeTheme,
         Escape,
         FindPEP,
+        Search,
         SearchAuthor,
         SearchPythonVersion,
         SearchStatus,
@@ -339,6 +343,13 @@ class Main(Screen[None]):
     def action_find_pep_command(self) -> None:
         """Find a PEP and jump to it."""
         self._show_palette(PEPsCommands)
+
+    @on(Search)
+    @work
+    async def action_search_command(self) -> None:
+        """Free-text search within the PEPs."""
+        if search_text := await self.app.push_screen_wait(SearchInput()):
+            self.active_peps = self.active_peps & Containing(search_text)
 
     @on(SearchAuthor)
     def action_search_author_command(self) -> None:

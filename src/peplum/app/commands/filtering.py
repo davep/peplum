@@ -14,6 +14,14 @@ class ShowAll(Command):
 
 
 ##############################################################################
+class Search(Command):
+    """Search for text anywhere in the PEPs"""
+
+    BINDING_KEY = "/"
+    SHOW_IN_FOOTER = False
+
+
+##############################################################################
 class SearchAuthor(Command):
     """Search for an author then filter by them"""
 

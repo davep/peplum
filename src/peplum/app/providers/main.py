@@ -9,6 +9,7 @@ from ..commands import (
     Help,
     Quit,
     RedownloadPEPs,
+    Search,
     SearchAuthor,
     SearchPythonVersion,
     SearchStatus,
@@ -39,6 +40,7 @@ class MainCommands(CommandsProvider):
         yield Help()
         yield Quit()
         yield RedownloadPEPs()
+        yield Search()
         yield SearchAuthor()
         yield SearchPythonVersion()
         yield SearchStatus()

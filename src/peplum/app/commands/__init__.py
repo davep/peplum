@@ -9,6 +9,7 @@ information, etc.
 # Local imports.
 from .base import Command
 from .filtering import (
+    Search,
     SearchAuthor,
     SearchPythonVersion,
     SearchStatus,
@@ -34,6 +35,7 @@ __all__ = [
     "Help",
     "Quit",
     "RedownloadPEPs",
+    "Search",
     "SearchAuthor",
     "SearchPythonVersion",
     "SearchStatus",

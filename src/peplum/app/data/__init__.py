@@ -10,6 +10,7 @@ from .config import (
 )
 from .peps import (
     AuthorCount,
+    Containing,
     PEPCount,
     PEPs,
     PythonVersionCount,
@@ -28,6 +29,7 @@ __all__ = [
     "pep_data",
     "AuthorCount",
     "Configuration",
+    "Containing",
     "load_configuration",
     "PEPCount",
     "PEPs",
