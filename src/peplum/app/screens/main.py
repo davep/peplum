@@ -10,6 +10,7 @@ from webbrowser import open as visit_url
 # Textual imports.
 from textual import on, work
 from textual.app import ComposeResult
+from textual.command import CommandPalette
 from textual.containers import Horizontal
 from textual.message import Message
 from textual.reactive import var
@@ -24,6 +25,7 @@ from ..commands import (
     ChangeTheme,
     Command,
     Escape,
+    FindPEP,
     Help,
     Quit,
     RedownloadPEPs,
@@ -52,7 +54,7 @@ from ..messages import (
     ShowType,
     VisitPEP,
 )
-from ..providers import MainCommands
+from ..providers import CommandsProvider, MainCommands, PEPsCommands
 from ..widgets import Navigation, PEPDetails, PEPsView
 from .help import HelpScreen
 
@@ -132,6 +134,7 @@ class Main(Screen[None]):
         # Everything else.
         ChangeTheme,
         Escape,
+        FindPEP,
         ShowAll,
         ToggleAuthorsSortOrder,
         TogglePythonVersionsSortOrder,
@@ -212,10 +215,24 @@ class Main(Screen[None]):
     def watch_all_peps(self) -> None:
         """React to the full set of PEPs being updated."""
         self.active_peps = self.all_peps
+        PEPsCommands.peps = self.all_peps
 
     def watch_active_peps(self) -> None:
         """React to the active PEPs being updated."""
         self.sub_title = f"{self.active_peps.description} ({len(self.active_peps)})"
+
+    def _show_palette(self, provider: type[CommandsProvider]) -> None:
+        """Show a particular command palette.
+
+        Args:
+            provider: The commands provider for the palette.
+        """
+        self.app.push_screen(
+            CommandPalette(
+                providers=(provider,),
+                placeholder=provider.prompt(),
+            )
+        )
 
     @on(PEPsView.PEPHighlighted)
     def select_pep(self, message: PEPsView.PEPHighlighted) -> None:
@@ -297,6 +314,11 @@ class Main(Screen[None]):
             visit_url(command.pep.url)
         else:
             self.notify(f"PEP{command.pep.number} has no associated URL")
+
+    @on(FindPEP)
+    def action_find_pep_command(self) -> None:
+        """Find a PEP and jump to it."""
+        self._show_palette(PEPsCommands)
 
     @on(RedownloadPEPs)
     def action_redownload_peps_command(self) -> None:

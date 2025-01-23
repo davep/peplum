@@ -5,6 +5,7 @@
 from ..commands import (
     ChangeTheme,
     Escape,
+    FindPEP,
     Help,
     Quit,
     RedownloadPEPs,
@@ -30,6 +31,7 @@ class MainCommands(CommandsProvider):
         """
         yield ChangeTheme()
         yield Escape()
+        yield FindPEP()
         yield Help()
         yield Quit()
         yield RedownloadPEPs()
