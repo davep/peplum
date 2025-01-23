@@ -21,4 +21,12 @@ class SearchAuthor(Command):
     SHOW_IN_FOOTER = False
 
 
+##############################################################################
+class SearchType(Command):
+    """Search for a PEP type and then filter by it"""
+
+    BINDING_KEY = "t"
+    SHOW_IN_FOOTER = False
+
+
 ### filtering.py ends here

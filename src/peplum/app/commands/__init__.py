@@ -8,7 +8,7 @@ information, etc.
 ##############################################################################
 # Local imports.
 from .base import Command
-from .filtering import SearchAuthor, ShowAll
+from .filtering import SearchAuthor, SearchType, ShowAll
 from .finding import FindPEP
 from .main import ChangeTheme, Escape, Help, Quit, RedownloadPEPs, TogglePEPDetails
 from .navigation_sorting import (
@@ -29,6 +29,7 @@ __all__ = [
     "Quit",
     "RedownloadPEPs",
     "SearchAuthor",
+    "SearchType",
     "ShowAll",
     "ToggleAuthorsSortOrder",
     "TogglePEPDetails",
