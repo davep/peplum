@@ -22,6 +22,14 @@ class SearchAuthor(Command):
 
 
 ##############################################################################
+class SearchPythonVersion(Command):
+    """Search for a Python version and then filter by it"""
+
+    BINDING_KEY = "v"
+    SHOW_IN_FOOTER = False
+
+
+##############################################################################
 class SearchStatus(Command):
     """Search for a PEP status and then filter by it"""
 

@@ -30,6 +30,7 @@ from ..commands import (
     Quit,
     RedownloadPEPs,
     SearchAuthor,
+    SearchPythonVersion,
     SearchStatus,
     SearchType,
     ShowAll,
@@ -62,6 +63,7 @@ from ..providers import (
     CommandsProvider,
     MainCommands,
     PEPsCommands,
+    PythonVersionCommands,
     StatusCommands,
     TypeCommands,
 )
@@ -146,6 +148,7 @@ class Main(Screen[None]):
         Escape,
         FindPEP,
         SearchAuthor,
+        SearchPythonVersion,
         SearchStatus,
         SearchType,
         ShowAll,
@@ -234,6 +237,7 @@ class Main(Screen[None]):
         """React to the active PEPs being updated."""
         self.sub_title = f"{self.active_peps.description} ({len(self.active_peps)})"
         AuthorCommands.active_peps = self.active_peps
+        PythonVersionCommands.active_peps = self.active_peps
         StatusCommands.active_peps = self.active_peps
         TypeCommands.active_peps = self.active_peps
 
@@ -279,7 +283,7 @@ class Main(Screen[None]):
         self.active_peps &= WithStatus(command.status)
 
     @on(ShowPythonVersion)
-    def show_python_version(self, command: ShowPythonVersion) -> None:
+    def action_show_python_version(self, command: ShowPythonVersion) -> None:
         """Filter the PEPs by a given Python version.
 
         Args:
@@ -340,6 +344,11 @@ class Main(Screen[None]):
     def action_search_author_command(self) -> None:
         """Search for an author and use them as a filter."""
         self._show_palette(AuthorCommands)
+
+    @on(SearchPythonVersion)
+    def action_search_python_version_command(self) -> None:
+        """Search for a Python version and then use it as a filter."""
+        self._show_palette(PythonVersionCommands)
 
     @on(SearchStatus)
     def action_search_status_command(self) -> None:
