@@ -17,7 +17,6 @@ from rich.table import Table
 from textual import on
 from textual.message import Message
 from textual.reactive import var
-from textual.widgets import OptionList
 from textual.widgets.option_list import Option
 
 ##############################################################################
@@ -111,15 +110,15 @@ class PEPsView(OptionListEx):
         pep: PEP
         """The highlighted PEP."""
 
-    @on(OptionList.OptionHighlighted)
-    def select_pep(self, message: OptionList.OptionSelected) -> None:
+    @on(OptionListEx.OptionHighlighted)
+    def select_pep(self, message: OptionListEx.OptionSelected) -> None:
         """Send a message to say a particular PEP has been selected."""
         message.stop()
         assert isinstance(message.option, PEPView)
         self.post_message(self.PEPHighlighted(message.option.pep))
 
-    @on(OptionList.OptionSelected)
-    def visit_pep(self, message: OptionList.OptionSelected) -> None:
+    @on(OptionListEx.OptionSelected)
+    def visit_pep(self, message: OptionListEx.OptionSelected) -> None:
         """Send a message to say the user wants to visit a PEP's webpage."""
         message.stop()
         assert isinstance(message.option, PEPView)
