@@ -149,6 +149,33 @@ class PEP:
         improvement later on.
     """
 
+    def __contains__(self, search_text: str) -> bool:
+        """Perhaps a case-insensitive search for the text anywhere in the PEP's data.
+
+        Args:
+            search_text: The text to search for.
+
+        Returns:
+            `True` if the text can be found, `False` if not.
+        """
+        search_text = search_text.casefold()
+        return (
+            search_text in str(self.number)
+            or search_text in self.title.casefold()
+            or search_text in " ".join(self.authors).casefold()
+            or search_text in (self.sponsor or "").casefold()
+            or search_text in (self.delegate or "").casefold()
+            or search_text in self.status.casefold()
+            or search_text in self.type.casefold()
+            or search_text in self.topic.casefold()
+            or search_text in (str(pep) for pep in self.requires)
+            or search_text in " ".join(str(version) for version in self.python_version)
+            or search_text in (str(pep) for pep in self.replaces)
+            or search_text
+            in ("" if self.superseded_by is None else str(self.superseded_by))
+            or search_text in self.url.casefold()
+        )
+
     @classmethod
     def _authors(cls, authors: str) -> tuple[str, ...]:
         """Get the authors from a string.
