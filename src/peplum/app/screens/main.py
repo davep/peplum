@@ -109,12 +109,6 @@ class Main(Screen[None]):
             width: 3fr;
             display: none;
             height: 1fr;
-            border-title-color: $text-primary;
-            border-top: panel $border 50%;
-            &:focus {
-                border-title-color: $text;
-                border-top: panel $border;
-            }
         }
 
         &.details-visible {
