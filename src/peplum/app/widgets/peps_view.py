@@ -94,10 +94,15 @@ class PEPsView(OptionListEx):
     active_peps: var[PEPs] = var(PEPs)
     """The currently-active collection of PEPs."""
 
+    class Empty(Message):
+        """A message sent when the PEPs view falls empty."""
+
     def watch_active_peps(self) -> None:
         """React to the PEPs being changed."""
         with self.preserved_highlight:
             self.clear_options().add_options(PEPView(pep) for pep in self.active_peps)
+        if not self.option_count:
+            self.post_message(self.Empty())
 
     @dataclass
     class PEPHighlighted(Message):

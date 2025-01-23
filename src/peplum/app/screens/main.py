@@ -258,6 +258,11 @@ class Main(Screen[None]):
         """Make the currently-selected PEP the one to view."""
         self.selected_pep = message.pep
 
+    @on(PEPsView.Empty)
+    def deslect_pep(self) -> None:
+        """Handle there being no highlighted PEP."""
+        self.selected_pep = None
+
     @on(ShowAll)
     def action_show_all_command(self) -> None:
         """Show all PEPs."""
