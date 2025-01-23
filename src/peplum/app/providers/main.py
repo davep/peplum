@@ -10,6 +10,9 @@ from ..commands import (
     Quit,
     RedownloadPEPs,
     SearchAuthor,
+    SearchPythonVersion,
+    SearchStatus,
+    SearchType,
     ShowAll,
     ToggleAuthorsSortOrder,
     TogglePEPDetails,
@@ -37,6 +40,9 @@ class MainCommands(CommandsProvider):
         yield Quit()
         yield RedownloadPEPs()
         yield SearchAuthor()
+        yield SearchPythonVersion()
+        yield SearchStatus()
+        yield SearchType()
         yield ShowAll()
         yield ToggleAuthorsSortOrder()
         yield TogglePEPDetails()
