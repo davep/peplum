@@ -234,6 +234,31 @@ class WithAuthor(Filter):
 
 
 ##############################################################################
+class Containing(Filter):
+    """Filter on text found within a PEP's data."""
+
+    def __init__(self, text: str) -> None:
+        """Initialise the object.
+
+        Args:
+            text: The text to filter on.
+        """
+        self._text = text
+        """The text to look for."""
+
+    def __rand__(self, pep: PEP) -> bool:
+        return self._text in pep
+
+    def __str__(self) -> str:
+        return self._text
+
+    def __eq__(self, value: object) -> bool:
+        if isinstance(value, Containing):
+            return str(value).casefold() == self._text.casefold()
+        return super().__eq__(value)
+
+
+##############################################################################
 class PEPs:
     """Class that holds a collection of PEPs."""
 
@@ -327,6 +352,7 @@ class PEPs:
             for candidate in [
                 self._describe(name, filter_type)
                 for name, filter_type in (
+                    ("Containing", Containing),
                     ("Type", WithType),
                     ("Status", WithStatus),
                     ("Version", WithPythonVersion),
