@@ -40,7 +40,7 @@ class RedownloadPEPs(Command):
     """Redownload the list of PEPs"""
 
     FOOTER_TEXT = "Redownload"
-    COMMAND = "Redownload all PEPs"
+    COMMAND = "Redownload All PEPs"
     BINDING_KEY = "ctrl+r"
     ACTION = "redownload_peps_command"
 
@@ -50,9 +50,7 @@ class TogglePEPDetails(Command):
     """Toggle the display of the PEP details panel"""
 
     FOOTER_TEXT = "Details"
-    COMMAND = "Toggle PEP details"
     BINDING_KEY = "f3"
-    ACTION = "toggle_pep_details_command"
 
 
 ### main.py ends here
