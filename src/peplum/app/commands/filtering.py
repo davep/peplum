@@ -22,6 +22,14 @@ class SearchAuthor(Command):
 
 
 ##############################################################################
+class SearchStatus(Command):
+    """Search for a PEP status and then filter by it"""
+
+    BINDING_KEY = "s"
+    SHOW_IN_FOOTER = False
+
+
+##############################################################################
 class SearchType(Command):
     """Search for a PEP type and then filter by it"""
 

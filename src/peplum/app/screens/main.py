@@ -30,6 +30,7 @@ from ..commands import (
     Quit,
     RedownloadPEPs,
     SearchAuthor,
+    SearchStatus,
     SearchType,
     ShowAll,
     ToggleAuthorsSortOrder,
@@ -61,6 +62,7 @@ from ..providers import (
     CommandsProvider,
     MainCommands,
     PEPsCommands,
+    StatusCommands,
     TypeCommands,
 )
 from ..widgets import Navigation, PEPDetails, PEPsView
@@ -144,6 +146,7 @@ class Main(Screen[None]):
         Escape,
         FindPEP,
         SearchAuthor,
+        SearchStatus,
         SearchType,
         ShowAll,
         ToggleAuthorsSortOrder,
@@ -231,6 +234,7 @@ class Main(Screen[None]):
         """React to the active PEPs being updated."""
         self.sub_title = f"{self.active_peps.description} ({len(self.active_peps)})"
         AuthorCommands.active_peps = self.active_peps
+        StatusCommands.active_peps = self.active_peps
         TypeCommands.active_peps = self.active_peps
 
     def _show_palette(self, provider: type[CommandsProvider]) -> None:
@@ -336,6 +340,11 @@ class Main(Screen[None]):
     def action_search_author_command(self) -> None:
         """Search for an author and use them as a filter."""
         self._show_palette(AuthorCommands)
+
+    @on(SearchStatus)
+    def action_search_status_command(self) -> None:
+        """Search for a status and use it as a filter."""
+        self._show_palette(StatusCommands)
 
     @on(SearchType)
     def action_search_type_command(self) -> None:

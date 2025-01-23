@@ -6,6 +6,7 @@ from .authors import AuthorCommands
 from .commands_provider import CommandsProvider
 from .main import MainCommands
 from .peps import PEPsCommands
+from .statuses import StatusCommands
 from .types import TypeCommands
 
 ##############################################################################
@@ -15,6 +16,7 @@ __all__ = [
     "CommandsProvider",
     "MainCommands",
     "PEPsCommands",
+    "StatusCommands",
     "TypeCommands",
 ]
 
