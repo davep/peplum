@@ -12,7 +12,7 @@ class TypeCommands(CommandsProvider):
     """A command palette provider related to types."""
 
     active_peps: PEPs | None = None
-    """The currently-active collection of PEPs to get the authors of."""
+    """The currently-active collection of PEPs to get the types of."""
 
     @classmethod
     def prompt(cls) -> str:
