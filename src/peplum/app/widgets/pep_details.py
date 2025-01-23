@@ -4,12 +4,16 @@
 # Python imports.
 from datetime import date, datetime
 from functools import singledispatchmethod
-from typing import Sequence
+from typing import Final, Sequence
 from webbrowser import open as visit_url
 
 ##############################################################################
 # Humanize imports
 from humanize import naturaltime
+
+##############################################################################
+# Rich imports.
+from rich.emoji import Emoji
 
 ##############################################################################
 # Textual imports.
@@ -247,6 +251,9 @@ class URLItem(Item):
 class PostItem(Item):
     """Type of an item that is a post."""
 
+    LINK_ICON: Final[str] = Emoji.replace(":link:")
+    """The icon to show if a date is linked."""
+
     def __init__(self, post: PostHistory) -> None:
         """Initialise the object.
 
@@ -256,7 +263,9 @@ class PostItem(Item):
         self._post = post
         title = "Unknown"
         if post.date:
-            title = date_display(post.date)
+            title = (
+                f"{date_display(post.date)}{' ' + self.LINK_ICON if post.url else ''}"
+            )
         elif post.url:
             title = post.url
         super().__init__(title)
