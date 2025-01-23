@@ -89,9 +89,11 @@ class Main(Screen[None]):
     DEFAULT_CSS = """
     Main {
         .panel {
+            height: 1fr;
             border: none;
             border-left: round $border 50%;
             background: $surface;
+            padding-right: 0;
             scrollbar-background: $surface;
             scrollbar-background-hover: $surface;
             scrollbar-background-active: $surface;
@@ -103,29 +105,22 @@ class Main(Screen[None]):
                 scrollbar-background-hover: $panel;
                 scrollbar-background-active: $panel;
             }
-        }
-
-        Navigation {
-            width: 2fr;
-            height: 1fr;
-            padding-right: 0;
-            scrollbar-gutter: stable;
-            &> .option-list--option {
+            & > .option-list--option {
                 padding: 0 1;
             }
         }
 
+        Navigation {
+            width: 2fr;
+        }
+
         PEPsView {
             width: 8fr;
-            height: 1fr;
-            padding-right: 0;
-            border: none;
         }
 
         PEPDetails {
             width: 3fr;
             display: none;
-            height: 1fr;
         }
 
         &.details-visible {
