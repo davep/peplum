@@ -447,7 +447,9 @@ class PEPDetails(VerticalScroll):
     def watch_pep(self) -> None:
         """React to the PEP being changed."""
         with self.app.batch_update():
-            if self.pep is not None:
+            if self.pep is None:
+                self.query(Field).set_class(True, "hidden")
+            else:
                 self.query_one("#title", Value).show(self.pep.title)
                 self.query_one("#author", ClickableValue).show(
                     AuthorItem(author) for author in self.pep.authors
