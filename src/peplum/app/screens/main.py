@@ -74,15 +74,13 @@ class Main(Screen[None]):
         .panel {
             border: none;
             border-left: round $border 50%;
-            &:focus, &:focus-within {
-                border: none;
-                border-left: round $border;
-            }
             background: $surface;
             scrollbar-background: $surface;
             scrollbar-background-hover: $surface;
             scrollbar-background-active: $surface;
             &:focus, &:focus-within {
+                border: none;
+                border-left: round $border;
                 background: $panel 80%;
                 scrollbar-background: $panel;
                 scrollbar-background-hover: $panel;
