@@ -13,4 +13,12 @@ class ShowAll(Command):
     SHOW_IN_FOOTER = False
 
 
+##############################################################################
+class SearchAuthor(Command):
+    """Search for an author then filter by them"""
+
+    BINDING_KEY = "u"
+    SHOW_IN_FOOTER = False
+
+
 ### filtering.py ends here

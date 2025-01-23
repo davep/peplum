@@ -9,6 +9,7 @@ from ..commands import (
     Help,
     Quit,
     RedownloadPEPs,
+    SearchAuthor,
     ShowAll,
     ToggleAuthorsSortOrder,
     TogglePEPDetails,
@@ -35,6 +36,7 @@ class MainCommands(CommandsProvider):
         yield Help()
         yield Quit()
         yield RedownloadPEPs()
+        yield SearchAuthor()
         yield ShowAll()
         yield ToggleAuthorsSortOrder()
         yield TogglePEPDetails()

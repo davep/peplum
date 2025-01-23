@@ -29,6 +29,7 @@ from ..commands import (
     Help,
     Quit,
     RedownloadPEPs,
+    SearchAuthor,
     ShowAll,
     ToggleAuthorsSortOrder,
     TogglePEPDetails,
@@ -54,7 +55,7 @@ from ..messages import (
     ShowType,
     VisitPEP,
 )
-from ..providers import CommandsProvider, MainCommands, PEPsCommands
+from ..providers import AuthorCommands, CommandsProvider, MainCommands, PEPsCommands
 from ..widgets import Navigation, PEPDetails, PEPsView
 from .help import HelpScreen
 
@@ -135,6 +136,7 @@ class Main(Screen[None]):
         ChangeTheme,
         Escape,
         FindPEP,
+        SearchAuthor,
         ShowAll,
         ToggleAuthorsSortOrder,
         TogglePythonVersionsSortOrder,
@@ -220,6 +222,7 @@ class Main(Screen[None]):
     def watch_active_peps(self) -> None:
         """React to the active PEPs being updated."""
         self.sub_title = f"{self.active_peps.description} ({len(self.active_peps)})"
+        AuthorCommands.active_peps = self.active_peps
 
     def _show_palette(self, provider: type[CommandsProvider]) -> None:
         """Show a particular command palette.
@@ -319,6 +322,11 @@ class Main(Screen[None]):
     def action_find_pep_command(self) -> None:
         """Find a PEP and jump to it."""
         self._show_palette(PEPsCommands)
+
+    @on(SearchAuthor)
+    def action_search_author_command(self) -> None:
+        """Search for an author and use them as a filter."""
+        self._show_palette(AuthorCommands)
 
     @on(RedownloadPEPs)
     def action_redownload_peps_command(self) -> None:

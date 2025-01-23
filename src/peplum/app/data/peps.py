@@ -254,6 +254,11 @@ class PEPs:
         """The filters that got to this set of PEPs."""
 
     @property
+    def is_filtered(self) -> bool:
+        """Does this collection of PEPs have a filter?"""
+        return bool(self._filters)
+
+    @property
     def statuses(self) -> tuple[StatusCount, ...]:
         """The status and their counts as found in the PEPs."""
         return tuple(
