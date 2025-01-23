@@ -387,7 +387,7 @@ class ClickableValue(OptionListEx):
 
 
 ##############################################################################
-class PEPDetails(VerticalScroll):
+class PEPDetails(VerticalScroll, can_focus=False):
     """A widget for showing details of a PEP."""
 
     HELP = """
