@@ -5,8 +5,20 @@
 from typing import Final, get_args
 
 ##############################################################################
+# Pytest imports.
+from pytest import mark
+
+##############################################################################
 # Local imports.
-from peplum.app.data import PEPs
+from peplum.app.data import (
+    Containing,
+    PEPs,
+    WithAuthor,
+    WithPythonVersion,
+    WithStatus,
+    WithType,
+)
+from peplum.app.data.peps import Filter
 from peplum.peps import PEP, PEPStatus, PEPType
 
 ##############################################################################
@@ -239,6 +251,35 @@ def test_author_counts() -> None:
         ("Author 2", 2),
         ("Author 3", 2),
     }
+
+
+##############################################################################
+@mark.parametrize(
+    "pep_filter, expected",
+    (
+        (Containing("Unicode"), 1),
+        (Containing("unicode"), 1),
+        (Containing("UNICODE"), 1),
+        (Containing("UNICOD"), 1),
+        (Containing("NiCOd"), 1),
+        (Containing("author 1"), 7),
+        (Containing("JR"), 3),
+        (Containing("STANDARDS TRACK"), 3),
+        (Containing("https://peps.python.org/pep-0467/"), 1),
+        (WithAuthor("Author 1, Jr."), 3),
+        (WithAuthor("Author 1, Jr"), 0),
+        (WithAuthor("author 1"), 6),
+        (WithAuthor("AUTHOR 1, JR."), 3),
+        (WithAuthor("JR"), 0),
+        (WithPythonVersion("3.13"), 1),
+        (WithPythonVersion(""), 4),
+        (WithStatus("Accepted"), 1),
+        (WithType("Standards Track"), 3),
+    ),
+)
+def test_filter(pep_filter: Filter, expected: int) -> None:
+    """Test that we can filter a collection of PEPs."""
+    assert len(PEPs(SAMPLE_PEPS) & pep_filter) == expected
 
 
 ### test_peps.py ends here
