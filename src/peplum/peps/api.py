@@ -46,7 +46,8 @@ class API:
         """Download a fresh list of all known PEPs.
 
         Returns:
-            A list of all known PEPs.
+            A tuple of a list of all known PEPs and the raw JSON they were
+            created from.
         """
         try:
             response = await self._client.get(
