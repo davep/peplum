@@ -12,6 +12,7 @@ from typing import Iterator
 ##############################################################################
 # Local imports.
 from .locations import config_dir
+from .peps import SortOrder
 
 
 ##############################################################################
@@ -36,6 +37,9 @@ class Configuration:
 
     details_visble: bool = False
     """Is the PEP details panel visible?"""
+
+    peps_sort_order: SortOrder = "number"
+    """The sort order of PEPs."""
 
 
 ##############################################################################

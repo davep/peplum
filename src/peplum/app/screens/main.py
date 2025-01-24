@@ -223,7 +223,7 @@ class Main(Screen[None]):
     @on(Loaded)
     def load_fresh_peps(self, message: Loaded) -> None:
         """React to a fresh set of PEPs being made available."""
-        self.all_peps = message.peps
+        self.all_peps = message.peps.sorted_by(load_configuration().peps_sort_order)
 
     def on_mount(self) -> None:
         """Configure the application once the DOM is mounted."""
@@ -461,17 +461,23 @@ class Main(Screen[None]):
     @on(SortByCreated)
     def action_sort_by_created_command(self) -> None:
         """Sort the PEPs by their date created."""
-        self.active_peps = self.active_peps.sorted_by("created")
+        with update_configuration() as config:
+            config.peps_sort_order = "created"
+            self.active_peps = self.active_peps.sorted_by(config.peps_sort_order)
 
     @on(SortByNumber)
     def action_sort_by_number_command(self) -> None:
         """Sort the PEPs by their number."""
-        self.active_peps = self.active_peps.sorted_by("number")
+        with update_configuration() as config:
+            config.peps_sort_order = "number"
+            self.active_peps = self.active_peps.sorted_by(config.peps_sort_order)
 
     @on(SortByTitle)
     def action_sort_by_title_command(self) -> None:
         """Sort the PEPs by their title."""
-        self.active_peps = self.active_peps.sorted_by("title")
+        with update_configuration() as config:
+            config.peps_sort_order = "title"
+            self.active_peps = self.active_peps.sorted_by(config.peps_sort_order)
 
 
 ### main.py ends here
