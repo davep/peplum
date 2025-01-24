@@ -15,6 +15,9 @@ from ..commands import (
     SearchStatus,
     SearchType,
     ShowAll,
+    SortByCreated,
+    SortByNumber,
+    SortByTitle,
     ToggleAuthorsSortOrder,
     TogglePEPDetails,
     TogglePythonVersionsSortOrder,
@@ -46,6 +49,9 @@ class MainCommands(CommandsProvider):
         yield SearchStatus()
         yield SearchType()
         yield ShowAll()
+        yield SortByCreated()
+        yield SortByNumber()
+        yield SortByTitle()
         yield ToggleAuthorsSortOrder()
         yield TogglePEPDetails()
         yield TogglePythonVersionsSortOrder()

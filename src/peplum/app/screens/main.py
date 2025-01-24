@@ -35,6 +35,9 @@ from ..commands import (
     SearchStatus,
     SearchType,
     ShowAll,
+    SortByCreated,
+    SortByNumber,
+    SortByTitle,
     ToggleAuthorsSortOrder,
     TogglePEPDetails,
     TogglePythonVersionsSortOrder,
@@ -151,6 +154,9 @@ class Main(Screen[None]):
         SearchStatus,
         SearchType,
         ShowAll,
+        SortByCreated,
+        SortByNumber,
+        SortByTitle,
         ToggleAuthorsSortOrder,
         TogglePythonVersionsSortOrder,
         ToggleStatusesSortOrder,
@@ -451,6 +457,21 @@ class Main(Screen[None]):
             self.query_one(
                 Navigation
             ).sort_authors_by_count = config.sort_authors_by_count
+
+    @on(SortByCreated)
+    def action_sort_by_created_command(self) -> None:
+        """Sort the PEPs by their date created."""
+        self.active_peps = self.active_peps.sorted_by("created")
+
+    @on(SortByNumber)
+    def action_sort_by_number_command(self) -> None:
+        """Sort the PEPs by their number."""
+        self.active_peps = self.active_peps.sorted_by("number")
+
+    @on(SortByTitle)
+    def action_sort_by_title_command(self) -> None:
+        """Sort the PEPs by their title."""
+        self.active_peps = self.active_peps.sorted_by("title")
 
 
 ### main.py ends here

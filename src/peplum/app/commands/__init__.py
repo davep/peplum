@@ -24,6 +24,7 @@ from .navigation_sorting import (
     ToggleStatusesSortOrder,
     ToggleTypesSortOrder,
 )
+from .peps_sorting import SortByCreated, SortByNumber, SortByTitle
 
 ##############################################################################
 # Exports.
@@ -41,6 +42,9 @@ __all__ = [
     "SearchStatus",
     "SearchType",
     "ShowAll",
+    "SortByCreated",
+    "SortByNumber",
+    "SortByTitle",
     "ToggleAuthorsSortOrder",
     "TogglePEPDetails",
     "TogglePythonVersionsSortOrder",

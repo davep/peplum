@@ -10,8 +10,9 @@ from collections import Counter
 from dataclasses import dataclass
 from functools import total_ordering
 from itertools import chain
+from operator import attrgetter
 from pathlib import Path
-from typing import Iterable, Iterator, TypeAlias
+from typing import Iterable, Iterator, Literal, TypeAlias
 
 ##############################################################################
 # Packaging imports.
@@ -259,11 +260,19 @@ class Containing(Filter):
 
 
 ##############################################################################
+SortOrder: TypeAlias = Literal["number", "created", "title"]
+"""Sort orders for PEPs."""
+
+
+##############################################################################
 class PEPs:
     """Class that holds a collection of PEPs."""
 
     def __init__(
-        self, peps: Iterable[PEP] | None = None, filters: Filters | None = None
+        self,
+        peps: Iterable[PEP] | None = None,
+        filters: Filters | None = None,
+        sort_order: SortOrder = "number",
     ) -> None:
         """Initialise the object.
 
@@ -277,6 +286,8 @@ class PEPs:
         """The PEPs."""
         self._filters = () if filters is None else filters
         """The filters that got to this set of PEPs."""
+        self._sort_order: SortOrder = sort_order
+        """The sort order for the PEPs."""
 
     @property
     def is_filtered(self) -> bool:
@@ -360,8 +371,17 @@ class PEPs:
                 )
             ]
             if candidate
-        ]
-        return "; ".join(filters) if filters else "All"
+        ] or ["All"]
+
+        match self._sort_order:
+            case "number":
+                sort_order = "PEP Number"
+            case "created":
+                sort_order = "Date Created"
+            case "title":
+                sort_order = "PEP Title"
+
+        return "; ".join(filters + ([f"Sorted by {sort_order}"] if sort_order else []))
 
     def __and__(self, new_filter: Filter) -> PEPs:
         """Get the PEPs match a given filter.
@@ -380,8 +400,20 @@ class PEPs:
             else PEPs(
                 (pep for pep in self if pep & new_filter),
                 self._filters + new_filter,
+                self._sort_order,
             )
         )
+
+    def sorted_by(self, sort_order: SortOrder) -> PEPs:
+        """Get the PEPs sorted in a particular way.
+
+        Args:
+            The sort order.
+
+        Returns:
+            The PEPs sorted in the required way.
+        """
+        return PEPs(self, self._filters, sort_order)
 
     def __contains__(self, pep: PEP | int) -> bool:
         """Is the given PEP in here?"""
@@ -389,7 +421,7 @@ class PEPs:
 
     def __iter__(self) -> Iterator[PEP]:
         """The object as an iterator."""
-        return iter(self._peps.values())
+        return iter(sorted(self._peps.values(), key=attrgetter(self._sort_order)))
 
     def __len__(self) -> int:
         """The count of PEPs in the object."""
