@@ -259,7 +259,7 @@ class Main(Screen[None]):
         self.selected_pep = message.pep
 
     @on(PEPsView.Empty)
-    def deslect_pep(self) -> None:
+    def deselect_pep(self) -> None:
         """Handle there being no highlighted PEP."""
         self.selected_pep = None
 
