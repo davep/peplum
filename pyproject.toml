@@ -1,7 +1,7 @@
 [project]
 name = "peplum"
-version = "0.0.1"
-description = "Coming soon"
+version = "0.1.0"
+description = "A terminal-based PEP lookup manager"
 authors = [
     { name = "Dave Pearson", email = "davep@davep.org" }
 ]
@@ -15,6 +15,47 @@ dependencies = [
 ]
 readme = "README.md"
 requires-python = ">= 3.8"
+license = { text = "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)" }
+keywords = [
+    "terminal",
+    "tui",
+    "chui",
+    "documentation",
+    "pep",
+]
+classifiers = [
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Environment :: Console",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Information Technology",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Documentation",
+    "Topic :: Education",
+    "Topic :: Software Development",
+    "Topic :: Software Development :: Documentation",
+    "Topic :: Terminals",
+    "Topic :: Utilities",
+    "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://github.com/davep/peplum"
+Repository = "https://github.com/davep/peplum"
+Documentation = "https://github.com/davep/peplum/blob/main/README.md"
+Source = "https://github.com/davep/peplum"
+Issues = "https://github.com/davep/peplum/issues"
+Discussions = "https://github.com/davep/peplum/discussions"
 
 [project.scripts]
 peplum = "peplum.__main__:main"
