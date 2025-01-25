@@ -32,9 +32,7 @@ jobs:
           version: "latest"
 
       - name: Install Dependencies
-        run: |
-          locale -a
-          make setup
+        run: make setup
 
       - name: Check the Code style
         run: make codestyle
