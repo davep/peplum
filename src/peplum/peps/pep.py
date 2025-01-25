@@ -201,6 +201,7 @@ class PEP:
             or search_text in self.type.casefold()
             or search_text in self.topic.casefold()
             or search_text in (str(pep) for pep in self.requires)
+            or search_text in str(self.created)
             or search_text in " ".join(str(version) for version in self.python_version)
             or search_text in (str(pep) for pep in self.replaces)
             or search_text
