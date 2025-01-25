@@ -32,7 +32,14 @@ jobs:
           version: "latest"
 
       - name: Install Dependencies
-        run: make setup
+        run: |
+          export LC_ALL="fr_FR.UTF-8"
+          export LC_CTYPE="fr_FR.UTF-8"
+          sudo dpkg-reconfigure locales
+          export LC_ALL="en_US.UTF-8"
+          export LC_CTYPE="en_US.UTF-8"
+          sudo dpkg-reconfigure locales
+          make setup
 
       - name: Check the Code style
         run: make codestyle
@@ -44,13 +51,6 @@ jobs:
         run: make stricttypecheck
 
       - name: Run unit tests
-        run: |
-          export LC_ALL="fr_FR.UTF-8"
-          export LC_CTYPE="fr_FR.UTF-8"
-          sudo dpkg-reconfigure locales
-          export LC_ALL="en_US.UTF-8"
-          export LC_CTYPE="en_US.UTF-8"
-          sudo dpkg-reconfigure locales
-          make test
+        run: make test
 
 ### style-lint-and-test.yaml ends here
