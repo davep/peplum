@@ -5,7 +5,7 @@
 **Released: WiP**
 
 - Added the created date of a PEP to the list of things searched when doing
-  a free text search.
+  a free text search. ([#7](https://github.com/davep/peplum/pull/7))
 
 ## v0.1.0
 
