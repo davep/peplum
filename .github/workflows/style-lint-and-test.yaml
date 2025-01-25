@@ -18,12 +18,6 @@ jobs:
 
     steps:
 
-      - name: Configure Locale Support
-        run: |
-          export LC_ALL="en_US.UTF-8"
-          export LC_CTYPE="en_US.UTF-8"
-          sudo dpkg-reconfigure locales
-
       - name: Checkout Code
         uses: actions/checkout@v4
 
@@ -50,6 +44,10 @@ jobs:
         run: make stricttypecheck
 
       - name: Run unit tests
-        run: make test
+        run: |
+          export LC_ALL="en_US.UTF-8"
+          export LC_CTYPE="en_US.UTF-8"
+          sudo dpkg-reconfigure locales
+          make test
 
 ### style-lint-and-test.yaml ends here
