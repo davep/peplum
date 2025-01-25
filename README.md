@@ -1,6 +1,6 @@
 # Peplum
 
-![Peplum](.images/peplum-social-banner.png)
+![Peplum](https://raw.githubusercontent.com/davep/peplum/refs/heads/main/.images/peplum-social-banner.png)
 
 ## Introduction
 
@@ -36,7 +36,7 @@ Once installed run the `peplum` command.
 The best way to get to know Peplum is to read the help screen, once in the
 main application you can see this by pressing <kbd>F1</kbd>.
 
-![Peplum help](.images/peplum-help.png)
+![Peplum help](https://raw.githubusercontent.com/davep/peplum/refs/heads/main/.images/peplum-help.png)
 
 ## File locations
 
