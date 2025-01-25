@@ -119,6 +119,7 @@ class Main(Screen[None]):
 
         PEPsView {
             width: 8fr;
+            scrollbar-gutter: stable;
         }
 
         PEPDetails {
