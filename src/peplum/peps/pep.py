@@ -7,8 +7,7 @@ from __future__ import annotations
 ##############################################################################
 # Python imports.
 from dataclasses import dataclass
-from datetime import date, datetime
-from locale import LC_TIME, getlocale, setlocale
+from datetime import date
 from re import Pattern, compile
 from typing import Any, Final, Literal, cast
 
@@ -36,6 +35,30 @@ PEPType = Literal[
 
 
 ##############################################################################
+MONTHS: Final[dict[str, int]] = {
+    "jan": 1,
+    "feb": 2,
+    "mar": 3,
+    "apr": 4,
+    "may": 5,
+    "jun": 6,
+    "jul": 7,
+    "aug": 8,
+    "sep": 9,
+    "oct": 10,
+    "nov": 11,
+    "dec": 12,
+}
+"""Month name to number translation table."""
+
+##############################################################################
+PEP_DATE: Final[Pattern[str]] = compile(
+    r"^(?P<day>\d{2})-(?P<month>\w{3})-(?P<year>\d{4})$"
+)
+"""Regular expression for parsing a PEP's date."""
+
+
+##############################################################################
 def parse_date(date_value: str) -> date:
     """Parse the sort of date found in the PEP index.
 
@@ -45,18 +68,27 @@ def parse_date(date_value: str) -> date:
     Returns:
         A `date` object.
 
+    Raises:
+        ValueError: If the date string is invalid.
+
     Notes:
         The dates in the PEP index use a less-than-ideal date format, being
         of the form DD-MMM-YYYY where MMM is a truncated form of the month
-        name in English. With this in mind the locale is set in the hope
-        that it'll help with the parsing with strptime.
+        name in English. Because of this this function hand-parses the date
+        rather than use strptime, because locales exist and flipping locale
+        is problematic for various reasons.
     """
-    save_locale = getlocale(LC_TIME)
-    try:
-        setlocale(LC_TIME, "en_US")
-        return datetime.strptime(date_value, "%d-%b-%Y").date()
-    finally:
-        setlocale(LC_TIME, save_locale)
+    if parsed_date := PEP_DATE.match(date_value):
+        try:
+            return date(
+                year=int(parsed_date["year"]),
+                month=MONTHS[parsed_date["month"].lower()],
+                day=int(parsed_date["day"]),
+            )
+        except KeyError:
+            raise ValueError(f"{date_value} is not a recognised date") from None
+    else:
+        raise ValueError(f"Can't parse {date_value} as a PEP date")
 
 
 ##############################################################################
