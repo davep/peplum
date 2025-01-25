@@ -4,6 +4,9 @@
 
 **Released: WiP**
 
+- Worked around a likely Textual bug that caused an occasional cosmetic
+  problem with the main PEPs list.
+  ([#6](https://github.com/davep/peplum/pull/6))
 - Added the created date of a PEP to the list of things searched when doing
   a free text search. ([#7](https://github.com/davep/peplum/pull/7))
 
