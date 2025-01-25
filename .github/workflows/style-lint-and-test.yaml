@@ -45,7 +45,7 @@ jobs:
 
       - name: Run unit tests
         run: |
-          export LC_ALL=fr_FR.UTF-8"
+          export LC_ALL="fr_FR.UTF-8"
           export LC_CTYPE="fr_FR.UTF-8"
           sudo dpkg-reconfigure locales
           export LC_ALL="en_US.UTF-8"
