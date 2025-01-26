@@ -23,7 +23,7 @@ from textual.containers import Vertical, VerticalScroll
 from textual.events import DescendantBlur, DescendantFocus
 from textual.reactive import var
 from textual.types import Direction
-from textual.widgets import Label
+from textual.widgets import Label, Markdown
 from textual.widgets.option_list import Option
 
 ##############################################################################
@@ -97,6 +97,34 @@ class Value(Label):
             return
         if isinstance(text, int):
             text = str(text)
+        self.parent.set_class(not bool(text), "hidden")
+        if text:
+            self.update(text)
+
+
+##############################################################################
+class Notes(Markdown, can_focus=True):
+    """A markdown widget that will hide itself if empty."""
+
+    DEFAULT_CSS = """
+    Notes {
+        margin: 0;
+        padding: 0;
+        background: transparent;
+        &:focus {
+            background: $surface;
+        }
+    }
+    """
+
+    def show(self, text: str) -> None:
+        """Show the given text, or possibly hide.
+
+        Args:
+            text: The text to show.
+        """
+        if self.parent is None:
+            return
         self.parent.set_class(not bool(text), "hidden")
         if text:
             self.update(text)
@@ -452,6 +480,8 @@ class PEPDetails(VerticalScroll, can_focus=False):
             yield ClickableValue(id="resolution")
         with Field("URL"):
             yield ClickableValue(id="url")
+        with Field("Notes"):
+            yield Notes()
 
     @on(DescendantBlur)
     @on(DescendantFocus)
@@ -504,6 +534,7 @@ class PEPDetails(VerticalScroll, can_focus=False):
                     else PostItem(self.pep.resolution)
                 )
                 self.query_one("#url", ClickableValue).show(URLItem(self.pep.url))
+                self.query_one(Notes).show(self.pep.notes)
 
     def action_visit_pep(self) -> None:
         """Action that visits the current PEP."""
