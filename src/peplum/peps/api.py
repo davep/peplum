@@ -43,6 +43,9 @@ class API:
 
         Returns:
             The PEP JSON data.
+
+        Raises:
+            RequestError: If there was a problem getting the PEPS.
         """
         try:
             response = await self._client.get(
