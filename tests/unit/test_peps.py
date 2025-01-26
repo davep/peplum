@@ -18,8 +18,8 @@ from peplum.app.data import (
     WithStatus,
     WithType,
 )
+from peplum.app.data.pep import PEP, PEPStatus, PEPType
 from peplum.app.data.peps import Filter
-from peplum.peps import PEP, PEPStatus, PEPType
 
 ##############################################################################
 SAMPLE_PEPS: Final[tuple[PEP, ...]] = (

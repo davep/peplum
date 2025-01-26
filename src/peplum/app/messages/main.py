@@ -10,7 +10,7 @@ from textual.message import Message
 
 ##############################################################################
 # Local imports.
-from ...peps import PEP, PEPStatus, PEPType
+from ..data import PEP, PEPStatus, PEPType
 
 
 ##############################################################################

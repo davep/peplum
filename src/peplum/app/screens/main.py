@@ -20,7 +20,7 @@ from textual.widgets import Footer, Header
 ##############################################################################
 # Local imports.
 from ... import __version__
-from ...peps import API, PEP
+from ...peps import API
 from ..commands import (
     ChangeTheme,
     Command,
@@ -45,6 +45,7 @@ from ..commands import (
     ToggleTypesSortOrder,
 )
 from ..data import (
+    PEP,
     Containing,
     PEPs,
     WithAuthor,
@@ -214,12 +215,14 @@ class Main(Screen[None]):
     async def download_pep_data(self) -> None:
         """Download a fresh copy of the PEP data."""
         self.notify("Downloading PEPs from the API...")
-        peps, raw_data = await API().get_peps()
+        raw_data = await API().get_peps()
         try:
             pep_data().write_text(dumps(raw_data, indent=4), encoding="utf-8")
         except IOError as error:
             self.notify(str(error), title="Error saving PEP data", severity="error")
-        self.post_message(self.Loaded(PEPs(peps)))
+        self.post_message(
+            self.Loaded(PEPs(PEP.from_json(pep) for pep in raw_data.values()))
+        )
 
     @on(Loaded)
     def load_fresh_peps(self, message: Loaded) -> None:

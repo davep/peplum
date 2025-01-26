@@ -9,10 +9,6 @@ from typing import Any, Final
 # HTTPX imports.
 from httpx import AsyncClient, HTTPStatusError, RequestError
 
-##############################################################################
-# Local imports.
-from .pep import PEP
-
 
 ##############################################################################
 class API:
@@ -42,12 +38,11 @@ class API:
             self._client_ = AsyncClient()
         return self._client_
 
-    async def get_peps(self) -> tuple[list[PEP], dict[int, dict[str, Any]]]:
+    async def get_peps(self) -> dict[int, dict[str, Any]]:
         """Download a fresh list of all known PEPs.
 
         Returns:
-            A tuple of a list of all known PEPs and the raw JSON they were
-            created from.
+            The PEP JSON data.
         """
         try:
             response = await self._client.get(
@@ -61,7 +56,10 @@ class API:
         except HTTPStatusError as error:
             raise self.RequestError(str(error)) from None
 
-        return [PEP.from_json(pep) for pep in response.json().values()], response.json()
+        if isinstance(raw_data := response.json(), dict):
+            return raw_data
+
+        raise RequestError("Unexpected data received from the PEP API")
 
 
 ### api.py ends here

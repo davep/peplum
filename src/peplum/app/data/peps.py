@@ -20,8 +20,8 @@ from packaging.version import InvalidVersion, Version
 
 ##############################################################################
 # Local imports.
-from ...peps import PEP, PEPStatus, PEPType
 from .locations import data_dir
+from .pep import PEP, PEPStatus, PEPType
 
 
 ##############################################################################

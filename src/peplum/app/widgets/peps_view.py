@@ -21,8 +21,7 @@ from textual.widgets.option_list import Option
 
 ##############################################################################
 # Local imports.
-from ...peps import PEP
-from ..data import PEPs
+from ..data import PEP, PEPs
 from ..messages import VisitPEP
 from .extended_option_list import OptionListEx
 

@@ -28,7 +28,7 @@ from textual.widgets.option_list import Option
 
 ##############################################################################
 # Local imports.
-from ...peps import PEP, PEPStatus, PEPType, PostHistory
+from ..data import PEP, PEPStatus, PEPType, PostHistory
 from ..messages import (
     GotoPEP,
     ShowAuthor,
