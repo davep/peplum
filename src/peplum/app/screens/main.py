@@ -199,6 +199,8 @@ class Main(Screen[None]):
     @work(thread=True)
     def load_pep_data(self) -> None:
         """Load the local copy of the PEP data."""
+        if not pep_data().exists():
+            return
         try:
             self.post_message(
                 self.Loaded(
@@ -214,15 +216,21 @@ class Main(Screen[None]):
     @work(thread=True)
     async def download_pep_data(self) -> None:
         """Download a fresh copy of the PEP data."""
-        self.notify("Downloading PEPs from the API...")
-        raw_data = await API().get_peps()
+        # Get the raw data from the API.
+        try:
+            raw_data = await API().get_peps()
+        except API.Error as error:
+            self.notify(str(error), title="API Error", severity="error", timeout=8)
+            return
+        # Store the raw data.
         try:
             pep_data().write_text(dumps(raw_data, indent=4), encoding="utf-8")
         except IOError as error:
             self.notify(str(error), title="Error saving PEP data", severity="error")
-        self.post_message(
-            self.Loaded(PEPs(PEP.from_api(pep) for pep in raw_data.values()))
-        )
+            return
+        # Now kick off loading the raw data.
+        self.notify("Fresh PEP data downloaded from the PEP API")
+        self.load_pep_data()
 
     @on(Loaded)
     def load_fresh_peps(self, message: Loaded) -> None:
@@ -232,9 +240,13 @@ class Main(Screen[None]):
     def on_mount(self) -> None:
         """Configure the application once the DOM is mounted."""
         self.set_class(load_configuration().details_visble, "details-visible")
+        # On startup, if we've got local PEP data...
         if pep_data().exists():
+            # ...load and display that.
             self.load_pep_data()
         else:
+            # Given we've got no local data at all, let's force an attempt
+            # to download from the API.
             self.download_pep_data()
 
     def watch_all_peps(self) -> None:
