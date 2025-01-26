@@ -23,7 +23,7 @@ from peplum.app.data.peps import Filter
 
 ##############################################################################
 SAMPLE_PEPS: Final[tuple[PEP, ...]] = (
-    PEP.from_json(
+    PEP.from_api(
         {
             "number": 1,
             "title": "PEP Purpose and Guidelines",
@@ -42,7 +42,7 @@ SAMPLE_PEPS: Final[tuple[PEP, ...]] = (
             "url": "https://peps.python.org/pep-0001/",
         }
     ),
-    PEP.from_json(
+    PEP.from_api(
         {
             "number": 458,
             "title": "Secure PyPI downloads with signed repository metadata",
@@ -61,7 +61,7 @@ SAMPLE_PEPS: Final[tuple[PEP, ...]] = (
             "url": "https://peps.python.org/pep-0458/",
         }
     ),
-    PEP.from_json(
+    PEP.from_api(
         {
             "number": 467,
             "title": "Minor API improvements for binary sequences",
@@ -80,7 +80,7 @@ SAMPLE_PEPS: Final[tuple[PEP, ...]] = (
             "url": "https://peps.python.org/pep-0467/",
         }
     ),
-    PEP.from_json(
+    PEP.from_api(
         {
             "number": 639,
             "title": "Improving License Clarity with Better Package Metadata",
@@ -99,7 +99,7 @@ SAMPLE_PEPS: Final[tuple[PEP, ...]] = (
             "url": "https://peps.python.org/pep-0639/",
         }
     ),
-    PEP.from_json(
+    PEP.from_api(
         {
             "number": 213,
             "title": "Attribute Access Handlers",
@@ -118,7 +118,7 @@ SAMPLE_PEPS: Final[tuple[PEP, ...]] = (
             "url": "https://peps.python.org/pep-0213/",
         }
     ),
-    PEP.from_json(
+    PEP.from_api(
         {
             "number": 204,
             "title": "Range Literals",
@@ -137,7 +137,7 @@ SAMPLE_PEPS: Final[tuple[PEP, ...]] = (
             "url": "https://peps.python.org/pep-0204/",
         }
     ),
-    PEP.from_json(
+    PEP.from_api(
         {
             "number": 3,
             "title": "Guidelines for Handling Bug Reports",
@@ -156,7 +156,7 @@ SAMPLE_PEPS: Final[tuple[PEP, ...]] = (
             "url": "https://peps.python.org/pep-0003/",
         }
     ),
-    PEP.from_json(
+    PEP.from_api(
         {
             "number": 100,
             "title": "Python Unicode Integration",
@@ -175,7 +175,7 @@ SAMPLE_PEPS: Final[tuple[PEP, ...]] = (
             "url": "https://peps.python.org/pep-0100/",
         }
     ),
-    PEP.from_json(
+    PEP.from_api(
         {
             "number": 5,
             "title": "Guidelines for Language Evolution",

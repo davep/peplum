@@ -203,7 +203,7 @@ class Main(Screen[None]):
             self.post_message(
                 self.Loaded(
                     PEPs(
-                        PEP.from_json(pep)
+                        PEP.from_api(pep)
                         for pep in loads(pep_data().read_text()).values()
                     )
                 )
@@ -221,7 +221,7 @@ class Main(Screen[None]):
         except IOError as error:
             self.notify(str(error), title="Error saving PEP data", severity="error")
         self.post_message(
-            self.Loaded(PEPs(PEP.from_json(pep) for pep in raw_data.values()))
+            self.Loaded(PEPs(PEP.from_api(pep) for pep in raw_data.values()))
         )
 
     @on(Loaded)

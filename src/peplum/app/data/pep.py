@@ -235,8 +235,8 @@ class PEP:
         return tuple(author.strip() for author in cls._AUTHOR_SPLIT.split(authors))
 
     @classmethod
-    def from_json(cls, data: dict[str, Any]) -> PEP:
-        """Create a PEP from the given JSON data.
+    def from_api(cls, data: dict[str, Any]) -> PEP:
+        """Create a PEP from the given API data.
 
         Args:
             data: The data to create the object from.
