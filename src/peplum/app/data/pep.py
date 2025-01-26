@@ -172,6 +172,8 @@ class PEP:
     """The PEP that supersedes this PEP."""
     url: str
     """The URL for the PEP."""
+    notes: str = ""
+    """The user's notes associated with this PEP."""
 
     _AUTHOR_SPLIT = compile(r",(?! +Jr)")
     """The regular expression for splitting up authors.
@@ -207,6 +209,7 @@ class PEP:
             or search_text
             in ("" if self.superseded_by is None else str(self.superseded_by))
             or search_text in self.url.casefold()
+            or search_text in self.notes.casefold()
         )
 
     @classmethod
