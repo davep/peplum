@@ -224,8 +224,9 @@ class WithAuthor(Filter):
             author: The author to filter on.
         """
         self._author = author
-        self._folded_author = author.casefold()
         """The author to filter on."""
+        self._folded_author = author.casefold()
+        """The folded version of the author for case-insensitive lookup."""
 
     def __rand__(self, pep: PEP) -> bool:
         return self._folded_author in (author.casefold() for author in pep.authors)
