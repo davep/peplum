@@ -125,6 +125,7 @@ class StatusItem(Item):
             status: The status.
         """
         self._status: PEPStatus = status
+        """The PEP status to display."""
         super().__init__(status)
 
     def select(self, parent: OptionListEx) -> None:
@@ -147,6 +148,7 @@ class TypeItem(Item):
             pep_type: The PEP type.
         """
         self._type: PEPType = pep_type
+        """The PEP type to display."""
         super().__init__(pep_type)
 
     def select(self, parent: OptionListEx) -> None:
@@ -169,6 +171,7 @@ class PEPItem(Item):
             pep: The number of the pep.
         """
         self._pep = pep
+        """The PEP number to display."""
         super().__init__(f"PEP{pep}")
 
     def select(self, parent: OptionListEx) -> None:
@@ -191,6 +194,7 @@ class AuthorItem(Item):
             author: The author.
         """
         self._author = author
+        """The author to display."""
         super().__init__(author)
 
     def select(self, parent: OptionListEx) -> None:
@@ -213,6 +217,7 @@ class PythonVersionItem(Item):
             python_version: The Python version.
         """
         self._version = python_version
+        """The Python version to display."""
         super().__init__(python_version)
 
     def select(self, parent: OptionListEx) -> None:
@@ -236,6 +241,7 @@ class URLItem(Item):
             title: An optional title for the URL.
         """
         self._url = url
+        """The URL to display."""
         super().__init__(title or url)
 
     def select(self, parent: OptionListEx) -> None:
@@ -261,6 +267,7 @@ class PostItem(Item):
             post: The post.
         """
         self._post = post
+        """The post to display."""
         title = "Unknown"
         if post.date:
             title = (
