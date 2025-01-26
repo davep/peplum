@@ -9,6 +9,8 @@
   ([#6](https://github.com/davep/peplum/pull/6))
 - Added the created date of a PEP to the list of things searched when doing
   a free text search. ([#7](https://github.com/davep/peplum/pull/7))
+- Commands in the Python version filtering palette are now sorted by proper
+  version order. ([#12](https://github.com/davep/peplum/pull/12))
 
 ## v0.1.0
 
