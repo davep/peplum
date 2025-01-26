@@ -3,6 +3,7 @@
 ##############################################################################
 # Python imports.
 from datetime import date
+from itertools import chain
 
 ##############################################################################
 # Pytest imports.
@@ -16,19 +17,29 @@ from peplum.peps.pep import parse_date
 ##############################################################################
 @mark.parametrize(
     "month_name, month_number",
-    (
-        ("Jan", 1),
-        ("Feb", 2),
-        ("Mar", 3),
-        ("Apr", 4),
-        ("May", 5),
-        ("Jun", 6),
-        ("Jul", 7),
-        ("Aug", 8),
-        ("Sep", 9),
-        ("Oct", 10),
-        ("Nov", 11),
-        ("Dec", 12),
+    chain(
+        *(
+            (
+                (name, number),
+                (name.upper(), number),
+                (name.lower(), number),
+                (name.swapcase(), number),
+            )
+            for name, number in (
+                ("Jan", 1),
+                ("Feb", 2),
+                ("Mar", 3),
+                ("Apr", 4),
+                ("May", 5),
+                ("Jun", 6),
+                ("Jul", 7),
+                ("Aug", 8),
+                ("Sep", 9),
+                ("Oct", 10),
+                ("Nov", 11),
+                ("Dec", 12),
+            )
+        )
     ),
 )
 def test_parse_pep_date(month_name: str, month_number: int) -> None:
@@ -40,11 +51,24 @@ def test_parse_pep_date(month_name: str, month_number: int) -> None:
 @mark.parametrize(
     "dodgy_date",
     (
+        "32-Jan-2025",
+        "29-Feb-2025",
+        "32-Mar-2025",
+        "31-Apr-2025",
+        "32-May-2025",
+        "31-Jun-2025",
+        "32-Jul-2025",
+        "32-Aug-2025",
+        "31-Sep-2025",
+        "32-Oct-2025",
+        "31-Nov-2025",
+        "32-Dec-2025",
         "01-non-2025",
         "111-Jan-2025",
         "1-Jan-22025",
         "01-Jan-22025",
         "0001-Jan-22025",
+        "01/Jan/2025",
         "",
     ),
 )
