@@ -37,7 +37,7 @@ class PythonVersionCommands(CommandsProvider):
             if self.active_peps.is_filtered
             else "Relating to Python version"
         )
-        for version in self.active_peps.python_versions:
+        for version in sorted(self.active_peps.python_versions):
             if not version.version:
                 yield CommandHit(
                     "Also isn't related to a specific Python version"
