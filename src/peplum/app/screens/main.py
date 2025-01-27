@@ -317,7 +317,7 @@ class Main(Screen[None]):
         self.active_peps &= WithStatus(command.status)
 
     @on(ShowPythonVersion)
-    def action_show_python_version(self, command: ShowPythonVersion) -> None:
+    def show_python_version(self, command: ShowPythonVersion) -> None:
         """Filter the PEPs by a given Python version.
 
         Args:
