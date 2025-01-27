@@ -114,6 +114,13 @@ class Notes(Markdown, can_focus=True):
         &:focus {
             background: $surface;
         }
+        MarkdownHeader {
+            margin: 0 0 1 0;
+        }
+        MarkdownH1 {
+            padding: 1 0 1 0;
+            background: $foreground 10%;
+        }
     }
     """
 
