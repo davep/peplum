@@ -84,6 +84,9 @@ class OptionListEx(OptionList):
     BINDINGS = [
         Binding("j, right", "cursor_down", show=False),
         Binding("k, left", "cursor_up", show=False),
+        Binding("<", "first", show=False),
+        Binding(">", "last", show=False),
+        Binding("space", "page_down", show=False),
     ]
 
     @property
