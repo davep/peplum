@@ -27,15 +27,33 @@ class Notes:
         self._notes: dict[int, str] = {}
         """The notes."""
 
-    def load(self) -> Self:
-        """Load the notes."""
+    def load(self, source: Path | None = None) -> Self:
+        """Load the notes.
+
+        Args:
+            source: The optional source location to load the notes from.
+
+        Returns:
+            Self.
+        """
         if self._NOTES_FILE.exists():
-            self._notes = loads(self._NOTES_FILE.read_text(encoding="utf-8"))
+            self._notes = loads(
+                (source or self._NOTES_FILE).read_text(encoding="utf-8")
+            )
         return self
 
-    def save(self) -> Self:
-        """Save the notes."""
-        self._NOTES_FILE.write_text(dumps(self._notes, indent=4), encoding="utf-8")
+    def save(self, target: Path | None = None) -> Self:
+        """Save the notes.
+
+        Args:
+            target: The optional target location to save the notes to.
+
+        Returns:
+            Self.
+        """
+        (target or self._NOTES_FILE).write_text(
+            dumps(self._notes, indent=4), encoding="utf-8"
+        )
         return self
 
     def __getitem__(self, pep: int) -> str:
