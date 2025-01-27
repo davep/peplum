@@ -6,7 +6,7 @@ from __future__ import annotations
 
 ##############################################################################
 # Python imports.
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import date
 from re import Pattern, compile
 from typing import Any, Final, Literal, cast
@@ -186,6 +186,16 @@ class PEP:
         This is 'good enough' but not ideal. It might need updating and
         improvement later on.
     """
+
+    def annotate(self, *, notes: str | None = None) -> PEP:
+        """Annotate the PEP.
+
+        Args:
+            notes: The optional notes to annotate the PEP with.
+        """
+        if notes is not None:
+            return replace(self, notes=notes)
+        return self
 
     def __contains__(self, search_text: str) -> bool:
         """Perhaps a case-insensitive search for the text anywhere in the PEP's data.
