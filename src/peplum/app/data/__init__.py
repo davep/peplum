@@ -8,6 +8,7 @@ from .config import (
     save_configuration,
     update_configuration,
 )
+from .notes import Notes
 from .pep import PEP, PEPStatus, PEPType, PostHistory
 from .peps import (
     AuthorCount,
@@ -32,6 +33,7 @@ __all__ = [
     "Configuration",
     "Containing",
     "load_configuration",
+    "Notes",
     "PEP",
     "PEPStatus",
     "PEPType",

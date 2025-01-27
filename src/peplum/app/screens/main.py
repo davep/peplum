@@ -47,6 +47,7 @@ from ..commands import (
 from ..data import (
     PEP,
     Containing,
+    Notes,
     PEPs,
     WithAuthor,
     WithPythonVersion,
@@ -178,6 +179,9 @@ class Main(Screen[None]):
     selected_pep: var[PEP | None] = var(None)
     """The currently-selected PEP."""
 
+    notes: var[Notes] = var(Notes)
+    """The user's notes about PEPs."""
+
     def compose(self) -> ComposeResult:
         """Compose the content of the main screen."""
         yield Header()
@@ -202,10 +206,11 @@ class Main(Screen[None]):
         if not pep_data().exists():
             return
         try:
+            self.notes.load()
             self.post_message(
                 self.Loaded(
                     PEPs(
-                        PEP.from_api(pep)
+                        PEP.from_storage(pep, self.notes)
                         for pep in loads(pep_data().read_text()).values()
                     )
                 )
