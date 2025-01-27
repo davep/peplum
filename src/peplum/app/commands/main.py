@@ -14,6 +14,14 @@ class ChangeTheme(Command):
 
 
 ##############################################################################
+class EditNotes(Command):
+    """Edit the highlighted PEP's notes"""
+
+    BINDING_KEY = "f2"
+    FOOTER_TEXT = "Notes"
+
+
+##############################################################################
 class Escape(Command):
     "Back up through the panes, right to left, or exit the app if the navigation pane has focus"
 

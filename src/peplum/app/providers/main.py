@@ -4,6 +4,7 @@
 # Local imports.
 from ..commands import (
     ChangeTheme,
+    EditNotes,
     Escape,
     FindPEP,
     Help,
@@ -38,6 +39,7 @@ class MainCommands(CommandsProvider):
             The commands for the command palette.
         """
         yield ChangeTheme()
+        yield EditNotes()
         yield Escape()
         yield FindPEP()
         yield Help()

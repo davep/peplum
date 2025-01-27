@@ -24,6 +24,7 @@ from ...peps import API
 from ..commands import (
     ChangeTheme,
     Command,
+    EditNotes,
     Escape,
     FindPEP,
     Help,
@@ -76,6 +77,7 @@ from ..providers import (
 )
 from ..widgets import Navigation, PEPDetails, PEPsView
 from .help import HelpScreen
+from .notes_editor import NotesEditor
 from .search_input import SearchInput
 
 
@@ -144,6 +146,7 @@ class Main(Screen[None]):
         # Keep these together as they're bound to function keys and destined
         # for the footer.
         Help,
+        EditNotes,
         TogglePEPDetails,
         Quit,
         RedownloadPEPs,
@@ -499,6 +502,22 @@ class Main(Screen[None]):
         with update_configuration() as config:
             config.peps_sort_order = "title"
             self.active_peps = self.active_peps.sorted_by(config.peps_sort_order)
+
+    @on(EditNotes)
+    @work
+    async def action_edit_notes_command(self) -> None:
+        """Edit the notes for the currently-highlighted PEP."""
+        if self.selected_pep is None:
+            self.notify("Highlight a PEP to edit its notes.", severity="warning")
+            return
+        if (
+            notes := await self.app.push_screen_wait(NotesEditor(self.selected_pep))
+        ) is not None:
+            self.notes[self.selected_pep.number] = notes
+            self.notes.save()
+            self.active_peps = self.active_peps.rebuild_from(
+                self.all_peps.patch_pep(self.selected_pep.annotate(notes=notes))
+            )
 
 
 ### main.py ends here

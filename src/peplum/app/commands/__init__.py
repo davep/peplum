@@ -17,7 +17,15 @@ from .filtering import (
     ShowAll,
 )
 from .finding import FindPEP
-from .main import ChangeTheme, Escape, Help, Quit, RedownloadPEPs, TogglePEPDetails
+from .main import (
+    ChangeTheme,
+    EditNotes,
+    Escape,
+    Help,
+    Quit,
+    RedownloadPEPs,
+    TogglePEPDetails,
+)
 from .navigation_sorting import (
     ToggleAuthorsSortOrder,
     TogglePythonVersionsSortOrder,
@@ -31,6 +39,7 @@ from .peps_sorting import SortByCreated, SortByNumber, SortByTitle
 __all__ = [
     "Command",
     "ChangeTheme",
+    "EditNotes",
     "Escape",
     "FindPEP",
     "Help",
