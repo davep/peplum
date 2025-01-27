@@ -37,9 +37,12 @@ class Notes:
             Self.
         """
         if self._NOTES_FILE.exists():
-            self._notes = loads(
-                (source or self._NOTES_FILE).read_text(encoding="utf-8")
-            )
+            self._notes = {
+                int(number): note
+                for number, note in loads(
+                    (source or self._NOTES_FILE).read_text(encoding="utf-8")
+                ).items()
+            }
         return self
 
     def save(self, target: Path | None = None) -> Self:
