@@ -503,6 +503,16 @@ class Main(Screen[None]):
             config.peps_sort_order = "title"
             self.active_peps = self.active_peps.sorted_by(config.peps_sort_order)
 
+    @work(thread=True)
+    def _save_notes(self) -> None:
+        """Save the notes."""
+        try:
+            self.notes.save()
+        except IOError as error:
+            self.notify(
+                str(error), title="Unable to save notes", severity="error", timeout=8
+            )
+
     @on(EditNotes)
     @work
     async def action_edit_notes_command(self) -> None:
@@ -514,7 +524,7 @@ class Main(Screen[None]):
             notes := await self.app.push_screen_wait(NotesEditor(self.selected_pep))
         ) is not None:
             self.notes[self.selected_pep.number] = notes
-            self.notes.save()
+            self._save_notes()
             self.active_peps = self.active_peps.rebuild_from(
                 self.all_peps.patch_pep(self.selected_pep.annotate(notes=notes))
             )
