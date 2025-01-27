@@ -44,8 +44,7 @@ class Notes:
 
     def __setitem__(self, pep: int, notes: str) -> None:
         """Set the note for a PEP."""
-        notes = notes.strip()
-        if notes:
+        if notes := notes.strip():
             self._notes[pep] = notes
         else:
             del self[pep]
