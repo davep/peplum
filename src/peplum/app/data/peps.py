@@ -19,6 +19,10 @@ from typing import Iterable, Iterator, Literal, TypeAlias
 from packaging.version import InvalidVersion, Version
 
 ##############################################################################
+# Typing extensions imports.
+from typing_extensions import Self
+
+##############################################################################
 # Local imports.
 from .locations import data_dir
 from .pep import PEP, PEPStatus, PEPType
@@ -289,6 +293,18 @@ class PEPs:
         """The filters that got to this set of PEPs."""
         self._sort_order: SortOrder = sort_order
         """The sort order for the PEPs."""
+
+    def patch_pep(self, pep: PEP) -> Self:
+        """Patch a PEP with a new instance.
+
+        Args:
+            pep: The new PEP.
+
+        Returns:
+            Self.
+        """
+        self._peps[pep.number] = pep
+        return self
 
     @property
     def is_filtered(self) -> bool:
