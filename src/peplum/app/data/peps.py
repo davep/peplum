@@ -432,6 +432,24 @@ class PEPs:
         """
         return PEPs(self, self._filters, sort_order)
 
+    def rebuild_from(self, peps: PEPs) -> PEPs:
+        """Rebuild a collection of PEPs from a given collection.
+
+        Given a collection of PEPs, filter it by this PEPs' filters, sort by
+        this PEPs' sort order, then return the fresh collection.
+
+        Args:
+            peps: The PEPs to seed the rebuild.
+
+        Returns:
+            The new collection of PEPs.
+        """
+        return PEPs(
+            (pep for pep in peps if all(pep & check for check in self._filters)),
+            self._filters,
+            self._sort_order,
+        )
+
     def __contains__(self, pep: PEP | int) -> bool:
         """Is the given PEP in here?"""
         return (pep.number if isinstance(pep, PEP) else pep) in self._peps
