@@ -1,8 +1,8 @@
 # Peplum ChangeLog
 
-## Unrealsed
+## v0.2.0
 
-**Released: WiP**
+**Released: 2025-01-27**
 
 - Worked around a likely Textual bug that caused an occasional cosmetic
   problem with the main PEPs list.
