@@ -36,12 +36,10 @@ class Notes:
         Returns:
             Self.
         """
-        if self._NOTES_FILE.exists():
+        if (source := source or self._NOTES_FILE).exists():
             self._notes = {
                 int(number): note
-                for number, note in loads(
-                    (source or self._NOTES_FILE).read_text(encoding="utf-8")
-                ).items()
+                for number, note in loads(source.read_text(encoding="utf-8")).items()
             }
         return self
 
