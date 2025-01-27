@@ -49,7 +49,7 @@ remove those directories too.
 Expanding for the common locations, the files normally created are:
 
 - `~/.config/peplum/configuration.json` -- The configuration file.
-- `~/.local/share/peplum/peps.json` -- The locally-held PEP data.
+- `~/.local/share/peplum/*.json` -- The locally-held PEP data.
 
 ## Getting help
 
