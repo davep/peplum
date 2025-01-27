@@ -11,6 +11,8 @@
   a free text search. ([#7](https://github.com/davep/peplum/pull/7))
 - Commands in the Python version filtering palette are now sorted by proper
   version order. ([#12](https://github.com/davep/peplum/pull/12))
+- Added the ability to attach notes to a PEP.
+  ([#13](https://github.com/davep/peplum/pull/13))
 
 ## v0.1.0
 

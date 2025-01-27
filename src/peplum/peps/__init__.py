@@ -3,10 +3,9 @@
 ##############################################################################
 # Local imports.
 from .api import API
-from .pep import PEP, PEPStatus, PEPType, PostHistory
 
 ##############################################################################
 # Exports.
-__all__ = ["API", "PEP", "PEPStatus", "PEPType", "PostHistory"]
+__all__ = ["API"]
 
 ### __init__.py ends here

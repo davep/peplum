@@ -6,10 +6,14 @@ from __future__ import annotations
 
 ##############################################################################
 # Python imports.
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import date
 from re import Pattern, compile
 from typing import Any, Final, Literal, cast
+
+##############################################################################
+# Local imports.
+from .notes import Notes
 
 ##############################################################################
 PEPStatus = Literal[
@@ -172,6 +176,8 @@ class PEP:
     """The PEP that supersedes this PEP."""
     url: str
     """The URL for the PEP."""
+    notes: str = ""
+    """The user's notes associated with this PEP."""
 
     _AUTHOR_SPLIT = compile(r",(?! +Jr)")
     """The regular expression for splitting up authors.
@@ -180,6 +186,16 @@ class PEP:
         This is 'good enough' but not ideal. It might need updating and
         improvement later on.
     """
+
+    def annotate(self, *, notes: str | None = None) -> PEP:
+        """Annotate the PEP.
+
+        Args:
+            notes: The optional notes to annotate the PEP with.
+        """
+        if notes is not None:
+            return replace(self, notes=notes)
+        return self
 
     def __contains__(self, search_text: str) -> bool:
         """Perhaps a case-insensitive search for the text anywhere in the PEP's data.
@@ -207,6 +223,7 @@ class PEP:
             or search_text
             in ("" if self.superseded_by is None else str(self.superseded_by))
             or search_text in self.url.casefold()
+            or search_text in self.notes.casefold()
         )
 
     @classmethod
@@ -235,14 +252,14 @@ class PEP:
         return tuple(author.strip() for author in cls._AUTHOR_SPLIT.split(authors))
 
     @classmethod
-    def from_json(cls, data: dict[str, Any]) -> PEP:
-        """Create a PEP from the given JSON data.
+    def _parse(cls, data: dict[str, Any]) -> dict[str, Any]:
+        """Parse the content of a PEP from the API data.
 
         Args:
-            data: The data to create the object from.
+            data: The data from the PEP API.
 
         Returns:
-            A fresh `PEP` object created from the data.
+            The data turned into locally-useful values.
         """
 
         def get_ints(field: str) -> tuple[int, ...]:
@@ -250,7 +267,7 @@ class PEP:
                 return tuple(int(value) for value in values.split(","))
             return ()
 
-        return cls(
+        return dict(
             number=data.get("number", -1),
             title=data.get("title", ""),
             authors=cls._authors(data.get("authors", "")),
@@ -279,6 +296,31 @@ class PEP:
             else int(data["superseded_by"]),
             url=data.get("url", ""),
         )
+
+    @classmethod
+    def from_api(cls, data: dict[str, Any]) -> PEP:
+        """Create a PEP from the given API data.
+
+        Args:
+            data: The data to create the object from.
+
+        Returns:
+            A fresh `PEP` object created from the data.
+        """
+        return cls(**cls._parse(data))
+
+    @classmethod
+    def from_storage(cls, data: dict[str, Any], notes: Notes) -> PEP:
+        """Create a PEP from the given data from storage.
+
+        Args:
+            data: The data to create the object from.
+            notes: The local notes about PEPs.
+
+        Returns:
+            A fresh `PEP` object created from the data.
+        """
+        return cls(**(pep := cls._parse(data)), notes=notes[pep["number"]])
 
 
 ### pep.py ends here

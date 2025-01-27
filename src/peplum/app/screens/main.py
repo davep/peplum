@@ -20,10 +20,11 @@ from textual.widgets import Footer, Header
 ##############################################################################
 # Local imports.
 from ... import __version__
-from ...peps import API, PEP
+from ...peps import API
 from ..commands import (
     ChangeTheme,
     Command,
+    EditNotes,
     Escape,
     FindPEP,
     Help,
@@ -45,7 +46,9 @@ from ..commands import (
     ToggleTypesSortOrder,
 )
 from ..data import (
+    PEP,
     Containing,
+    Notes,
     PEPs,
     WithAuthor,
     WithPythonVersion,
@@ -74,6 +77,7 @@ from ..providers import (
 )
 from ..widgets import Navigation, PEPDetails, PEPsView
 from .help import HelpScreen
+from .notes_editor import NotesEditor
 from .search_input import SearchInput
 
 
@@ -142,6 +146,7 @@ class Main(Screen[None]):
         # Keep these together as they're bound to function keys and destined
         # for the footer.
         Help,
+        EditNotes,
         TogglePEPDetails,
         Quit,
         RedownloadPEPs,
@@ -177,6 +182,9 @@ class Main(Screen[None]):
     selected_pep: var[PEP | None] = var(None)
     """The currently-selected PEP."""
 
+    notes: var[Notes] = var(Notes)
+    """The user's notes about PEPs."""
+
     def compose(self) -> ComposeResult:
         """Compose the content of the main screen."""
         yield Header()
@@ -198,11 +206,14 @@ class Main(Screen[None]):
     @work(thread=True)
     def load_pep_data(self) -> None:
         """Load the local copy of the PEP data."""
+        if not pep_data().exists():
+            return
         try:
+            self.notes.load()
             self.post_message(
                 self.Loaded(
                     PEPs(
-                        PEP.from_json(pep)
+                        PEP.from_storage(pep, self.notes)
                         for pep in loads(pep_data().read_text()).values()
                     )
                 )
@@ -213,13 +224,21 @@ class Main(Screen[None]):
     @work(thread=True)
     async def download_pep_data(self) -> None:
         """Download a fresh copy of the PEP data."""
-        self.notify("Downloading PEPs from the API...")
-        peps, raw_data = await API().get_peps()
+        # Get the raw data from the API.
+        try:
+            raw_data = await API().get_peps()
+        except API.Error as error:
+            self.notify(str(error), title="API Error", severity="error", timeout=8)
+            return
+        # Store the raw data.
         try:
             pep_data().write_text(dumps(raw_data, indent=4), encoding="utf-8")
         except IOError as error:
             self.notify(str(error), title="Error saving PEP data", severity="error")
-        self.post_message(self.Loaded(PEPs(peps)))
+            return
+        # Now kick off loading the raw data.
+        self.notify("Fresh PEP data downloaded from the PEP API")
+        self.load_pep_data()
 
     @on(Loaded)
     def load_fresh_peps(self, message: Loaded) -> None:
@@ -229,9 +248,13 @@ class Main(Screen[None]):
     def on_mount(self) -> None:
         """Configure the application once the DOM is mounted."""
         self.set_class(load_configuration().details_visble, "details-visible")
+        # On startup, if we've got local PEP data...
         if pep_data().exists():
+            # ...load and display that.
             self.load_pep_data()
         else:
+            # Given we've got no local data at all, let's force an attempt
+            # to download from the API.
             self.download_pep_data()
 
     def watch_all_peps(self) -> None:
@@ -479,6 +502,32 @@ class Main(Screen[None]):
         with update_configuration() as config:
             config.peps_sort_order = "title"
             self.active_peps = self.active_peps.sorted_by(config.peps_sort_order)
+
+    @work(thread=True)
+    def _save_notes(self) -> None:
+        """Save the notes."""
+        try:
+            self.notes.save()
+        except IOError as error:
+            self.notify(
+                str(error), title="Unable to save notes", severity="error", timeout=8
+            )
+
+    @on(EditNotes)
+    @work
+    async def action_edit_notes_command(self) -> None:
+        """Edit the notes for the currently-highlighted PEP."""
+        if self.selected_pep is None:
+            self.notify("Highlight a PEP to edit its notes.", severity="warning")
+            return
+        if (
+            notes := await self.app.push_screen_wait(NotesEditor(self.selected_pep))
+        ) is not None:
+            self.notes[self.selected_pep.number] = notes
+            self._save_notes()
+            self.active_peps = self.active_peps.rebuild_from(
+                self.all_peps.patch_pep(self.selected_pep.annotate(notes=notes))
+            )
 
 
 ### main.py ends here

@@ -11,7 +11,7 @@ from pytest import mark, raises
 
 ##############################################################################
 # Local imports.
-from peplum.peps.pep import parse_date
+from peplum.app.data.pep import parse_date
 
 
 ##############################################################################

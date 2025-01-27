@@ -19,9 +19,13 @@ from typing import Iterable, Iterator, Literal, TypeAlias
 from packaging.version import InvalidVersion, Version
 
 ##############################################################################
+# Typing extensions imports.
+from typing_extensions import Self
+
+##############################################################################
 # Local imports.
-from ...peps import PEP, PEPStatus, PEPType
 from .locations import data_dir
+from .pep import PEP, PEPStatus, PEPType
 
 
 ##############################################################################
@@ -290,6 +294,18 @@ class PEPs:
         self._sort_order: SortOrder = sort_order
         """The sort order for the PEPs."""
 
+    def patch_pep(self, pep: PEP) -> Self:
+        """Patch a PEP with a new instance.
+
+        Args:
+            pep: The new PEP.
+
+        Returns:
+            Self.
+        """
+        self._peps[pep.number] = pep
+        return self
+
     @property
     def is_filtered(self) -> bool:
         """Does this collection of PEPs have a filter?"""
@@ -415,6 +431,24 @@ class PEPs:
             The PEPs sorted in the required way.
         """
         return PEPs(self, self._filters, sort_order)
+
+    def rebuild_from(self, peps: PEPs) -> PEPs:
+        """Rebuild a collection of PEPs from a given collection.
+
+        Given a collection of PEPs, filter it by this PEPs' filters, sort by
+        this PEPs' sort order, then return the fresh collection.
+
+        Args:
+            peps: The PEPs to seed the rebuild.
+
+        Returns:
+            The new collection of PEPs.
+        """
+        return PEPs(
+            (pep for pep in peps if all(pep & check for check in self._filters)),
+            self._filters,
+            self._sort_order,
+        )
 
     def __contains__(self, pep: PEP | int) -> bool:
         """Is the given PEP in here?"""
