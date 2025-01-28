@@ -25,6 +25,7 @@ from .main import (
     Quit,
     RedownloadPEPs,
     TogglePEPDetails,
+    ViewPEP,
 )
 from .navigation_sorting import (
     ToggleAuthorsSortOrder,
@@ -59,6 +60,7 @@ __all__ = [
     "TogglePythonVersionsSortOrder",
     "ToggleStatusesSortOrder",
     "ToggleTypesSortOrder",
+    "ViewPEP",
 ]
 
 ### __init__.py ends here

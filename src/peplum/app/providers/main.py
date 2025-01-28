@@ -24,6 +24,7 @@ from ..commands import (
     TogglePythonVersionsSortOrder,
     ToggleStatusesSortOrder,
     ToggleTypesSortOrder,
+    ViewPEP,
 )
 from .commands_provider import CommandHits, CommandsProvider
 
@@ -59,6 +60,7 @@ class MainCommands(CommandsProvider):
         yield TogglePythonVersionsSortOrder()
         yield ToggleStatusesSortOrder()
         yield ToggleTypesSortOrder()
+        yield ViewPEP()
 
 
 ### main.py ends here
