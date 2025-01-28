@@ -32,6 +32,15 @@ class PEPViewer(ModalScreen[None]):
 
         #viewer {
             height: 1fr;
+            scrollbar-background: $panel;
+            scrollbar-background-hover: $panel;
+            scrollbar-background-active: $panel;
+            Static {
+                color: $text-muted;
+            }
+            &:focus Static {
+                color: $text;
+            }
         }
 
         #text {
@@ -42,6 +51,7 @@ class PEPViewer(ModalScreen[None]):
             height: auto;
             margin-top: 1;
             align-horizontal: right;
+            border-top: round $border;
         }
 
         Button {
@@ -68,7 +78,7 @@ class PEPViewer(ModalScreen[None]):
             dialog.border_title = f"PEP{self._pep.number}"
             yield VerticalScroll(Static(id="text"), id="viewer")
             with Horizontal(id="buttons"):
-                yield Button("Close [dim]\\[Esc][/]")
+                yield Button("Close [dim]\\[Esc][/]", variant="default")
 
     @work
     async def _download_text(self) -> None:
