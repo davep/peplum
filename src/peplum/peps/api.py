@@ -2,6 +2,7 @@
 
 ##############################################################################
 # Python imports.
+from pathlib import Path
 from ssl import SSLCertVerificationError
 from typing import Any, Final
 
@@ -81,7 +82,7 @@ class API:
         raise RequestError("Unexpected data received from the PEP API")
 
     @staticmethod
-    def pep_file(pep: int) -> str:
+    def pep_file(pep: int) -> Path:
         """Generate the name of the source file of a PEP.
 
         Args:
@@ -90,7 +91,7 @@ class API:
         Returns:
             The name of the source file for that PEP.
         """
-        return f"pep-{pep:04}.rst"
+        return Path(f"pep-{pep:04}.rst")
 
     @classmethod
     def pep_url(cls, pep: int) -> str:
