@@ -29,17 +29,18 @@ from .peps import (
 ##############################################################################
 # Exports.
 __all__ = [
-    "pep_data",
     "AuthorCount",
+    "cache_dir",
     "Configuration",
     "Containing",
     "load_configuration",
     "Notes",
     "PEP",
-    "PEPStatus",
-    "PEPType",
+    "pep_data",
     "PEPCount",
     "PEPs",
+    "PEPStatus",
+    "PEPType",
     "PostHistory",
     "PythonVersionCount",
     "save_configuration",
