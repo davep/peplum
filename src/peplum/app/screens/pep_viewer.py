@@ -35,16 +35,13 @@ class PEPViewer(ModalScreen[None]):
             scrollbar-background: $panel;
             scrollbar-background-hover: $panel;
             scrollbar-background-active: $panel;
-            Static {
+            #text {
+                padding: 0 1;
                 color: $text-muted;
             }
-            &:focus Static {
+            &:focus #text {
                 color: $text;
             }
-        }
-
-        #text {
-            padding: 0 1;
         }
 
         #buttons {
