@@ -8,6 +8,7 @@ from .config import (
     save_configuration,
     update_configuration,
 )
+from .locations import cache_dir
 from .notes import Notes
 from .pep import PEP, PEPStatus, PEPType, PostHistory
 from .peps import (

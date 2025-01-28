@@ -42,6 +42,21 @@ def data_dir() -> Path:
 
 
 ##############################################################################
+def cache_dir() -> Path:
+    """The path to the cache directory for the application.
+
+    Returns:
+        The path to the cache directory for the application.
+
+    Note:
+        If the directory doesn't exist, it will be created as a side-effect
+        of calling this function.
+    """
+    (cache := data_dir() / "cache").mkdir(parents=True, exist_ok=True)
+    return cache
+
+
+##############################################################################
 def config_dir() -> Path:
     """The path to the configuration directory for the application.
 
