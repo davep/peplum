@@ -9,6 +9,8 @@
 - Made some cosmetic changes to the notes editor dialog so that it better
   matches the rest of the application.
   ([#18](https://github.com/davep/peplum/pull/18))
+- Dropped Python 3.8 as a supported Python version.
+  ([#19](https://github.com/davep/peplum/pull/19))
 
 ## v0.2.0
 
