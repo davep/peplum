@@ -13,10 +13,15 @@ from textual.screen import ModalScreen
 from textual.widgets import Button, TextArea
 
 ##############################################################################
+# Textual fspicker imports.
+from textual_fspicker import FileSave
+
+##############################################################################
 # Local imports.
 from ...peps import API
 from ..data import PEP, cache_dir
 from ..widgets import TextViewer
+from .confirm import Confirm
 
 
 ##############################################################################
@@ -58,7 +63,12 @@ class PEPViewer(ModalScreen[None]):
     }
     """
 
-    BINDINGS = [("escape", "close"), ("ctrl+r", "refresh"), ("ctrl+c", "copy")]
+    BINDINGS = [
+        ("ctrl+c", "copy"),
+        ("ctrl+r", "refresh"),
+        ("ctrl+s", "save"),
+        ("escape", "close"),
+    ]
 
     def __init__(self, pep: PEP) -> None:
         """Initialise the dialog.
@@ -80,6 +90,7 @@ class PEPViewer(ModalScreen[None]):
             yield TextViewer()
             with Horizontal(id="buttons"):
                 yield Button(f"Copy [{key_colour}]\\[^c][/]", id="copy")
+                yield Button(f"Save [{key_colour}]\\[^s][/]", id="save")
                 yield Button(f"Refresh [{key_colour}]\\[^r][/]", id="refresh")
                 yield Button(f"Close [{key_colour}]\\[Esc][/]", id="close")
 
@@ -146,6 +157,24 @@ class PEPViewer(ModalScreen[None]):
     async def action_copy(self) -> None:
         """Copy PEP text to the clipboard."""
         await self.query_one(TextArea).run_action("copy")
+
+    @on(Button.Pressed, "#save")
+    @work
+    async def action_save(self) -> None:
+        """Save the source of the PEP to a file."""
+        if target := await self.app.push_screen_wait(FileSave()):
+            if target.exists() and not await self.app.push_screen_wait(
+                Confirm(
+                    "Overwrite?", f"{target}\n\nAre you sure you want to overwrite?"
+                )
+            ):
+                return
+            try:
+                target.write_text(self.query_one(TextArea).text, encoding="utf-8")
+            except IOError as error:
+                self.notify(str(error), title="Save Failed", severity="error")
+                return
+            self.notify(str(target), title="Saved")
 
 
 ### pep_viewer.py ends here
