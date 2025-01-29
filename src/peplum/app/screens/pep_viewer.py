@@ -16,6 +16,7 @@ from textual.widgets import Button, TextArea
 # Local imports.
 from ...peps import API
 from ..data import PEP, cache_dir
+from ..widgets import TextViewer
 
 
 ##############################################################################
@@ -34,17 +35,14 @@ class PEPViewer(ModalScreen[None]):
             border: panel $border;
         }
 
-        #text {
+        TextViewer {
             color: $text-muted;
             height: 1fr;
-            background: transparent;
             scrollbar-background: $panel;
             scrollbar-background-hover: $panel;
             scrollbar-background-active: $panel;
-            border: none;
             &:focus {
                 color: $text;
-                border: none;
             }
         }
 
@@ -61,7 +59,7 @@ class PEPViewer(ModalScreen[None]):
     }
     """
 
-    BINDINGS = [("escape", "close"), ("ctrl+r", "refresh")]
+    BINDINGS = [("escape", "close"), ("ctrl+r", "refresh"), ("ctrl+c", "copy")]
 
     def __init__(self, pep: PEP) -> None:
         """Initialise the dialog.
@@ -77,8 +75,9 @@ class PEPViewer(ModalScreen[None]):
         """Compose the dialog's content."""
         with Vertical() as dialog:
             dialog.border_title = f"PEP{self._pep.number}"
-            yield TextArea(id="text", read_only=True)
+            yield TextViewer()
             with Horizontal(id="buttons"):
+                yield Button("Copy [dim]\\[^c][/]", id="copy")
                 yield Button("Refresh [dim]\\[^r][/]", id="refresh")
                 yield Button("Close [dim]\\[Esc][/]", id="close")
 
@@ -96,7 +95,7 @@ class PEPViewer(ModalScreen[None]):
             attempting to download the PEP, this local copy will be used
             instead.
         """
-        (text := self.query_one("#text", TextArea)).loading = True
+        (text := self.query_one(TextViewer)).loading = True
         pep_source = ""
 
         if self._cache_name.exists():
@@ -140,6 +139,11 @@ class PEPViewer(ModalScreen[None]):
         except IOError:
             pass
         self._download_text()
+
+    @on(Button.Pressed, "#copy")
+    async def action_copy(self) -> None:
+        """Copy PEP text to the clipboard."""
+        await self.query_one(TextArea).run_action("copy")
 
 
 ### pep_viewer.py ends here
