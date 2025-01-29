@@ -96,7 +96,9 @@ class PEPViewer(ModalScreen[None]):
             attempting to download the PEP, this local copy will be used
             instead.
         """
+        self.query_one("#viewer").loading = True
         pep_source = ""
+
         if self._cache_name.exists():
             try:
                 pep_source = self._cache_name.read_text(encoding="utf-8")
@@ -123,7 +125,6 @@ class PEPViewer(ModalScreen[None]):
 
     def on_mount(self) -> None:
         """Populate the dialog once the"""
-        self.query_one("#viewer").loading = True
         self._download_text()
 
     @on(Button.Pressed, "#close")
@@ -138,7 +139,6 @@ class PEPViewer(ModalScreen[None]):
             self._cache_name.unlink(missing_ok=True)
         except IOError:
             pass
-        self.query_one("#viewer").loading = True
         self._download_text()
 
 
