@@ -8,9 +8,9 @@ from pathlib import Path
 # Textual imports.
 from textual import on, work
 from textual.app import ComposeResult
-from textual.containers import Horizontal, ScrollableContainer, Vertical
+from textual.containers import Horizontal, Vertical
 from textual.screen import ModalScreen
-from textual.widgets import Button, Static
+from textual.widgets import Button, TextArea
 
 ##############################################################################
 # Local imports.
@@ -34,17 +34,17 @@ class PEPViewer(ModalScreen[None]):
             border: panel $border;
         }
 
-        #viewer {
+        #text {
+            color: $text-muted;
             height: 1fr;
+            background: transparent;
             scrollbar-background: $panel;
             scrollbar-background-hover: $panel;
             scrollbar-background-active: $panel;
-            #text {
-                padding: 0 1;
-                color: $text-muted;
-            }
-            &:focus #text {
+            border: none;
+            &:focus {
                 color: $text;
+                border: none;
             }
         }
 
@@ -77,7 +77,7 @@ class PEPViewer(ModalScreen[None]):
         """Compose the dialog's content."""
         with Vertical() as dialog:
             dialog.border_title = f"PEP{self._pep.number}"
-            yield ScrollableContainer(Static(id="text"), id="viewer")
+            yield TextArea(id="text", read_only=True)
             with Horizontal(id="buttons"):
                 yield Button("Refresh [dim]\\[^r][/]", id="refresh")
                 yield Button("Close [dim]\\[Esc][/]", id="close")
@@ -96,7 +96,7 @@ class PEPViewer(ModalScreen[None]):
             attempting to download the PEP, this local copy will be used
             instead.
         """
-        self.query_one("#viewer").loading = True
+        (text := self.query_one("#text", TextArea)).loading = True
         pep_source = ""
 
         if self._cache_name.exists():
@@ -119,9 +119,9 @@ class PEPViewer(ModalScreen[None]):
                     str(error), title="Error downloading PEP source", severity="error"
                 )
 
-        self.query_one("#text", Static).update(pep_source)
-        self.query_one("#viewer").loading = False
-        self.set_focus(self.query_one("#viewer"))
+        text.text = pep_source
+        text.loading = False
+        self.set_focus(text)
 
     def on_mount(self) -> None:
         """Populate the dialog once the"""
