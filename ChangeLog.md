@@ -1,8 +1,8 @@
 # Peplum ChangeLog
 
-## Unreleased
+## v0.3.0
 
-**Released: WiP**
+**Released: 2025-01-29**
 
 - Added the ability to view the source of a PEP.
   ([#17](https://github.com/davep/peplum/pull/17))
