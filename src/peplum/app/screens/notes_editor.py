@@ -26,20 +26,26 @@ class NotesEditor(ModalScreen[str | None]):
             max-width: 80;
             height: auto;
             background: $panel;
-            border: panel $border;
+            border: solid $border;
         }
 
         TextArea, TextArea:focus {
+            background: transparent;
             height: 20;
-            margin: 1 1 0 1;
             padding: 0;
             border: none;
+            scrollbar-background: $panel;
+            scrollbar-background-hover: $panel;
+            scrollbar-background-active: $panel;
+            & > .text-area--cursor-line {
+               background: transparent;
+            }
         }
 
         #buttons {
             height: auto;
-            margin-top: 1;
             align-horizontal: right;
+            border-top: solid $border;
         }
 
         Button {
@@ -62,12 +68,15 @@ class NotesEditor(ModalScreen[str | None]):
 
     def compose(self) -> ComposeResult:
         """Compose the dialog's content."""
+        key_colour = (
+            "dim" if self.app.current_theme is None else self.app.current_theme.accent
+        )
         with Vertical() as dialog:
             dialog.border_title = f"Notes for PEP{self._pep.number}"
             yield TextArea(self._pep.notes)
             with Horizontal(id="buttons"):
-                yield Button("Save [dim]\\[F2][/]", id="save", variant="success")
-                yield Button("Cancel [dim]\\[Esc][/]", id="cancel", variant="error")
+                yield Button(f"Save [{key_colour}]\\[F2][/]", id="save")
+                yield Button(f"Cancel [{key_colour}]\\[Esc][/]", id="cancel")
 
     @on(Button.Pressed, "#save")
     def action_save(self) -> None:
