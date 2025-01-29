@@ -50,6 +50,7 @@ Expanding for the common locations, the files normally created are:
 
 - `~/.config/peplum/configuration.json` -- The configuration file.
 - `~/.local/share/peplum/*.json` -- The locally-held PEP data.
+- `~/.local/share/peplum/cache/*.rst` -- The locally-cached PEP source files.
 
 ## Getting help
 

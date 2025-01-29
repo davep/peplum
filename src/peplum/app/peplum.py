@@ -33,6 +33,11 @@ class Peplum(App[None]):
         }
     }
 
+    /* Make the LoadingIndicator look less like it was just slapped on. */
+    LoadingIndicator {
+        background: transparent;
+    }
+
     /* Remove cruft from the Header. */
     Header {
         /* The header icon is ugly and pointless. Remove it. */

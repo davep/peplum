@@ -61,4 +61,12 @@ class TogglePEPDetails(Command):
     BINDING_KEY = "f3"
 
 
+##############################################################################
+class ViewPEP(Command):
+    """View the source of the currently-highlighted PEP"""
+
+    FOOTER_TEXT = "View"
+    BINDING_KEY = "f4"
+
+
 ### main.py ends here

@@ -44,6 +44,7 @@ from ..commands import (
     TogglePythonVersionsSortOrder,
     ToggleStatusesSortOrder,
     ToggleTypesSortOrder,
+    ViewPEP,
 )
 from ..data import (
     PEP,
@@ -78,6 +79,7 @@ from ..providers import (
 from ..widgets import Navigation, PEPDetails, PEPsView
 from .help import HelpScreen
 from .notes_editor import NotesEditor
+from .pep_viewer import PEPViewer
 from .search_input import SearchInput
 
 
@@ -148,6 +150,7 @@ class Main(Screen[None]):
         Help,
         EditNotes,
         TogglePEPDetails,
+        ViewPEP,
         Quit,
         RedownloadPEPs,
         # Everything else.
@@ -528,6 +531,17 @@ class Main(Screen[None]):
             self.active_peps = self.active_peps.rebuild_from(
                 self.all_peps.patch_pep(self.selected_pep.annotate(notes=notes))
             )
+
+    @on(ViewPEP)
+    def action_view_pep_command(self) -> None:
+        """View the currently-highlighted PEP's source."""
+        if self.selected_pep is None:
+            self.notify("Highlight a PEP to view it.", severity="warning")
+            return
+        if self.selected_pep.number == 0:
+            self.notify("PEP0 has no source to view.", severity="warning")
+            return
+        self.app.push_screen(PEPViewer(self.selected_pep))
 
 
 ### main.py ends here
