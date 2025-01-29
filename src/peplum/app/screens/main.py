@@ -11,7 +11,6 @@ from webbrowser import open as visit_url
 from textual import on, work
 from textual.app import ComposeResult
 from textual.command import CommandPalette
-from textual.containers import Horizontal
 from textual.message import Message
 from textual.reactive import var
 from textual.screen import Screen
@@ -97,6 +96,8 @@ class Main(Screen[None]):
 
     DEFAULT_CSS = """
     Main {
+        layout: horizontal;
+
         .panel {
             height: 1fr;
             border: none;
@@ -191,12 +192,11 @@ class Main(Screen[None]):
     def compose(self) -> ComposeResult:
         """Compose the content of the main screen."""
         yield Header()
-        with Horizontal():
-            yield Navigation(load_configuration(), classes="panel").data_bind(
-                Main.all_peps, Main.active_peps
-            )
-            yield PEPsView(classes="panel").data_bind(Main.active_peps)
-            yield PEPDetails(classes="panel").data_bind(pep=Main.selected_pep)
+        yield Navigation(load_configuration(), classes="panel").data_bind(
+            Main.all_peps, Main.active_peps
+        )
+        yield PEPsView(classes="panel").data_bind(Main.active_peps)
+        yield PEPDetails(classes="panel").data_bind(pep=Main.selected_pep)
         yield Footer()
 
     @dataclass
