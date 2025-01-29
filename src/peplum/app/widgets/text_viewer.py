@@ -16,6 +16,9 @@ class TextViewer(TextArea):
         &:focus {
             border: none;
         }
+        & > .text-area--cursor-line {
+           background: transparent;
+        }
     }
     """
 
