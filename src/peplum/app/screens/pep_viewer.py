@@ -72,13 +72,16 @@ class PEPViewer(ModalScreen[None]):
 
     def compose(self) -> ComposeResult:
         """Compose the dialog's content."""
+        key_colour = (
+            "dim" if self.app.current_theme is None else self.app.current_theme.accent
+        )
         with Vertical() as dialog:
             dialog.border_title = f"PEP{self._pep.number}"
             yield TextViewer()
             with Horizontal(id="buttons"):
-                yield Button("Copy [dim]\\[^c][/]", id="copy")
-                yield Button("Refresh [dim]\\[^r][/]", id="refresh")
-                yield Button("Close [dim]\\[Esc][/]", id="close")
+                yield Button(f"Copy [{key_colour}]\\[^c][/]", id="copy")
+                yield Button(f"Refresh [{key_colour}]\\[^r][/]", id="refresh")
+                yield Button(f"Close [{key_colour}]\\[Esc][/]", id="close")
 
     @property
     def _cache_name(self) -> Path:
