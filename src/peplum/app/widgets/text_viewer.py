@@ -67,15 +67,14 @@ class TextViewer(TextArea):
     def action_cursor_line_start(self, select: bool = False) -> None:
         """Add a slightly smarter use of going 'home'."""
         if self.cursor_at_start_of_line:
-            self.move_cursor((0, 0), select=select)
+            self.move_cursor(self.document.start, select=select)
         else:
             super().action_cursor_line_start(select)
 
     def action_cursor_line_end(self, select: bool = False) -> None:
         """Add a slightly smarter use of going 'end'."""
         if self.cursor_at_end_of_line:
-            self.move_cursor((self.document.line_count, 0), select=select)
-            pass
+            self.move_cursor(self.document.end, select=select)
         else:
             super().action_cursor_line_end(select)
 
