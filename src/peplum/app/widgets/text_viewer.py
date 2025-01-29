@@ -22,6 +22,11 @@ class TextViewer(TextArea):
     }
     """
 
+    BINDINGS = [
+        ("<", "cursor_line_start"),
+        (">", "cursor_line_end"),
+    ]
+
     def __init__(
         self,
         text: str = "",
@@ -57,6 +62,21 @@ class TextViewer(TextArea):
             for_clipboard = self.text
             self.notify("All text copied to the clipboard.")
         self.app.copy_to_clipboard(for_clipboard)
+
+    def action_cursor_line_start(self, select: bool = False) -> None:
+        """Add a slightly smarter use of going 'home'."""
+        if self.cursor_at_start_of_line:
+            self.move_cursor((0, 0), select=select)
+        else:
+            super().action_cursor_line_start(select)
+
+    def action_cursor_line_end(self, select: bool = False) -> None:
+        """Add a slightly smarter use of going 'end'."""
+        if self.cursor_at_end_of_line:
+            self.move_cursor((self.document.line_count, 0), select=select)
+            pass
+        else:
+            super().action_cursor_line_end(select)
 
 
 ### text_viewer.py ends here
