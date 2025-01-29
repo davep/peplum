@@ -123,7 +123,7 @@ class PEPViewer(ModalScreen[None]):
         self.set_focus(text)
 
     def on_mount(self) -> None:
-        """Populate the dialog once the"""
+        """Populate the dialog once the DOM is ready."""
         self._download_text()
 
     @on(Button.Pressed, "#close")
