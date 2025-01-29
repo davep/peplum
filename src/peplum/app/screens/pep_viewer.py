@@ -32,7 +32,7 @@ class PEPViewer(ModalScreen[None]):
             height: 80%;
             max-height: 80%;
             background: $panel;
-            border: panel $border;
+            border: solid $border;
         }
 
         TextViewer {
@@ -48,9 +48,8 @@ class PEPViewer(ModalScreen[None]):
 
         #buttons {
             height: auto;
-            margin-top: 1;
             align-horizontal: right;
-            border-top: round $border;
+            border-top: solid $border;
         }
 
         Button {
