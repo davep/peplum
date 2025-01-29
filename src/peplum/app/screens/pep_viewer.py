@@ -21,6 +21,7 @@ from textual_fspicker import FileSave
 from ...peps import API
 from ..data import PEP, cache_dir
 from ..widgets import TextViewer
+from .confirm import Confirm
 
 
 ##############################################################################
@@ -162,6 +163,12 @@ class PEPViewer(ModalScreen[None]):
     async def action_save(self) -> None:
         """Save the source of the PEP to a file."""
         if target := await self.app.push_screen_wait(FileSave()):
+            if target.exists() and not await self.app.push_screen_wait(
+                Confirm(
+                    "Overwrite?", f"{target}\n\nAre you sure you want to overwrite?"
+                )
+            ):
+                return
             try:
                 target.write_text(self.query_one(TextArea).text, encoding="utf-8")
             except IOError as error:
