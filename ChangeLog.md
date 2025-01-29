@@ -6,6 +6,9 @@
 
 - Added the ability to view the source of a PEP.
   ([#17](https://github.com/davep/peplum/pull/17))
+- Made some cosmetic changes to the notes editor dialog so that it better
+  matches the rest of the application.
+  ([#18](https://github.com/davep/peplum/pull/18))
 
 ## v0.2.0
 
