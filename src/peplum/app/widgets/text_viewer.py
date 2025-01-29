@@ -25,6 +25,7 @@ class TextViewer(TextArea):
     BINDINGS = [
         ("<", "cursor_line_start"),
         (">", "cursor_line_end"),
+        ("c, C", "copy"),
     ]
 
     def __init__(
