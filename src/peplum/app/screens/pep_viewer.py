@@ -8,7 +8,7 @@ from pathlib import Path
 # Textual imports.
 from textual import on, work
 from textual.app import ComposeResult
-from textual.containers import Horizontal, Vertical, VerticalScroll
+from textual.containers import Horizontal, ScrollableContainer, Vertical
 from textual.screen import ModalScreen
 from textual.widgets import Button, Static
 
@@ -77,7 +77,7 @@ class PEPViewer(ModalScreen[None]):
         """Compose the dialog's content."""
         with Vertical() as dialog:
             dialog.border_title = f"PEP{self._pep.number}"
-            yield VerticalScroll(Static(id="text"), id="viewer")
+            yield ScrollableContainer(Static(id="text"), id="viewer")
             with Horizontal(id="buttons"):
                 yield Button("Refresh [dim]\\[^r][/]", id="refresh")
                 yield Button("Close [dim]\\[Esc][/]", id="close")
