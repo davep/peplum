@@ -14,6 +14,10 @@ mypy   := $(run) mypy
 run:				# Run the code in a testing context
 	$(run) $(app)
 
+.PHONY: serve
+serve:				# Run in server mode for use in the browser
+	$(run) textual serve $(app)
+
 .PHONY: debug
 debug:				# Run the code with Textual devtools enabled
 	TEXTUAL=devtools make
