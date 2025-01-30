@@ -162,7 +162,9 @@ class PEPViewer(ModalScreen[None]):
     @work
     async def action_save(self) -> None:
         """Save the source of the PEP to a file."""
-        if target := await self.app.push_screen_wait(FileSave()):
+        if target := await self.app.push_screen_wait(
+            FileSave(default_file=API.pep_file(self._pep.number))
+        ):
             if target.exists() and not await self.app.push_screen_wait(
                 Confirm(
                     "Overwrite?", f"{target}\n\nAre you sure you want to overwrite?"
