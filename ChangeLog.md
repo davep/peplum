@@ -1,5 +1,12 @@
 # Peplum ChangeLog
 
+## Unreleased
+
+**Released: WiP**
+
+- When saving a PEP's source a default filename is provided.
+  ([#24](https://github.com/davep/peplum/pull/24))
+
 ## v0.3.0
 
 **Released: 2025-01-29**
