@@ -41,7 +41,7 @@ class Command(Message):
         If no `FOOTER_TEXT` is provided the `command` will be used.
     """
 
-    SHOW_IN_FOOTER: bool = True
+    SHOW_IN_FOOTER: bool = False
     """Should the command be shown in the footer?"""
 
     BINDING_KEY: str | tuple[str, str] | None = None
