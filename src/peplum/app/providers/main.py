@@ -1,6 +1,10 @@
 """Provides the main application commands for the command palette."""
 
 ##############################################################################
+# Textual enhanced imports.
+from textual_enhanced.commands import CommandHits, CommandsProvider
+
+##############################################################################
 # Local imports.
 from ..commands import (
     ChangeTheme,
@@ -26,7 +30,6 @@ from ..commands import (
     ToggleTypesSortOrder,
     ViewPEP,
 )
-from .commands_provider import CommandHits, CommandsProvider
 
 
 ##############################################################################

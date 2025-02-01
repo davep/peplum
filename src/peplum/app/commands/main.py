@@ -1,8 +1,8 @@
 """The main commands used within the application."""
 
 ##############################################################################
-# Local imports.
-from .base import Command
+# Textual enhanced imports.
+from textual_enhanced.commands import Command
 
 
 ##############################################################################

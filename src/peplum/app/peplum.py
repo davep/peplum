@@ -2,8 +2,11 @@
 
 ##############################################################################
 # Textual imports.
-from textual.app import App, InvalidThemeError
-from textual.binding import Binding
+from textual.app import InvalidThemeError
+
+##############################################################################
+# Textual enhanced imports.
+from textual_enhanced.app import EnhancedApp
 
 ##############################################################################
 # Local imports.
@@ -15,52 +18,8 @@ from .screens import Main
 
 
 ##############################################################################
-class Peplum(App[None]):
+class Peplum(EnhancedApp[None]):
     """The main application class."""
-
-    CSS = """
-    CommandPalette > Vertical {
-        width: 75%; /* Full-width command palette looks like garbage. Fix that. */
-        background: $panel;
-        SearchIcon {
-            display: none;
-        }
-    }
-
-    /* Make the LoadingIndicator look less like it was just slapped on. */
-    LoadingIndicator {
-        background: transparent;
-    }
-
-    /* Remove cruft from the Header. */
-    Header {
-        /* The header icon is ugly and pointless. Remove it. */
-        HeaderIcon {
-            visibility: hidden;
-        }
-
-        /* The tall version of the header is utterly useless. Nuke that. */
-        &.-tall {
-            height: 1 !important;
-        }
-    }
-
-    /* General style tweaks that affect all widgets. */
-    * {
-        /* Let's make scrollbars a wee bit thinner. */
-        scrollbar-size-vertical: 1;
-    }
-    """
-
-    BINDINGS = [
-        Binding(
-            "ctrl+p, super+x, :",
-            "command_palette",
-            "Commands",
-            show=False,
-            tooltip="Show the command palette",
-        ),
-    ]
 
     COMMANDS = set()
 

@@ -17,12 +17,15 @@ from textual.screen import Screen
 from textual.widgets import Footer, Header
 
 ##############################################################################
+# Textual enhanced imports.
+from textual_enhanced.commands import Command, CommandsProvider
+
+##############################################################################
 # Local imports.
 from ... import __version__
 from ...peps import API
 from ..commands import (
     ChangeTheme,
-    Command,
     EditNotes,
     Escape,
     FindPEP,
@@ -68,7 +71,6 @@ from ..messages import (
 )
 from ..providers import (
     AuthorCommands,
-    CommandsProvider,
     MainCommands,
     PEPsCommands,
     PythonVersionCommands,

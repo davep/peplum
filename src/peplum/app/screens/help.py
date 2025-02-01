@@ -18,9 +18,12 @@ from textual.screen import ModalScreen, Screen
 from textual.widgets import Button, Markdown
 
 ##############################################################################
+# Textual enhanced imports.
+from textual_enhanced.commands import Command
+
+##############################################################################
 # Local imports.
 from ... import __version__
-from ..commands import Command
 
 ##############################################################################
 # The help text.

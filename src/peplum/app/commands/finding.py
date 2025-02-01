@@ -1,8 +1,8 @@
 """Commands related to finding things."""
 
 ##############################################################################
-# Local imports.
-from .base import Command
+# Textual enhanced imports.
+from textual_enhanced.commands import Command
 
 
 ##############################################################################

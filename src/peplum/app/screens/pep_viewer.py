@@ -13,6 +13,10 @@ from textual.screen import ModalScreen
 from textual.widgets import Button, TextArea
 
 ##############################################################################
+# Textual enhanced imports.
+from textual_enhanced.widgets import TextViewer
+
+##############################################################################
 # Textual fspicker imports.
 from textual_fspicker import FileSave
 
@@ -20,7 +24,6 @@ from textual_fspicker import FileSave
 # Local imports.
 from ...peps import API
 from ..data import PEP, cache_dir
-from ..widgets import TextViewer
 from .confirm import Confirm
 
 

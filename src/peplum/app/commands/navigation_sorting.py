@@ -1,8 +1,8 @@
 """Commands for affecting navigation sort ordering."""
 
 ##############################################################################
-# Local imports.
-from .base import Command
+# Textual enhanced imports.
+from textual_enhanced.commands import Command
 
 
 ##############################################################################

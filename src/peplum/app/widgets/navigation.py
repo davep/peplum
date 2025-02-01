@@ -21,6 +21,10 @@ from textual.widgets import OptionList
 from textual.widgets.option_list import Option
 
 ##############################################################################
+# Textual enhanced imports.
+from textual_enhanced.widgets import EnhancedOptionList
+
+##############################################################################
 # Typing exception imports.
 from typing_extensions import Self
 
@@ -37,7 +41,6 @@ from ..data import (
     TypeCount,
 )
 from ..messages import ShowAuthor, ShowPythonVersion, ShowStatus, ShowType
-from .extended_option_list import OptionListEx
 
 
 ##############################################################################
@@ -197,7 +200,7 @@ class AuthorView(CountView):
 
 
 ##############################################################################
-class Navigation(OptionListEx):
+class Navigation(EnhancedOptionList):
     """The main navigation panel."""
 
     HELP = """

@@ -104,9 +104,12 @@ sniffio==1.3.1
 textual==1.0.0
     # via peplum
     # via textual-dev
+    # via textual-enhanced
     # via textual-fspicker
     # via textual-serve
 textual-dev==1.7.0
+textual-enhanced==0.1.0
+    # via peplum
 textual-fspicker==0.2.0
     # via peplum
 textual-serve==1.1.1
