@@ -12,7 +12,7 @@
 -e file:.
 anyio==4.8.0
     # via httpx
-certifi==2024.12.14
+certifi==2025.1.31
     # via httpcore
     # via httpx
 h11==0.14.0
@@ -50,7 +50,7 @@ textual==1.0.0
     # via peplum
     # via textual-enhanced
     # via textual-fspicker
-textual-enhanced==0.1.0
+textual-enhanced==0.2.0
     # via peplum
 textual-fspicker==0.2.0
     # via peplum

@@ -13,7 +13,7 @@ dependencies = [
     "packaging>=24.2",
     "humanize>=4.11.0",
     "textual-fspicker>=0.2.0",
-    "textual-enhanced>=0.1.0",
+    "textual-enhanced>=0.2.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.9"
