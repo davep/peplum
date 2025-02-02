@@ -19,7 +19,7 @@ from textual.widgets import Footer, Header
 ##############################################################################
 # Textual enhanced imports.
 from textual_enhanced.commands import Command, CommandsProvider
-from textual_enhanced.dialogs import HelpScreen
+from textual_enhanced.dialogs import HelpScreen, ModalInput
 
 ##############################################################################
 # Local imports.
@@ -81,7 +81,6 @@ from ..providers import (
 from ..widgets import Navigation, PEPDetails, PEPsView
 from .notes_editor import NotesEditor
 from .pep_viewer import PEPViewer
-from .search_input import SearchInput
 
 
 ##############################################################################
@@ -383,7 +382,9 @@ class Main(Screen[None]):
     @work
     async def action_search_command(self) -> None:
         """Free-text search within the PEPs."""
-        if search_text := await self.app.push_screen_wait(SearchInput()):
+        if search_text := await self.app.push_screen_wait(
+            ModalInput("Case-insensitive text to look for in the PEPs")
+        ):
             self.active_peps = self.active_peps & Containing(search_text)
 
     @on(SearchAuthor)
