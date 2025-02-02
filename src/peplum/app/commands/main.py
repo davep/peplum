@@ -29,22 +29,6 @@ class Escape(Command):
 
 
 ##############################################################################
-class Help(Command):
-    """Show help for and information about the application"""
-
-    BINDING_KEY = "f1, ?"
-    SHOW_IN_FOOTER = True
-
-
-##############################################################################
-class Quit(Command):
-    """Quit the application"""
-
-    BINDING_KEY = "f10, ctrl+q"
-    SHOW_IN_FOOTER = True
-
-
-##############################################################################
 class RedownloadPEPs(Command):
     """Redownload the list of PEPs"""
 

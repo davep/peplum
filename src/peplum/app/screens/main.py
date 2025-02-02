@@ -18,7 +18,7 @@ from textual.widgets import Footer, Header
 
 ##############################################################################
 # Textual enhanced imports.
-from textual_enhanced.commands import Command, CommandsProvider
+from textual_enhanced.commands import Command, CommandsProvider, Help, Quit
 from textual_enhanced.dialogs import HelpScreen, ModalInput
 
 ##############################################################################
@@ -30,8 +30,6 @@ from ..commands import (
     EditNotes,
     Escape,
     FindPEP,
-    Help,
-    Quit,
     RedownloadPEPs,
     Search,
     SearchAuthor,

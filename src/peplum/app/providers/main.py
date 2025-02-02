@@ -2,7 +2,7 @@
 
 ##############################################################################
 # Textual enhanced imports.
-from textual_enhanced.commands import CommandHits, CommandsProvider
+from textual_enhanced.commands import CommandHits, CommandsProvider, Help, Quit
 
 ##############################################################################
 # Local imports.
@@ -11,8 +11,6 @@ from ..commands import (
     EditNotes,
     Escape,
     FindPEP,
-    Help,
-    Quit,
     RedownloadPEPs,
     Search,
     SearchAuthor,
