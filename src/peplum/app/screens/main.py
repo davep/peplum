@@ -19,6 +19,7 @@ from textual.widgets import Footer, Header
 ##############################################################################
 # Textual enhanced imports.
 from textual_enhanced.commands import Command, CommandsProvider
+from textual_enhanced.dialogs import HelpScreen
 
 ##############################################################################
 # Local imports.
@@ -78,7 +79,6 @@ from ..providers import (
     TypeCommands,
 )
 from ..widgets import Navigation, PEPDetails, PEPsView
-from .help import HelpScreen
 from .notes_editor import NotesEditor
 from .pep_viewer import PEPViewer
 from .search_input import SearchInput
