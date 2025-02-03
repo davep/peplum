@@ -14,6 +14,7 @@ from textual.widgets import Button, TextArea
 
 ##############################################################################
 # Textual enhanced imports.
+from textual_enhanced.dialogs import Confirm
 from textual_enhanced.widgets import TextViewer
 
 ##############################################################################
@@ -24,7 +25,6 @@ from textual_fspicker import FileSave
 # Local imports.
 from ...peps import API
 from ..data import PEP, cache_dir
-from .confirm import Confirm
 
 
 ##############################################################################
