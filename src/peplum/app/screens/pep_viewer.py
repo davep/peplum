@@ -15,6 +15,7 @@ from textual.widgets import Button, TextArea
 ##############################################################################
 # Textual enhanced imports.
 from textual_enhanced.dialogs import Confirm
+from textual_enhanced.tools import add_key
 from textual_enhanced.widgets import TextViewer
 
 ##############################################################################
@@ -85,17 +86,14 @@ class PEPViewer(ModalScreen[None]):
 
     def compose(self) -> ComposeResult:
         """Compose the dialog's content."""
-        key_colour = (
-            "dim" if self.app.current_theme is None else self.app.current_theme.accent
-        )
         with Vertical() as dialog:
             dialog.border_title = f"PEP{self._pep.number}"
             yield TextViewer()
             with Horizontal(id="buttons"):
-                yield Button(f"Copy [{key_colour}]\\[^c][/]", id="copy")
-                yield Button(f"Save [{key_colour}]\\[^s][/]", id="save")
-                yield Button(f"Refresh [{key_colour}]\\[^r][/]", id="refresh")
-                yield Button(f"Close [{key_colour}]\\[Esc][/]", id="close")
+                yield Button(add_key("Copy", "^c", self), id="copy")
+                yield Button(add_key("Save", "^s", self), id="save")
+                yield Button(add_key("Refresh", "^r", self), id="refresh")
+                yield Button(add_key("Close", "Esc", self), id="close")
 
     @property
     def _cache_name(self) -> Path:
