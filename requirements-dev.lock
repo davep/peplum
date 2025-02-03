@@ -108,7 +108,7 @@ textual==1.0.0
     # via textual-fspicker
     # via textual-serve
 textual-dev==1.7.0
-textual-enhanced==0.2.0
+textual-enhanced==0.3.0
     # via peplum
 textual-fspicker==0.2.0
     # via peplum
