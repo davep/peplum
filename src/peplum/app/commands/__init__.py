@@ -7,7 +7,6 @@ information, etc.
 
 ##############################################################################
 # Local imports.
-from .base import Command
 from .filtering import (
     Search,
     SearchAuthor,
@@ -21,8 +20,6 @@ from .main import (
     ChangeTheme,
     EditNotes,
     Escape,
-    Help,
-    Quit,
     RedownloadPEPs,
     TogglePEPDetails,
     ViewPEP,
@@ -38,13 +35,10 @@ from .peps_sorting import SortByCreated, SortByNumber, SortByTitle
 ##############################################################################
 # Exports.
 __all__ = [
-    "Command",
     "ChangeTheme",
     "EditNotes",
     "Escape",
     "FindPEP",
-    "Help",
-    "Quit",
     "RedownloadPEPs",
     "Search",
     "SearchAuthor",

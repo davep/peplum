@@ -5,10 +5,13 @@
 from operator import attrgetter
 
 ##############################################################################
+# Textual enhanced imports.
+from textual_enhanced.commands import CommandHit, CommandHits, CommandsProvider
+
+##############################################################################
 # Local imports.
 from ..data import PEPs
 from ..messages import GotoPEP
-from .commands_provider import CommandHit, CommandHits, CommandsProvider
 
 
 ##############################################################################

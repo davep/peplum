@@ -27,6 +27,10 @@ from textual.widgets import Label, Markdown
 from textual.widgets.option_list import Option
 
 ##############################################################################
+# Textual enhanced imports.
+from textual_enhanced.widgets import EnhancedOptionList
+
+##############################################################################
 # Local imports.
 from ..data import PEP, PEPStatus, PEPType, PostHistory
 from ..messages import (
@@ -37,7 +41,6 @@ from ..messages import (
     ShowType,
     VisitPEP,
 )
-from .extended_option_list import OptionListEx
 
 
 ##############################################################################
@@ -141,7 +144,7 @@ class Notes(Markdown, can_focus=True):
 class Item(Option):
     """Type of an item that goes in a list."""
 
-    def select(self, parent: OptionListEx) -> None:
+    def select(self, parent: EnhancedOptionList) -> None:
         """Perform the selection action for the item.
 
         Args:
@@ -163,7 +166,7 @@ class StatusItem(Item):
         """The PEP status to display."""
         super().__init__(status)
 
-    def select(self, parent: OptionListEx) -> None:
+    def select(self, parent: EnhancedOptionList) -> None:
         """Perform the selection action for the item.
 
         Args:
@@ -186,7 +189,7 @@ class TypeItem(Item):
         """The PEP type to display."""
         super().__init__(pep_type)
 
-    def select(self, parent: OptionListEx) -> None:
+    def select(self, parent: EnhancedOptionList) -> None:
         """Perform the selection action for the item.
 
         Args:
@@ -209,7 +212,7 @@ class PEPItem(Item):
         """The PEP number to display."""
         super().__init__(f"PEP{pep}")
 
-    def select(self, parent: OptionListEx) -> None:
+    def select(self, parent: EnhancedOptionList) -> None:
         """Perform the selection action for the item.
 
         Args:
@@ -232,7 +235,7 @@ class AuthorItem(Item):
         """The author to display."""
         super().__init__(author)
 
-    def select(self, parent: OptionListEx) -> None:
+    def select(self, parent: EnhancedOptionList) -> None:
         """Perform the selection action for the item.
 
         Args:
@@ -255,7 +258,7 @@ class PythonVersionItem(Item):
         """The Python version to display."""
         super().__init__(python_version)
 
-    def select(self, parent: OptionListEx) -> None:
+    def select(self, parent: EnhancedOptionList) -> None:
         """Perform the selection action for the item.
 
         Args:
@@ -279,7 +282,7 @@ class URLItem(Item):
         """The URL to display."""
         super().__init__(title or url)
 
-    def select(self, parent: OptionListEx) -> None:
+    def select(self, parent: EnhancedOptionList) -> None:
         """Perform the selection action for the item.
 
         Args:
@@ -312,7 +315,7 @@ class PostItem(Item):
             title = post.url
         super().__init__(title)
 
-    def select(self, parent: OptionListEx) -> None:
+    def select(self, parent: EnhancedOptionList) -> None:
         """Perform the selection action for the item.
 
         Args:
@@ -325,7 +328,7 @@ class PostItem(Item):
 
 
 ##############################################################################
-class ClickableValue(OptionListEx):
+class ClickableValue(EnhancedOptionList):
     """Show a value that the user can interact with."""
 
     DEFAULT_CSS = """
@@ -398,8 +401,8 @@ class ClickableValue(OptionListEx):
         self._highlighted_memory = self.highlighted
         self.highlighted = None
 
-    @on(OptionListEx.OptionSelected)
-    def select(self, message: OptionListEx.OptionSelected) -> None:
+    @on(EnhancedOptionList.OptionSelected)
+    def select(self, message: EnhancedOptionList.OptionSelected) -> None:
         assert isinstance(message.option, Item)
         message.option.select(self)
 

@@ -1,10 +1,13 @@
 """PEP type filtering commands for the command palette."""
 
 ##############################################################################
+# Textual enhanced imports.
+from textual_enhanced.commands import CommandHit, CommandHits, CommandsProvider
+
+##############################################################################
 # Local imports.
 from ..data import PEPs
 from ..messages import ShowType
-from .commands_provider import CommandHit, CommandHits, CommandsProvider
 
 
 ##############################################################################

@@ -9,6 +9,10 @@ from textual.screen import ModalScreen
 from textual.widgets import Button, TextArea
 
 ##############################################################################
+# Textual enhanced imports.
+from textual_enhanced.tools import add_key
+
+##############################################################################
 # Local imports.
 from ..data import PEP
 
@@ -68,15 +72,12 @@ class NotesEditor(ModalScreen[str | None]):
 
     def compose(self) -> ComposeResult:
         """Compose the dialog's content."""
-        key_colour = (
-            "dim" if self.app.current_theme is None else self.app.current_theme.accent
-        )
         with Vertical() as dialog:
             dialog.border_title = f"Notes for PEP{self._pep.number}"
             yield TextArea(self._pep.notes)
             with Horizontal(id="buttons"):
-                yield Button(f"Save [{key_colour}]\\[F2][/]", id="save")
-                yield Button(f"Cancel [{key_colour}]\\[Esc][/]", id="cancel")
+                yield Button(add_key("Save", "F2", self), id="save")
+                yield Button(add_key("Cancel", "Esc", self), id="cancel")
 
     @on(Button.Pressed, "#save")
     def action_save(self) -> None:

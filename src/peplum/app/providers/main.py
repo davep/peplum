@@ -1,14 +1,16 @@
 """Provides the main application commands for the command palette."""
 
 ##############################################################################
+# Textual enhanced imports.
+from textual_enhanced.commands import CommandHits, CommandsProvider, Help, Quit
+
+##############################################################################
 # Local imports.
 from ..commands import (
     ChangeTheme,
     EditNotes,
     Escape,
     FindPEP,
-    Help,
-    Quit,
     RedownloadPEPs,
     Search,
     SearchAuthor,
@@ -26,7 +28,6 @@ from ..commands import (
     ToggleTypesSortOrder,
     ViewPEP,
 )
-from .commands_provider import CommandHits, CommandsProvider
 
 
 ##############################################################################

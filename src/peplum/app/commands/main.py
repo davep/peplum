@@ -1,8 +1,8 @@
 """The main commands used within the application."""
 
 ##############################################################################
-# Local imports.
-from .base import Command
+# Textual enhanced imports.
+from textual_enhanced.commands import Command
 
 
 ##############################################################################
@@ -26,22 +26,6 @@ class Escape(Command):
     "Back up through the panes, right to left, or exit the app if the navigation pane has focus"
 
     BINDING_KEY = "escape"
-
-
-##############################################################################
-class Help(Command):
-    """Show help for and information about the application"""
-
-    BINDING_KEY = "f1, ?"
-    SHOW_IN_FOOTER = True
-
-
-##############################################################################
-class Quit(Command):
-    """Quit the application"""
-
-    BINDING_KEY = "f10, ctrl+q"
-    SHOW_IN_FOOTER = True
 
 
 ##############################################################################

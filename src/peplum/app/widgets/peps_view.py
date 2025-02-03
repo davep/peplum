@@ -20,10 +20,13 @@ from textual.reactive import var
 from textual.widgets.option_list import Option
 
 ##############################################################################
+# Textual enhanced imports.
+from textual_enhanced.widgets import EnhancedOptionList
+
+##############################################################################
 # Local imports.
 from ..data import PEP, PEPs
 from ..messages import VisitPEP
-from .extended_option_list import OptionListEx
 
 
 ##############################################################################
@@ -80,7 +83,7 @@ class PEPView(Option):
 
 
 ##############################################################################
-class PEPsView(OptionListEx):
+class PEPsView(EnhancedOptionList):
     """A widget for viewing a list of PEPs."""
 
     HELP = """
@@ -109,15 +112,15 @@ class PEPsView(OptionListEx):
         pep: PEP
         """The highlighted PEP."""
 
-    @on(OptionListEx.OptionHighlighted)
-    def select_pep(self, message: OptionListEx.OptionSelected) -> None:
+    @on(EnhancedOptionList.OptionHighlighted)
+    def select_pep(self, message: EnhancedOptionList.OptionSelected) -> None:
         """Send a message to say a particular PEP has been selected."""
         message.stop()
         assert isinstance(message.option, PEPView)
         self.post_message(self.PEPHighlighted(message.option.pep))
 
-    @on(OptionListEx.OptionSelected)
-    def visit_pep(self, message: OptionListEx.OptionSelected) -> None:
+    @on(EnhancedOptionList.OptionSelected)
+    def visit_pep(self, message: EnhancedOptionList.OptionSelected) -> None:
         """Send a message to say the user wants to visit a PEP's webpage."""
         message.stop()
         assert isinstance(message.option, PEPView)

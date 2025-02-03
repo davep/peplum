@@ -2,11 +2,15 @@
 
 ##############################################################################
 # Textual imports.
-from textual.app import App, InvalidThemeError
-from textual.binding import Binding
+from textual.app import InvalidThemeError
+
+##############################################################################
+# Textual enhanced imports.
+from textual_enhanced.app import EnhancedApp
 
 ##############################################################################
 # Local imports.
+from .. import __version__
 from .data import (
     load_configuration,
     update_configuration,
@@ -15,52 +19,32 @@ from .screens import Main
 
 
 ##############################################################################
-class Peplum(App[None]):
+class Peplum(EnhancedApp[None]):
     """The main application class."""
 
-    CSS = """
-    CommandPalette > Vertical {
-        width: 75%; /* Full-width command palette looks like garbage. Fix that. */
-        background: $panel;
-        SearchIcon {
-            display: none;
-        }
-    }
-
-    /* Make the LoadingIndicator look less like it was just slapped on. */
-    LoadingIndicator {
-        background: transparent;
-    }
-
-    /* Remove cruft from the Header. */
-    Header {
-        /* The header icon is ugly and pointless. Remove it. */
-        HeaderIcon {
-            visibility: hidden;
-        }
-
-        /* The tall version of the header is utterly useless. Nuke that. */
-        &.-tall {
-            height: 1 !important;
-        }
-    }
-
-    /* General style tweaks that affect all widgets. */
-    * {
-        /* Let's make scrollbars a wee bit thinner. */
-        scrollbar-size-vertical: 1;
-    }
+    HELP_TITLE = f"Peplum {__version__}"
+    HELP_ABOUT = """
+    `Peplum` is a terminal-based Python PEP lookup manager; it was created
+    by and is maintained by [Dave Pearson](https://www.davep.org/); it is
+    Free Software and can be [found on
+    GitHub](https://github.com/davep/peplum).
     """
+    HELP_LICENSE = """
+    Peplum - The PEP lookup manager for the terminal.  \n    Copyright (C) 2025 Dave Pearson
 
-    BINDINGS = [
-        Binding(
-            "ctrl+p, super+x, :",
-            "command_palette",
-            "Commands",
-            show=False,
-            tooltip="Show the command palette",
-        ),
-    ]
+    This program is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by the Free
+    Software Foundation, either version 3 of the License, or (at your option)
+    any later version.
+
+    This program is distributed in the hope that it will be useful, but WITHOUT
+    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+    FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+    more details.
+
+    You should have received a copy of the GNU General Public License along with
+    this program. If not, see <https://www.gnu.org/licenses/>.
+    """
 
     COMMANDS = set()
 

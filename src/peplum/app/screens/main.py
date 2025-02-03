@@ -17,17 +17,19 @@ from textual.screen import Screen
 from textual.widgets import Footer, Header
 
 ##############################################################################
+# Textual enhanced imports.
+from textual_enhanced.commands import Command, CommandsProvider, Help, Quit
+from textual_enhanced.dialogs import HelpScreen, ModalInput
+
+##############################################################################
 # Local imports.
 from ... import __version__
 from ...peps import API
 from ..commands import (
     ChangeTheme,
-    Command,
     EditNotes,
     Escape,
     FindPEP,
-    Help,
-    Quit,
     RedownloadPEPs,
     Search,
     SearchAuthor,
@@ -68,7 +70,6 @@ from ..messages import (
 )
 from ..providers import (
     AuthorCommands,
-    CommandsProvider,
     MainCommands,
     PEPsCommands,
     PythonVersionCommands,
@@ -76,10 +77,8 @@ from ..providers import (
     TypeCommands,
 )
 from ..widgets import Navigation, PEPDetails, PEPsView
-from .help import HelpScreen
 from .notes_editor import NotesEditor
 from .pep_viewer import PEPViewer
-from .search_input import SearchInput
 
 
 ##############################################################################
@@ -381,7 +380,9 @@ class Main(Screen[None]):
     @work
     async def action_search_command(self) -> None:
         """Free-text search within the PEPs."""
-        if search_text := await self.app.push_screen_wait(SearchInput()):
+        if search_text := await self.app.push_screen_wait(
+            ModalInput("Case-insensitive text to look for in the PEPs")
+        ):
             self.active_peps = self.active_peps & Containing(search_text)
 
     @on(SearchAuthor)
