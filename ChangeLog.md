@@ -8,6 +8,7 @@
   ([#24](https://github.com/davep/peplum/pull/24))
 - Updated the PEP loading code to use the [newly-added `author_names`
   property in the API](https://github.com/python/peps/issues/4211).
+  ([#30](https://github.com/davep/peplum/pull/30))
 
 ## v0.3.0
 
