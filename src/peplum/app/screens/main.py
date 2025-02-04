@@ -245,6 +245,12 @@ class Main(Screen[None]):
     @on(Loaded)
     def load_fresh_peps(self, message: Loaded) -> None:
         """React to a fresh set of PEPs being made available."""
+        if len(message.peps.authors) == 0:
+            self.notify(
+                "You likely have a cached copy of the older version of the PEP data; a redownload is recommended.",
+                severity="warning",
+                timeout=8,
+            )
         self.all_peps = message.peps.sorted_by(load_configuration().peps_sort_order)
 
     def on_mount(self) -> None:

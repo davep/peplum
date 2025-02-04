@@ -508,7 +508,7 @@ class PEPDetails(VerticalScroll, can_focus=False):
             else:
                 self.query_one("#title", Value).show(self.pep.title)
                 self.query_one("#author", ClickableValue).show(
-                    AuthorItem(author) for author in self.pep.authors
+                    AuthorItem(author) for author in self.pep.author_names
                 )
                 self.query_one("#sponsor", Value).show(self.pep.sponsor)
                 self.query_one("#delegate", Value).show(self.pep.delegate)

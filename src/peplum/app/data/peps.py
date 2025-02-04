@@ -233,7 +233,7 @@ class WithAuthor(Filter):
         """The folded version of the author for case-insensitive lookup."""
 
     def __rand__(self, pep: PEP) -> bool:
-        return self._folded_author in (author.casefold() for author in pep.authors)
+        return self._folded_author in (author.casefold() for author in pep.author_names)
 
     def __str__(self) -> str:
         return str(self._author)
@@ -347,7 +347,9 @@ class PEPs:
         """The authors and their counts as found in the PEPs."""
         return tuple(
             AuthorCount(author, count)
-            for author, count in Counter(chain(*(pep.authors for pep in self))).items()
+            for author, count in Counter(
+                chain(*(pep.author_names for pep in self))
+            ).items()
         )
 
     def _describe(self, name: str, filter_type: type[Filter]) -> str | None:
