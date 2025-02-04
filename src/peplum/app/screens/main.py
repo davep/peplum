@@ -10,16 +10,15 @@ from webbrowser import open as visit_url
 # Textual imports.
 from textual import on, work
 from textual.app import ComposeResult
-from textual.command import CommandPalette
 from textual.message import Message
 from textual.reactive import var
-from textual.screen import Screen
 from textual.widgets import Footer, Header
 
 ##############################################################################
 # Textual enhanced imports.
-from textual_enhanced.commands import Command, CommandsProvider, Help, Quit
+from textual_enhanced.commands import Command, Help, Quit
 from textual_enhanced.dialogs import HelpScreen, ModalInput
+from textual_enhanced.screen import EnhancedScreen
 
 ##############################################################################
 # Local imports.
@@ -82,7 +81,7 @@ from .pep_viewer import PEPViewer
 
 
 ##############################################################################
-class Main(Screen[None]):
+class Main(EnhancedScreen[None]):
     """The main screen for the application."""
 
     TITLE = f"Peplum v{__version__}"
@@ -278,19 +277,6 @@ class Main(Screen[None]):
         StatusCommands.active_peps = self.active_peps
         TypeCommands.active_peps = self.active_peps
 
-    def _show_palette(self, provider: type[CommandsProvider]) -> None:
-        """Show a particular command palette.
-
-        Args:
-            provider: The commands provider for the palette.
-        """
-        self.app.push_screen(
-            CommandPalette(
-                providers=(provider,),
-                placeholder=provider.prompt(),
-            )
-        )
-
     @on(PEPsView.PEPHighlighted)
     def select_pep(self, message: PEPsView.PEPHighlighted) -> None:
         """Make the currently-selected PEP the one to view."""
@@ -380,7 +366,7 @@ class Main(Screen[None]):
     @on(FindPEP)
     def action_find_pep_command(self) -> None:
         """Find a PEP and jump to it."""
-        self._show_palette(PEPsCommands)
+        self.show_palette(PEPsCommands)
 
     @on(Search)
     @work
@@ -394,22 +380,22 @@ class Main(Screen[None]):
     @on(SearchAuthor)
     def action_search_author_command(self) -> None:
         """Search for an author and use them as a filter."""
-        self._show_palette(AuthorCommands)
+        self.show_palette(AuthorCommands)
 
     @on(SearchPythonVersion)
     def action_search_python_version_command(self) -> None:
         """Search for a Python version and then use it as a filter."""
-        self._show_palette(PythonVersionCommands)
+        self.show_palette(PythonVersionCommands)
 
     @on(SearchStatus)
     def action_search_status_command(self) -> None:
         """Search for a status and use it as a filter."""
-        self._show_palette(StatusCommands)
+        self.show_palette(StatusCommands)
 
     @on(SearchType)
     def action_search_type_command(self) -> None:
         """Search for a PEP type and then use it as a filter."""
-        self._show_palette(TypeCommands)
+        self.show_palette(TypeCommands)
 
     @on(RedownloadPEPs)
     def action_redownload_peps_command(self) -> None:
