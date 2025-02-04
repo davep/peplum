@@ -146,8 +146,10 @@ class PEP:
     """The number of the PEP."""
     title: str
     """The title of the PEP."""
-    authors: tuple[str, ...]
+    #    authors: str
     """The authors of the PEP."""
+    author_names: tuple[str, ...]
+    """The names of the authors of the PEP."""
     sponsor: str | None
     """The sponsor of the PEP."""
     delegate: str | None
@@ -179,14 +181,6 @@ class PEP:
     notes: str = ""
     """The user's notes associated with this PEP."""
 
-    _AUTHOR_SPLIT = compile(r",(?! +Jr)")
-    """The regular expression for splitting up authors.
-
-    Notes:
-        This is 'good enough' but not ideal. It might need updating and
-        improvement later on.
-    """
-
     def annotate(self, *, notes: str | None = None) -> PEP:
         """Annotate the PEP.
 
@@ -210,7 +204,7 @@ class PEP:
         return (
             search_text in str(self.number)
             or search_text in self.title.casefold()
-            or search_text in " ".join(self.authors).casefold()
+            or search_text in " ".join(self.author_names).casefold()
             or search_text in (self.sponsor or "").casefold()
             or search_text in (self.delegate or "").casefold()
             or search_text in self.status.casefold()
@@ -225,31 +219,6 @@ class PEP:
             or search_text in self.url.casefold()
             or search_text in self.notes.casefold()
         )
-
-    @classmethod
-    def _authors(cls, authors: str) -> tuple[str, ...]:
-        """Get the authors from a string.
-
-        Args:
-            authors: The authors to parse.
-
-        Returns:
-            A tuple of the authors found.
-
-        Notes:
-            The authors in the PEPs are a comma-separated string of author
-            names. The problem is, as of the time of writing, there's at
-            least one author who has a comma in their name. So this method
-            makes an effort to split up the authors while also keeping such
-            a name intact.
-
-            Yes, this is going to be brittle.
-
-            Yes, the code here is a bit of a hack.
-
-            https://www.kalzumeus.com/2010/06/17/falsehoods-programmers-believe-about-names/
-        """
-        return tuple(author.strip() for author in cls._AUTHOR_SPLIT.split(authors))
 
     @classmethod
     def _parse(cls, data: dict[str, Any]) -> dict[str, Any]:
@@ -270,7 +239,8 @@ class PEP:
         return dict(
             number=data.get("number", -1),
             title=data.get("title", ""),
-            authors=cls._authors(data.get("authors", "")),
+            #            authors=data.get("authors"),
+            author_names=tuple(data.get("author_names", [])),
             sponsor=data.get("sponsor"),
             delegate=data.get("delegate"),
             discussions_to=data.get("discussions_to"),

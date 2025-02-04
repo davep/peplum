@@ -57,7 +57,9 @@ class PEPView(Option):
         info.add_column(width=6)
         info.add_column(ratio=1)
         info.add_column(width=11, justify="right")
-        info.add_row("", f"[dim]{', '.join(pep.authors)}[/]", f"[dim]{pep.created}[/]")
+        info.add_row(
+            "", f"[dim]{', '.join(pep.author_names)}[/]", f"[dim]{pep.created}[/]"
+        )
 
         self._pep = pep
         """The PEP that this option is showing."""
