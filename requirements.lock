@@ -50,7 +50,7 @@ textual==1.0.0
     # via peplum
     # via textual-enhanced
     # via textual-fspicker
-textual-enhanced==0.3.0
+textual-enhanced==0.4.0
     # via peplum
 textual-fspicker==0.2.0
     # via peplum
