@@ -146,7 +146,7 @@ class PEP:
     """The number of the PEP."""
     title: str
     """The title of the PEP."""
-    #    authors: str
+    authors: str
     """The authors of the PEP."""
     author_names: tuple[str, ...]
     """The names of the authors of the PEP."""
@@ -239,7 +239,7 @@ class PEP:
         return dict(
             number=data.get("number", -1),
             title=data.get("title", ""),
-            #            authors=data.get("authors"),
+            authors=data.get("authors"),
             author_names=tuple(data.get("author_names", [])),
             sponsor=data.get("sponsor"),
             delegate=data.get("delegate"),
