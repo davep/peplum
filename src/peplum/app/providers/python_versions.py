@@ -34,11 +34,10 @@ class PythonVersionCommands(CommandsProvider):
         """
         if self.active_peps is None:
             return
-        help_prefix = "Also filter" if self.active_peps.is_filtered else "Filter"
-        command_prefix = (
-            "Also relating to Python version"
+        help_prefix, command_prefix = (
+            ("Also filter", "Filter")
             if self.active_peps.is_filtered
-            else "Relating to Python version"
+            else ("Also relating to Python version", "Relating to Python version")
         )
         for version in sorted(self.active_peps.python_versions):
             if not version.version:

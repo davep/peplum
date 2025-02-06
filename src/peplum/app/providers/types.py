@@ -34,8 +34,11 @@ class TypeCommands(CommandsProvider):
         """
         if self.active_peps is None:
             return
-        help_prefix = "Also filter" if self.active_peps.is_filtered else "Filter"
-        command_prefix = "Also of type" if self.active_peps.is_filtered else "Of type"
+        help_prefix, command_prefix = (
+            ("Also filter", "Filter")
+            if self.active_peps.is_filtered
+            else ("Also of type", "Of type")
+        )
         for pep_type in self.active_peps.types:
             yield CommandHit(
                 f"{command_prefix} {pep_type.type}",

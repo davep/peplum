@@ -34,9 +34,10 @@ class AuthorCommands(CommandsProvider):
         """
         if self.active_peps is None:
             return
-        help_prefix = "Also filter" if self.active_peps.is_filtered else "Filter"
-        command_prefix = (
-            "Also authored by" if self.active_peps.is_filtered else "Authored by"
+        help_prefix, command_prefix = (
+            ("Also filter", "Also authored by")
+            if self.active_peps.is_filtered
+            else ("Filter", "Authored by")
         )
         for author in self.active_peps.authors:
             yield CommandHit(

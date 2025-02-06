@@ -34,9 +34,10 @@ class StatusCommands(CommandsProvider):
         """
         if self.active_peps is None:
             return
-        help_prefix = "Also filter" if self.active_peps.is_filtered else "Filter"
-        command_prefix = (
-            "Also with status" if self.active_peps.is_filtered else "With status"
+        help_prefix, command_prefix = (
+            ("Also filter", "Filter")
+            if self.active_peps.is_filtered
+            else ("Also with status", "With status")
         )
         for status in self.active_peps.statuses:
             yield CommandHit(
