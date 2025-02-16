@@ -1,5 +1,12 @@
 # Peplum ChangeLog
 
+## v0.4.1
+
+**Released: 2025-02-16**
+
+- Pinned Textual to v1.0.0 for now; v2.0.x introduced some unstable
+  behaviour.
+
 ## v0.4.0
 
 **Released: 2025-02-04**
