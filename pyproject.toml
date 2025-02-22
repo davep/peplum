@@ -12,7 +12,7 @@ dependencies = [
     "typing-extensions>=4.12.2",
     "packaging>=24.2",
     "humanize>=4.11.0",
-    "textual-fspicker>=0.2.0",
+    "textual-fspicker>=0.4.0",
     "textual-enhanced>=0.4.0",
 ]
 readme = "README.md"
