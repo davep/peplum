@@ -2,6 +2,7 @@
 
 ##############################################################################
 # Python imports.
+from functools import partial
 from pathlib import Path
 
 ##############################################################################
@@ -164,7 +165,10 @@ class PEPViewer(ModalScreen[None]):
     async def action_save(self) -> None:
         """Save the source of the PEP to a file."""
         if target := await self.app.push_screen_wait(
-            FileSave(default_file=API.pep_file(self._pep.number))
+            FileSave(
+                default_file=API.pep_file(self._pep.number),
+                cancel_button=partial(add_key, key="Esc", context=self),
+            )
         ):
             if target.exists() and not await self.app.push_screen_wait(
                 Confirm(
