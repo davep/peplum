@@ -2,6 +2,14 @@
 
 ![Peplum](https://raw.githubusercontent.com/davep/peplum/refs/heads/main/.images/peplum-social-banner.png)
 
+[![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/davep/peplum/style-lint-and-test.yaml)](https://github.com/davep/peplum/actions)
+[![GitHub commits since latest release](https://img.shields.io/github/commits-since/davep/peplum/latest)](https://github.com/davep/peplum/commits/main/)
+[![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/davep/peplum)](https://github.com/davep/peplum/issues)
+[![GitHub Release Date](https://img.shields.io/github/release-date/davep/peplum)](https://github.com/davep/peplum/releases)
+[![PyPI - License](https://img.shields.io/pypi/l/peplum)](https://github.com/davep/peplum/blob/main/LICENSE)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/peplum)](https://github.com/davep/peplum/blob/main/pyproject.toml)
+[![PyPI - Version](https://img.shields.io/pypi/v/peplum)](https://pypi.org/project/peplum/)
+
 ## Introduction
 
 Peplum is a terminal-based lookup manager for [Python Enhancement
