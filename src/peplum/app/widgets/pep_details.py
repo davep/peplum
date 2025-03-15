@@ -385,7 +385,12 @@ class ClickableValue(EnhancedOptionList):
         self.parent.set_class(not bool(self.option_count), "hidden")
 
     @show.register
-    def _(self, values: Item | None) -> None:
+    def _(self, values: Item) -> None:
+        """Show a single value."""
+        self.show([values])
+
+    @show.register
+    def _(self, values: None) -> None:
         """Show a single value."""
         self.show([values])
 
