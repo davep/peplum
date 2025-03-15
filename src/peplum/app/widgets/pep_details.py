@@ -1,6 +1,10 @@
 """Provides a widget for showing a PEP's details."""
 
 ##############################################################################
+# Backward compatibility.
+from __future__ import annotations
+
+##############################################################################
 # Python imports.
 from datetime import date, datetime
 from functools import singledispatchmethod
