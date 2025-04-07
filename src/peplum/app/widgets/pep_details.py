@@ -24,7 +24,6 @@ from rich.emoji import Emoji
 from textual import _widget_navigation, on
 from textual.app import ComposeResult
 from textual.containers import Vertical, VerticalScroll
-from textual.events import DescendantBlur, DescendantFocus
 from textual.reactive import var
 from textual.types import Direction
 from textual.widgets import Label, Markdown
@@ -501,13 +500,6 @@ class PEPDetails(VerticalScroll, can_focus=False):
             yield ClickableValue(id="url")
         with Field("Notes"):
             yield Notes()
-
-    @on(DescendantBlur)
-    @on(DescendantFocus)
-    def _textual_5488_workaround(self) -> None:
-        """Workaround for https://github.com/Textualize/textual/issues/5488"""
-        for widget in self.query(ClickableValue):
-            widget._refresh_lines()
 
     def watch_pep(self) -> None:
         """React to the PEP being changed."""
