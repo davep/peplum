@@ -347,7 +347,6 @@ class Navigation(EnhancedOptionList):
         """Repopulate navigation panel."""
         with self.preserved_highlight:
             self.clear_options().add_main().add_types().add_statuses().add_python_versions().add_authors()
-            self._refresh_lines()  # https://github.com/Textualize/textual/issues/5431
 
     def watch_all_peps(self) -> None:
         """React to the full list of PEPs being changed."""
