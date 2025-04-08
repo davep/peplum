@@ -1,5 +1,11 @@
 # Peplum ChangeLog
 
+## Unreleased
+
+**Released: WiP**
+
+- Added a system command for reversing the current sort order.
+
 ## v0.4.2
 
 **Released: 2025-03-17**

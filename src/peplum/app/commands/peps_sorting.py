@@ -26,4 +26,11 @@ class SortByTitle(Command):
     BINDING_KEY = "3"
 
 
+##############################################################################
+class ToggleSortOrder(Command):
+    """Toggle the current sort order"""
+
+    BINDING_KEY = "minus"
+
+
 ### peps_sorting.py ends here

@@ -24,6 +24,7 @@ from ..commands import (
     ToggleAuthorsSortOrder,
     TogglePEPDetails,
     TogglePythonVersionsSortOrder,
+    ToggleSortOrder,
     ToggleStatusesSortOrder,
     ToggleTypesSortOrder,
     ViewPEP,
@@ -59,6 +60,7 @@ class MainCommands(CommandsProvider):
         yield ToggleAuthorsSortOrder()
         yield TogglePEPDetails()
         yield TogglePythonVersionsSortOrder()
+        yield ToggleSortOrder()
         yield ToggleStatusesSortOrder()
         yield ToggleTypesSortOrder()
         yield ViewPEP()
