@@ -42,6 +42,7 @@ from ..commands import (
     ToggleAuthorsSortOrder,
     TogglePEPDetails,
     TogglePythonVersionsSortOrder,
+    ToggleSortOrder,
     ToggleStatusesSortOrder,
     ToggleTypesSortOrder,
     ViewPEP,
@@ -167,6 +168,7 @@ class Main(EnhancedScreen[None]):
         SortByTitle,
         ToggleAuthorsSortOrder,
         TogglePythonVersionsSortOrder,
+        ToggleSortOrder,
         ToggleStatusesSortOrder,
         ToggleTypesSortOrder,
     )
@@ -250,7 +252,10 @@ class Main(EnhancedScreen[None]):
                 severity="warning",
                 timeout=8,
             )
-        self.all_peps = message.peps.sorted_by(load_configuration().peps_sort_order)
+        config = load_configuration()
+        self.all_peps = message.peps.sorted_by(config.peps_sort_order).reversed(
+            config.peps_sort_reversed
+        )
 
     def on_mount(self) -> None:
         """Configure the application once the DOM is mounted."""
@@ -498,6 +503,13 @@ class Main(EnhancedScreen[None]):
         with update_configuration() as config:
             config.peps_sort_order = "title"
             self.active_peps = self.active_peps.sorted_by(config.peps_sort_order)
+
+    @on(ToggleSortOrder)
+    def action_toggle_sort_order_command(self) -> None:
+        """Toggle the current sort order direction of the PEPs."""
+        with update_configuration() as config:
+            config.peps_sort_reversed = not config.peps_sort_reversed
+            self.active_peps = self.active_peps.reversed(config.peps_sort_reversed)
 
     @work(thread=True)
     def _save_notes(self) -> None:

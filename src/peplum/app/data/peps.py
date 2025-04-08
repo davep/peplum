@@ -278,12 +278,15 @@ class PEPs:
         peps: Iterable[PEP] | None = None,
         filters: Filters | None = None,
         sort_order: SortOrder = "number",
+        sort_reversed: bool = False,
     ) -> None:
         """Initialise the object.
 
         Args:
             peps: The PEPs to hold.
             filters: The filters that got to this set of PEPs.
+            sort_order: The sort order for the PEPs.
+            sort_reversed: Should the sort order be reversed?
         """
         self._peps: dict[int, PEP] = (
             {} if peps is None else {pep.number: pep for pep in peps}
@@ -293,6 +296,8 @@ class PEPs:
         """The filters that got to this set of PEPs."""
         self._sort_order: SortOrder = sort_order
         """The sort order for the PEPs."""
+        self._sort_reversed = sort_reversed
+        """Should we reverse the sort order?"""
 
     def patch_pep(self, pep: PEP) -> Self:
         """Patch a PEP with a new instance.
@@ -400,6 +405,9 @@ class PEPs:
             case "title":
                 sort_order = "PEP Title"
 
+        if self._sort_reversed:
+            sort_order += " (reversed)"
+
         return "; ".join(filters + ([f"Sorted by {sort_order}"] if sort_order else []))
 
     def __and__(self, new_filter: Filter) -> PEPs:
@@ -420,6 +428,7 @@ class PEPs:
                 (pep for pep in self if pep & new_filter),
                 self._filters + new_filter,
                 self._sort_order,
+                self._sort_reversed,
             )
         )
 
@@ -432,7 +441,28 @@ class PEPs:
         Returns:
             The PEPs sorted in the required way.
         """
-        return PEPs(self, self._filters, sort_order)
+        return PEPs(self, self._filters, sort_order, self._sort_reversed)
+
+    def reversed(self, setting: bool | None = None) -> PEPs:
+        """Get the PEPs with the current sort order reversed.
+
+        Args:
+            setting: Optional specific setting.
+
+        Returns:
+            The PEPs sorted in the required order.
+
+        Notes:
+            If no value is given, the direction will be reversed from what
+            it is now, otherwise `True` will be forward sort order, `False`
+            will be reversed.
+        """
+        return PEPs(
+            self,
+            self._filters,
+            self._sort_order,
+            not self._sort_reversed if setting is None else setting,
+        )
 
     def rebuild_from(self, peps: PEPs) -> PEPs:
         """Rebuild a collection of PEPs from a given collection.
@@ -450,6 +480,7 @@ class PEPs:
             (pep for pep in peps if all(pep & check for check in self._filters)),
             self._filters,
             self._sort_order,
+            self._sort_reversed,
         )
 
     def __contains__(self, pep: PEP | int) -> bool:
@@ -458,7 +489,13 @@ class PEPs:
 
     def __iter__(self) -> Iterator[PEP]:
         """The object as an iterator."""
-        return iter(sorted(self._peps.values(), key=attrgetter(self._sort_order)))
+        return iter(
+            sorted(
+                self._peps.values(),
+                key=attrgetter(self._sort_order),
+                reverse=self._sort_reversed,
+            )
+        )
 
     def __len__(self) -> int:
         """The count of PEPs in the object."""

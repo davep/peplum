@@ -41,6 +41,9 @@ class Configuration:
     peps_sort_order: SortOrder = "number"
     """The sort order of PEPs."""
 
+    peps_sort_reversed: bool = False
+    """Should the PEPs sort order be reversed?"""
+
 
 ##############################################################################
 def configuration_file() -> Path:
