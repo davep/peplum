@@ -1,6 +1,10 @@
 """Provides the main application class."""
 
 ##############################################################################
+# Python imports.
+from argparse import Namespace
+
+##############################################################################
 # Textual imports.
 from textual.app import InvalidThemeError
 
@@ -48,13 +52,19 @@ class Peplum(EnhancedApp[None]):
 
     COMMANDS = set()
 
-    def __init__(self) -> None:
-        """Initialise the application."""
+    def __init__(self, arguments: Namespace) -> None:
+        """Initialise the application.
+
+        Args:
+            The command line arguments passed to the application.
+        """
+        self._arguments = arguments
+        """The command line arguments passed to the application."""
         super().__init__()
         configuration = load_configuration()
         if configuration.theme is not None:
             try:
-                self.theme = configuration.theme
+                self.theme = arguments.theme or configuration.theme
             except InvalidThemeError:
                 pass
 
@@ -63,9 +73,13 @@ class Peplum(EnhancedApp[None]):
         with update_configuration() as config:
             config.theme = self.theme
 
-    def on_mount(self) -> None:
-        """Display the main screen."""
-        self.push_screen(Main())
+    def get_default_screen(self) -> Main:
+        """Get the default screen for the application.
+
+        Returns:
+            The main screen.
+        """
+        return Main(self._arguments)
 
 
 ### peplum.py ends here

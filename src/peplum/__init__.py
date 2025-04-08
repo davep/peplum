@@ -1,4 +1,4 @@
-"""Peplum -- The PEP lookup manager for your terminal."""
+"""The PEP lookup manager for your terminal."""
 
 ##############################################################################
 # Python imports.

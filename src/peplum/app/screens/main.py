@@ -2,6 +2,7 @@
 
 ##############################################################################
 # Python imports.
+from argparse import Namespace
 from dataclasses import dataclass
 from json import dumps, loads
 from webbrowser import open as visit_url
@@ -188,6 +189,16 @@ class Main(EnhancedScreen[None]):
 
     notes: var[Notes] = var(Notes)
     """The user's notes about PEPs."""
+
+    def __init__(self, arguments: Namespace) -> None:
+        """Initialise the main screen.
+
+        Args:
+            arguments: The arguments passed to the application on the command line.
+        """
+        self._arguments = arguments
+        """The arguments passed on the command line."""
+        super().__init__()
 
     def compose(self) -> ComposeResult:
         """Compose the content of the main screen."""
