@@ -36,6 +36,9 @@ jobs:
           echo ${{ matrix.python-version }} > .python-version
           make setup
 
+      - name: Check for typos
+        run: make spellcheck
+
       - name: Check the Code style
         run: make codestyle
 
