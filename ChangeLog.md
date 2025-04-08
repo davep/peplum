@@ -1,8 +1,8 @@
 # Peplum ChangeLog
 
-## Unreleased
+## v0.5.0
 
-**Released: WiP**
+**Released: 2025-04-08**
 
 - Added a system command for reversing the current sort order.
   ([#46](https://github.com/davep/peplum/pull/46))
