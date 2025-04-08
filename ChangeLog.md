@@ -6,6 +6,12 @@
 
 - Added a system command for reversing the current sort order.
   ([#46](https://github.com/davep/peplum/pull/46))
+- Added `--theme` as a command line switch.
+  ([#48](https://github.com/davep/peplum/pull/48))
+- Added `--sort-by` as a command line switch.
+  ([#48](https://github.com/davep/peplum/pull/48))
+- Added support for taking a PEP number on the command line and jumping to
+  it on startup. ([#48](https://github.com/davep/peplum/pull/48))
 
 ## v0.4.2
 
