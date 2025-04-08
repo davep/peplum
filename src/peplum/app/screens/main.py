@@ -298,6 +298,13 @@ class Main(EnhancedScreen[None]):
 
     def on_mount(self) -> None:
         """Configure the application once the DOM is mounted."""
+        # The caller has passed sorting preferences on the command line;
+        # let's get them into the configuration before anything else kicks
+        # off.
+        if self._arguments.sort_by is not None:
+            with update_configuration() as config:
+                config.peps_sort_reversed = self._arguments.sort_by[0] == "~"
+                config.peps_sort_order = self._arguments.sort_by.removeprefix("~")
         self.set_class(load_configuration().details_visble, "details-visible")
         # On startup, if we've got local PEP data...
         if pep_data().exists():

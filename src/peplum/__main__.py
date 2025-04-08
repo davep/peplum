@@ -4,11 +4,13 @@
 # Python imports.
 from argparse import ArgumentParser, Namespace
 from inspect import cleandoc
+from typing import get_args as get_literal_values
 
 ##############################################################################
 # Local imports.
 from . import __doc__, __version__
 from .app import Peplum
+from .app.data import SortOrder
 
 
 ##############################################################################
@@ -41,6 +43,17 @@ def get_args() -> Namespace:
         "--licence",
         help="Show license information",
         action="store_true",
+    )
+
+    # Add --sort
+    parser.add_argument(
+        "-s",
+        "--sort-by",
+        help="Set the sort order for the PEPs; prefix with '~' for reverse order",
+        choices=(
+            *get_literal_values(SortOrder),
+            *(f"~{order}" for order in get_literal_values(SortOrder)),
+        ),
     )
 
     # Add --theme
