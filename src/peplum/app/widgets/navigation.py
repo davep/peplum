@@ -329,7 +329,7 @@ class Navigation(EnhancedOptionList):
         return self
 
     def add_authors(self) -> Self:
-        """Add the PEP authos to navigation.
+        """Add the PEP authors to navigation.
 
         Returns:
             Self.
