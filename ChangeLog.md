@@ -5,6 +5,7 @@
 **Released: WiP**
 
 - Added a system command for reversing the current sort order.
+  ([#46](https://github.com/davep/peplum/pull/46))
 
 ## v0.4.2
 
