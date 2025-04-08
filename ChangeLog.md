@@ -6,6 +6,7 @@
 
 - Added a system command for reversing the current sort order.
   ([#46](https://github.com/davep/peplum/pull/46))
+- Added `--theme` as a command line switch.
 
 ## v0.4.2
 
