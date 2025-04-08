@@ -199,6 +199,8 @@ class Main(EnhancedScreen[None]):
         self._arguments = arguments
         """The arguments passed on the command line."""
         super().__init__()
+        self._jump_to_on_load: str | None = self._arguments.pep
+        """A PEP to jump to once the display is loaded."""
 
     def compose(self) -> ComposeResult:
         """Compose the content of the main screen."""
@@ -254,9 +256,31 @@ class Main(EnhancedScreen[None]):
         self.notify("Fresh PEP data downloaded from the PEP API")
         self.load_pep_data()
 
+    @staticmethod
+    def _extract_pep(pep: str) -> int | None:
+        """Try and extract a PEP number from a string.
+
+        Args:
+            pep: A string that should contain a PEP number.
+
+        Returns:
+            A PEP number or [`None`][None] if one could not be found.
+
+        Notes:
+            The likes of `2342` and `PEP2342` are handled.
+        """
+        try:
+            return int(pep.strip().upper().removeprefix("PEP"))
+        except ValueError:
+            return None
+
     @on(Loaded)
     def load_fresh_peps(self, message: Loaded) -> None:
-        """React to a fresh set of PEPs being made available."""
+        """React to a fresh set of PEPs being made available.
+
+        Args:
+            message: The message letting us know we have fresh PEPs.
+        """
         if len(message.peps.authors) == 0:
             self.notify(
                 "You likely have a cached copy of the older version of the PEP data; a redownload is recommended.",
@@ -267,6 +291,10 @@ class Main(EnhancedScreen[None]):
         self.all_peps = message.peps.sorted_by(config.peps_sort_order).reversed(
             config.peps_sort_reversed
         )
+        if self._jump_to_on_load is not None:
+            if (pep := self._extract_pep(self._jump_to_on_load)) is not None:
+                self.post_message(GotoPEP(pep))
+            self._jump_to_on_load = None
 
     def on_mount(self) -> None:
         """Configure the application once the DOM is mounted."""

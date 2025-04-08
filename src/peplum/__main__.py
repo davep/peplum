@@ -50,6 +50,13 @@ def get_args() -> Namespace:
         help="Set the theme for the application (set to ? to list available themes)",
     )
 
+    # The remainder is going to be the initial command.
+    parser.add_argument(
+        "pep",
+        help="A PEP to highlight",
+        nargs="?",
+    )
+
     # Finally, parse the command line.
     return parser.parse_args()
 
