@@ -6,6 +6,7 @@
 
 - Added the ability to configure the keyboard bindings for the system
   commands.
+- Added `--bindings` as a command line switch.
 
 ## v0.5.0
 
