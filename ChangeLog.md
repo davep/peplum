@@ -1,5 +1,14 @@
 # Peplum ChangeLog
 
+## Unreleased
+
+**Released: WiP**
+
+- Added the ability to configure the keyboard bindings for the system
+  commands. ([#52](https://github.com/davep/peplum/pull/52))
+- Added `--bindings` as a command line switch.
+  ([#52](https://github.com/davep/peplum/pull/52))
+
 ## v0.5.0
 
 **Released: 2025-04-08**
