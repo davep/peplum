@@ -31,9 +31,12 @@ console:			# Run the textual console
 
 ##############################################################################
 # Setup/update packages the system requires.
-.PHONY: setup
-setup:				# Set up the repository for development
+.PHONY: ready
+ready:				# Make the development environment ready to go
 	rye sync
+
+.PHONY: setup
+setup: ready			# Set up the repository for development
 	$(run) pre-commit install
 
 .PHONY: update
@@ -76,15 +79,15 @@ checkall: spellcheck codestyle lint stricttypecheck test # Check all the things
 ##############################################################################
 # Documentation.
 .PHONY: docs
-docs:                           # Generate the system documentation
+docs: ready			# Generate the system documentation
 	$(mkdocs) build
 
 .PHONY: rtfm
-rtfm:				# Locally read the library documentation
+rtfm: ready			# Locally read the library documentation
 	$(mkdocs) serve
 
 .PHONY: publishdocs
-publishdocs: clean-docs	# Set up the docs for publishing
+publishdocs: clean-docs ready	# Set up the docs for publishing
 	$(mkdocs) gh-deploy
 
 ##############################################################################
