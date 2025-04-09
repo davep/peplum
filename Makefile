@@ -31,6 +31,7 @@ console:			# Run the textual console
 
 ##############################################################################
 # Setup/update packages the system requires.
+.PHONY: ready
 ready:				# Make the development environment ready to go
 	rye sync
 
