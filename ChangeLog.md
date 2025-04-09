@@ -1,8 +1,8 @@
 # Peplum ChangeLog
 
-## Unreleased
+## v0.6.0
 
-**Released: WiP**
+**Released: 2025-04-09**
 
 - Added the ability to configure the keyboard bindings for the system
   commands. ([#52](https://github.com/davep/peplum/pull/52))
