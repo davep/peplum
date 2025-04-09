@@ -74,6 +74,8 @@ dev-dependencies = [
     "pytest>=8.3.4",
     "textual-dev>=1.7.0",
     "codespell>=2.4.1",
+    "mkdocs-material>=9.6.11",
+    "markdown-exec>=1.10.3",
 ]
 
 [tool.hatch.metadata]
