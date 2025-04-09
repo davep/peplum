@@ -8,3 +8,7 @@ wheels/
 
 # venv
 .venv
+
+# Docs
+site/
+.screenshot_cache/

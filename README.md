@@ -26,8 +26,6 @@ The package can be installed using [`pipx`](https://pypa.github.io/pipx/):
 $ pipx install peplum
 ```
 
-Once installed run the `peplum` command.
-
 ### Homebrew
 
 The package is available via Homebrew. Use the following commands to install:
@@ -37,14 +35,18 @@ $ brew tap davep/homebrew
 $ brew install peplum
 ```
 
-Once installed run the `peplum` command.
-
 ## Using Peplum
+
+Once you've installed Peplum using one of the above methods, you can run the
+application using the `peplum` command.
 
 The best way to get to know Peplum is to read the help screen, once in the
 main application you can see this by pressing <kbd>F1</kbd>.
 
 ![Peplum help](https://raw.githubusercontent.com/davep/peplum/refs/heads/main/.images/peplum-help.png)
+
+For more information and details on configuring Peplum, see [the online
+documentation](https://peplum.davep.dev/).
 
 ## File locations
 

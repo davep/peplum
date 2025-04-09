@@ -50,9 +50,9 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/davep/peplum"
+Homepage = "https://peplum.davep.dev/"
 Repository = "https://github.com/davep/peplum"
-Documentation = "https://github.com/davep/peplum/blob/main/README.md"
+Documentation = "https://peplum.davep.dev/"
 Source = "https://github.com/davep/peplum"
 Issues = "https://github.com/davep/peplum/issues"
 Discussions = "https://github.com/davep/peplum/discussions"
@@ -74,6 +74,8 @@ dev-dependencies = [
     "pytest>=8.3.4",
     "textual-dev>=1.7.0",
     "codespell>=2.4.1",
+    "mkdocs-material>=9.6.11",
+    "markdown-exec>=1.10.3",
 ]
 
 [tool.hatch.metadata]

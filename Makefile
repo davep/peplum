@@ -1,12 +1,14 @@
 app    := peplum
 src    := src/
 tests  := tests/
+docs   := docs/
 run    := rye run
 test   := rye test
 python := $(run) python
 lint   := rye lint -- --select I
 fmt    := rye fmt
 mypy   := $(run) mypy
+mkdocs := $(run) mkdocs
 spell  := $(run) codespell
 
 ##############################################################################
@@ -66,10 +68,24 @@ test:				# Run the unit tests
 
 .PHONY: spellcheck
 spellcheck:			# Spell check the code
-	$(spell) *.md $(src) $(tests)
+	$(spell) *.md $(src) $(docs) $(tests)
 
 .PHONY: checkall
 checkall: spellcheck codestyle lint stricttypecheck test # Check all the things
+
+##############################################################################
+# Documentation.
+.PHONY: docs
+docs:                           # Generate the system documentation
+	$(mkdocs) build
+
+.PHONY: rtfm
+rtfm:				# Locally read the library documentation
+	$(mkdocs) serve
+
+.PHONY: publishdocs
+publishdocs: clean-docs	# Set up the docs for publishing
+	$(mkdocs) gh-deploy
 
 ##############################################################################
 # Package/publish.
@@ -106,9 +122,16 @@ pep8ify:			# Reformat the code to be as PEP8 as possible.
 .PHONY: tidy
 tidy: delint pep8ify		# Tidy up the code, fixing lint and format issues.
 
-.PHONY: clean
-clean:				# Clean the build directories
+.PHONY: clean-packaging
+clean-packaging:		# Clean the package building files
 	rm -rf dist
+
+.PHONY: clean-docs
+clean-docs:			# Clean up the documentation building files
+	rm -rf site .screenshot_cache
+
+.PHONY: clean
+clean: clean-packaging clean-docs # Clean the build directories
 
 .PHONY: realclean
 realclean: clean		# Clean the venv and build directories
