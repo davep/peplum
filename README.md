@@ -1,6 +1,6 @@
 # Peplum
 
-![Peplum](https://raw.githubusercontent.com/davep/peplum/refs/heads/main/.images/peplum-social-banner.png)
+[![Peplum](https://raw.githubusercontent.com/davep/peplum/refs/heads/main/.images/peplum-social-banner.png)](https://peplum.davep.dev/)
 
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/davep/peplum/style-lint-and-test.yaml)](https://github.com/davep/peplum/actions)
 [![GitHub commits since latest release](https://img.shields.io/github/commits-since/davep/peplum/latest)](https://github.com/davep/peplum/commits/main/)
