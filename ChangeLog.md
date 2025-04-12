@@ -1,5 +1,16 @@
 # Peplum ChangeLog
 
+## Unreleased
+
+**Released: WiP**
+
+- Make Textual v3.1.0 the minimum required version, to take advantage of the
+  fix for [#58](https://github.com/davep/peplum/issues/58).
+  ([#60](https://github.com/davep/peplum/pull/60))
+- Add a workaround for
+  [textual#5742](https://github.com/Textualize/textual/issues/5742).
+  ([#60](https://github.com/davep/peplum/pull/60))
+
 ## v0.6.0
 
 **Released: 2025-04-09**
