@@ -1,8 +1,8 @@
 # Peplum ChangeLog
 
-## Unreleased
+## v0.6.1
 
-**Released: WiP**
+**Released: 2025-04-12**
 
 - Make Textual v3.1.0 the minimum required version, to take advantage of the
   fix for [#58](https://github.com/davep/peplum/issues/58).
