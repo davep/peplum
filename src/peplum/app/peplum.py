@@ -6,7 +6,7 @@ from argparse import Namespace
 
 ##############################################################################
 # Textual imports.
-from textual.app import InvalidThemeError
+from textual.app import InvalidThemeError, ScreenStackError
 
 ##############################################################################
 # Textual enhanced imports.
@@ -67,7 +67,10 @@ class Peplum(EnhancedApp[None]):
                 self.theme = arguments.theme or configuration.theme
             except InvalidThemeError:
                 pass
-        self.update_keymap(configuration.bindings)
+        try:
+            self.update_keymap(configuration.bindings)
+        except ScreenStackError:  # https://github.com/Textualize/textual/issues/5742
+            pass
 
     def watch_theme(self) -> None:
         """Save the application's theme when it's changed."""
