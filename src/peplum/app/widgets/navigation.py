@@ -252,6 +252,10 @@ class Navigation(EnhancedOptionList):
             Navigation.sort_authors_by_count, config.sort_authors_by_count
         )
 
+    def on_mount(self) -> None:
+        """Configure the widget once the DOM is mounted."""
+        self.app.theme_changed_signal.subscribe(self, lambda _: self.repopulate())
+
     def add_main(self) -> Self:
         """Add the main navigation options.
 

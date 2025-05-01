@@ -6,6 +6,8 @@
 
 - Made Textual v3.1.1 the minimum required version.
   (#62[](https://github.com/davep/peplum/pull/62))
+- Fixed the colour of the `All` key reminder not being updated when the
+  theme is changed. ([#59](https://github.com/davep/peplum/issues/59))
 
 ## v0.6.1
 
