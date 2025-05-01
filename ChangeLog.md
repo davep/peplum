@@ -1,5 +1,12 @@
 # Peplum ChangeLog
 
+## Unreleased
+
+**Released: WiP**
+
+- Made Textual v3.1.1 the minimum required version.
+  (#62[](https://github.com/davep/peplum/pull/62))
+
 ## v0.6.1
 
 **Released: 2025-04-12**
