@@ -37,7 +37,7 @@
 
 **Released: 2025-03-17**
 
-- Bumped minimum Python version to 3.10.
+- Bumped minimum Python version to 3.1.0.
   ([#40](https://github.com/davep/peplum/pull/40))
 - Ensured the code works with *all* stable Python versions from 3.10 and
   above. ([#40](https://github.com/davep/peplum/pull/40))
