@@ -1,6 +1,6 @@
 [project]
 name = "peplum"
-version = "0.6.1"
+version = "1.0.0"
 description = "A terminal-based PEP lookup manager"
 authors = [
     { name = "Dave Pearson", email = "davep@davep.org" }
@@ -17,7 +17,7 @@ dependencies = [
 ]
 readme = "README.md"
 requires-python = ">= 3.10"
-license = { text = "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)" }
+license = { text = "GNU General Public License v3 or later (GPLv3+)" }
 keywords = [
     "terminal",
     "tui",
@@ -26,24 +26,24 @@ keywords = [
     "pep",
 ]
 classifiers = [
-    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Development Status :: 5 - Production/Stable",
     "Environment :: Console",
-    "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "Intended Audience :: End Users/Desktop",
     "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
     "Natural Language :: English",
     "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Topic :: Documentation",
     "Topic :: Education",
-    "Topic :: Software Development",
     "Topic :: Software Development :: Documentation",
+    "Topic :: Software Development",
     "Topic :: Terminals",
     "Topic :: Utilities",
     "Typing :: Typed",
