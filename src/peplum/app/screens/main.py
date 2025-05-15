@@ -18,7 +18,7 @@ from textual.widgets import Footer, Header
 ##############################################################################
 # Textual enhanced imports.
 from textual_enhanced.commands import Command, Help, Quit
-from textual_enhanced.dialogs import HelpScreen, ModalInput
+from textual_enhanced.dialogs import ModalInput
 from textual_enhanced.screen import EnhancedScreen
 
 ##############################################################################
@@ -414,12 +414,10 @@ class Main(EnhancedScreen[None]):
         else:
             self.notify(f"PEP{command.pep.number} has no associated URL")
 
-    @on(FindPEP)
     def action_find_pep_command(self) -> None:
         """Find a PEP and jump to it."""
         self.show_palette(PEPsCommands)
 
-    @on(Search)
     @work
     async def action_search_command(self) -> None:
         """Free-text search within the PEPs."""
@@ -428,47 +426,26 @@ class Main(EnhancedScreen[None]):
         ):
             self.active_peps = self.active_peps & Containing(search_text)
 
-    @on(SearchAuthor)
     def action_search_author_command(self) -> None:
         """Search for an author and use them as a filter."""
         self.show_palette(AuthorCommands)
 
-    @on(SearchPythonVersion)
     def action_search_python_version_command(self) -> None:
         """Search for a Python version and then use it as a filter."""
         self.show_palette(PythonVersionCommands)
 
-    @on(SearchStatus)
     def action_search_status_command(self) -> None:
         """Search for a status and use it as a filter."""
         self.show_palette(StatusCommands)
 
-    @on(SearchType)
     def action_search_type_command(self) -> None:
         """Search for a PEP type and then use it as a filter."""
         self.show_palette(TypeCommands)
 
-    @on(RedownloadPEPs)
     def action_redownload_peps_command(self) -> None:
         """Redownload PEPs from the API."""
         self.download_pep_data()
 
-    @on(Help)
-    def action_help_command(self) -> None:
-        """Toggle the display of the help panel."""
-        self.app.push_screen(HelpScreen(self))
-
-    @on(ChangeTheme)
-    def action_change_theme_command(self) -> None:
-        """Show the theme picker."""
-        self.app.search_themes()
-
-    @on(Quit)
-    def action_quit_command(self) -> None:
-        """Quit the application."""
-        self.app.exit()
-
-    @on(Escape)
     def action_escape_command(self) -> None:
         """Handle escaping.
 
@@ -486,21 +463,18 @@ class Main(EnhancedScreen[None]):
         else:
             self.app.exit()
 
-    @on(TogglePEPDetails)
     def action_toggle_pep_details_command(self) -> None:
         """Toggle the display of the PEP details panel."""
         self.toggle_class("details-visible")
         with update_configuration() as config:
             config.details_visble = self.has_class("details-visible")
 
-    @on(ToggleTypesSortOrder)
     def action_toggle_types_sort_order_command(self) -> None:
         """Toggle the sort order of the types."""
         with update_configuration() as config:
             config.sort_types_by_count = not config.sort_types_by_count
             self.query_one(Navigation).sort_types_by_count = config.sort_types_by_count
 
-    @on(ToggleStatusesSortOrder)
     def action_toggle_statuses_sort_order_command(self) -> None:
         """Toggle the sort order of the statuses."""
         with update_configuration() as config:
@@ -509,7 +483,6 @@ class Main(EnhancedScreen[None]):
                 Navigation
             ).sort_statuses_by_count = config.sort_statuses_by_count
 
-    @on(TogglePythonVersionsSortOrder)
     def action_toggle_python_versions_sort_order_command(self) -> None:
         """Toggle the sort order of the Python Versions."""
         with update_configuration() as config:
@@ -520,7 +493,6 @@ class Main(EnhancedScreen[None]):
                 Navigation
             ).sort_python_versions_by_count = config.sort_python_versions_by_count
 
-    @on(ToggleAuthorsSortOrder)
     def action_toggle_authors_sort_order_command(self) -> None:
         """Toggle the sort order of the authors."""
         with update_configuration() as config:
@@ -529,28 +501,24 @@ class Main(EnhancedScreen[None]):
                 Navigation
             ).sort_authors_by_count = config.sort_authors_by_count
 
-    @on(SortByCreated)
     def action_sort_by_created_command(self) -> None:
         """Sort the PEPs by their date created."""
         with update_configuration() as config:
             config.peps_sort_order = "created"
             self.active_peps = self.active_peps.sorted_by(config.peps_sort_order)
 
-    @on(SortByNumber)
     def action_sort_by_number_command(self) -> None:
         """Sort the PEPs by their number."""
         with update_configuration() as config:
             config.peps_sort_order = "number"
             self.active_peps = self.active_peps.sorted_by(config.peps_sort_order)
 
-    @on(SortByTitle)
     def action_sort_by_title_command(self) -> None:
         """Sort the PEPs by their title."""
         with update_configuration() as config:
             config.peps_sort_order = "title"
             self.active_peps = self.active_peps.sorted_by(config.peps_sort_order)
 
-    @on(ToggleSortOrder)
     def action_toggle_sort_order_command(self) -> None:
         """Toggle the current sort order direction of the PEPs."""
         with update_configuration() as config:
@@ -567,7 +535,6 @@ class Main(EnhancedScreen[None]):
                 str(error), title="Unable to save notes", severity="error", timeout=8
             )
 
-    @on(EditNotes)
     @work
     async def action_edit_notes_command(self) -> None:
         """Edit the notes for the currently-highlighted PEP."""
@@ -583,7 +550,6 @@ class Main(EnhancedScreen[None]):
                 self.all_peps.patch_pep(self.selected_pep.annotate(notes=notes))
             )
 
-    @on(ViewPEP)
     def action_view_pep_command(self) -> None:
         """View the currently-highlighted PEP's source."""
         if self.selected_pep is None:
