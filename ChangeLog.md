@@ -8,6 +8,8 @@
   (#62[](https://github.com/davep/peplum/pull/62))
 - Fixed the colour of the `All` key reminder not being updated when the
   theme is changed. ([#59](https://github.com/davep/peplum/issues/59))
+- Fixed a crash if "superseded by" is a list of PEPs rather than just a
+  single PEP.
 
 ## v0.6.1
 
