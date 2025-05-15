@@ -528,9 +528,7 @@ class PEPDetails(VerticalScroll, can_focus=False):
                     PEPItem(pep) for pep in self.pep.replaces
                 )
                 self.query_one("#superseded_by", ClickableValue).show(
-                    None
-                    if self.pep.superseded_by is None
-                    else PEPItem(self.pep.superseded_by)
+                    PEPItem(pep) for pep in self.pep.superseded_by
                 )
                 self.query_one("#created", Value).show(date_display(self.pep.created))
                 self.query_one("#python_versions", ClickableValue).show(
