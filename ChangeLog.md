@@ -1,8 +1,15 @@
 # Peplum ChangeLog
 
-## Unreleased
+## v1.0.1
 
-**Released: WiP**
+**Released: 2025-05-15**
+
+- Fixed a crash if "superseded by" is a list of PEPs rather than just a
+  single PEP. ([#65](https://github.com/davep/peplum/pull/65))
+
+## v1.0.0
+
+**Released: 2025-05-03**
 
 - Made Textual v3.1.1 the minimum required version.
   (#62[](https://github.com/davep/peplum/pull/62))

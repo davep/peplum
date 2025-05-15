@@ -174,7 +174,7 @@ class PEP:
     """The resolution of the PEP, if it has one."""
     replaces: tuple[int, ...]
     """The PEPs this PEP replaces."""
-    superseded_by: int | None
+    superseded_by: tuple[int, ...]
     """The PEP that supersedes this PEP."""
     url: str
     """The URL for the PEP."""
@@ -214,8 +214,7 @@ class PEP:
             or search_text in str(self.created)
             or search_text in " ".join(str(version) for version in self.python_version)
             or search_text in (str(pep) for pep in self.replaces)
-            or search_text
-            in ("" if self.superseded_by is None else str(self.superseded_by))
+            or search_text in (str(pep) for pep in self.superseded_by)
             or search_text in self.url.casefold()
             or search_text in self.notes.casefold()
         )
@@ -261,9 +260,7 @@ class PEP:
             ),
             resolution=PostHistory.from_value(data.get("resolution")),
             replaces=get_ints("replaces"),
-            superseded_by=None
-            if data.get("superseded_by") is None
-            else int(data["superseded_by"]),
+            superseded_by=get_ints("superseded_by"),
             url=data.get("url", ""),
         )
 
