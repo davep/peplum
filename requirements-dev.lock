@@ -34,9 +34,9 @@ certifi==2025.4.26
     # via requests
 cfgv==3.4.0
     # via pre-commit
-charset-normalizer==3.4.1
+charset-normalizer==3.4.2
     # via requests
-click==8.1.8
+click==8.2.0
     # via mkdocs
     # via textual-dev
 codespell==2.4.1
@@ -98,7 +98,7 @@ mkdocs==1.6.1
     # via mkdocs-material
 mkdocs-get-deps==0.2.0
     # via mkdocs
-mkdocs-material==9.6.12
+mkdocs-material==9.6.14
 mkdocs-material-extensions==1.3.1
     # via mkdocs-material
 msgpack==1.1.0
@@ -119,7 +119,7 @@ paginate==0.5.7
     # via mkdocs-material
 pathspec==0.12.1
     # via mkdocs
-platformdirs==4.3.7
+platformdirs==4.3.8
     # via mkdocs-get-deps
     # via textual
     # via virtualenv
@@ -144,7 +144,7 @@ pyyaml==6.0.2
     # via pre-commit
     # via pymdown-extensions
     # via pyyaml-env-tag
-pyyaml-env-tag==0.1
+pyyaml-env-tag==1.1
     # via mkdocs
 requests==2.32.3
     # via mkdocs-material
@@ -155,7 +155,7 @@ six==1.17.0
     # via python-dateutil
 sniffio==1.3.1
     # via anyio
-textual==3.1.1
+textual==3.2.0
     # via peplum
     # via textual-dev
     # via textual-enhanced
@@ -177,7 +177,7 @@ uc-micro-py==1.0.3
     # via linkify-it-py
 urllib3==2.4.0
     # via requests
-virtualenv==20.30.0
+virtualenv==20.31.2
     # via pre-commit
 watchdog==6.0.0
     # via mkdocs
