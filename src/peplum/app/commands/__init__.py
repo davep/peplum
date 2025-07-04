@@ -17,7 +17,6 @@ from .filtering import (
 )
 from .finding import FindPEP
 from .main import (
-    ChangeTheme,
     EditNotes,
     Escape,
     RedownloadPEPs,
@@ -35,7 +34,6 @@ from .peps_sorting import SortByCreated, SortByNumber, SortByTitle, ToggleSortOr
 ##############################################################################
 # Exports.
 __all__ = [
-    "ChangeTheme",
     "EditNotes",
     "Escape",
     "FindPEP",

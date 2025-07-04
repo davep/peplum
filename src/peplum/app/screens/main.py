@@ -17,7 +17,7 @@ from textual.widgets import Footer, Header
 
 ##############################################################################
 # Textual enhanced imports.
-from textual_enhanced.commands import Command, Help, Quit
+from textual_enhanced.commands import ChangeTheme, Command, Help, Quit
 from textual_enhanced.dialogs import ModalInput
 from textual_enhanced.screen import EnhancedScreen
 
@@ -26,7 +26,6 @@ from textual_enhanced.screen import EnhancedScreen
 from ... import __version__
 from ...peps import API
 from ..commands import (
-    ChangeTheme,
     EditNotes,
     Escape,
     FindPEP,

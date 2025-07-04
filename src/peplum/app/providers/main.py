@@ -2,12 +2,17 @@
 
 ##############################################################################
 # Textual enhanced imports.
-from textual_enhanced.commands import CommandHits, CommandsProvider, Help, Quit
+from textual_enhanced.commands import (
+    ChangeTheme,
+    CommandHits,
+    CommandsProvider,
+    Help,
+    Quit,
+)
 
 ##############################################################################
 # Local imports.
 from ..commands import (
-    ChangeTheme,
     EditNotes,
     Escape,
     FindPEP,
