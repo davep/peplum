@@ -1,5 +1,12 @@
 # Peplum ChangeLog
 
+## Unreleased
+
+**Released: WiP**
+
+- Migrated from `rye` to `uv` for development management.
+  ([#71](https://github.com/davep/dhv/pull/71))
+
 ## v1.0.1
 
 **Released: 2025-05-15**
