@@ -49,7 +49,7 @@ class API:
             The response.
 
         Raises:
-            RequestError: If there was some sort of error.
+            API.RequestError: If there was some sort of error.
         """
         try:
             response = await self._client.get(url, headers={"user-agent": self.AGENT})
@@ -70,7 +70,7 @@ class API:
             The PEP JSON data.
 
         Raises:
-            RequestError: If there was a problem getting the PEPS.
+            API.RequestError: If there was a problem getting the PEPS.
         """
         if isinstance(
             raw_data := (
