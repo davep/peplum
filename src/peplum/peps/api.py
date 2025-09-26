@@ -79,7 +79,7 @@ class API:
             dict,
         ):
             return raw_data
-        raise RequestError("Unexpected data received from the PEP API")
+        raise self.RequestError("Unexpected data received from the PEP API")
 
     @staticmethod
     def pep_file(pep: int) -> Path:
