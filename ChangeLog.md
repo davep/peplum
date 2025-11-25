@@ -96,7 +96,7 @@
 - Dropped Python 3.8 as a supported Python version.
   ([#19](https://github.com/davep/peplum/pull/19))
 - Added support for saving the source of a PEP to a file.
-  (#20[](https://github.com/davep/peplum/pull/20))
+  ([#20](https://github.com/davep/peplum/pull/20))
 
 ## v0.2.0
 
