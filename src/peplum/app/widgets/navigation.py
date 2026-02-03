@@ -6,7 +6,7 @@ from __future__ import annotations
 
 ##############################################################################
 # Python imports.
-from typing import Callable
+from collections.abc import Callable
 
 ##############################################################################
 # Rich imports.
