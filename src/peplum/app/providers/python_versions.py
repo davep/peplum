@@ -45,13 +45,15 @@ class PythonVersionCommands(CommandsProvider):
                     "Also isn't related to a specific Python version"
                     if self.active_peps.is_filtered
                     else "Isn't related to a specific Python version",
-                    f"{help_prefix} to PEPs unrelated to any specific Python version (narrows down to {version.count})",
+                    f"{help_prefix} to PEPs unrelated to any specific Python version "
+                    f"(narrows down to {version.count})",
                     ShowPythonVersion(""),
                 )
             else:
                 yield CommandHit(
                     f"{command_prefix} {version.version}",
-                    f"{help_prefix} to PEPs related to Python version {version.version} (narrows down to {version.count})",
+                    f"{help_prefix} to PEPs related to Python version {version.version} "
+                    f"(narrows down to {version.count})",
                     ShowPythonVersion(version.version),
                 )
 

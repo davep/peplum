@@ -6,9 +6,10 @@ from __future__ import annotations
 
 ##############################################################################
 # Python imports.
+from collections.abc import Sequence
 from datetime import date, datetime
 from functools import singledispatchmethod
-from typing import Final, Sequence
+from typing import Final
 from webbrowser import open as visit_url
 
 ##############################################################################
