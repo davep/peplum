@@ -11,6 +11,8 @@ jobs:
   style-lint-and-test:
 
     name: Style, lint, test
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     strategy:
       matrix:
