@@ -79,7 +79,9 @@ SAMPLE_PEPS: Final[tuple[PEP, ...]] = (
             "topic": "",
             "created": "30-Mar-2014",
             "python_version": "3.13",
-            "post_history": "30-Mar-2014, 15-Aug-2014, 16-Aug-2014, 07-Jun-2016, 01-Sep-2016, 13-Apr-2021, 03-Nov-2021, 27-Dec-2023",
+            "post_history": (
+                "30-Mar-2014, 15-Aug-2014, 16-Aug-2014, 07-Jun-2016, 01-Sep-2016, 13-Apr-2021, 03-Nov-2021, 27-Dec-2023"
+            ),
             "resolution": None,
             "requires": None,
             "replaces": None,
@@ -99,7 +101,11 @@ SAMPLE_PEPS: Final[tuple[PEP, ...]] = (
             "topic": "packaging",
             "created": "15-Aug-2019",
             "python_version": None,
-            "post_history": "`15-Aug-2019 <https://discuss.python.org/t/2154>`__, `17-Dec-2021 <https://discuss.python.org/t/12622>`__, `10-May-2024 <https://discuss.python.org/t/53020>`__,",
+            "post_history": (
+                "`15-Aug-2019 <https://discuss.python.org/t/2154>`__, "
+                "`17-Dec-2021 <https://discuss.python.org/t/12622>`__, "
+                "`10-May-2024 <https://discuss.python.org/t/53020>`__,"
+            ),
             "resolution": "https://discuss.python.org/t/53020/106",
             "requires": None,
             "replaces": None,
