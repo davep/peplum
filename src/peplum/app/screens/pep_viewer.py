@@ -116,7 +116,7 @@ class PEPViewer(ModalScreen[None]):
         if self._cache_name.exists():
             try:
                 pep_source = self._cache_name.read_text(encoding="utf-8")
-            except IOError:
+            except OSError:
                 pass
 
         if not pep_source:
@@ -125,7 +125,7 @@ class PEPViewer(ModalScreen[None]):
                     pep_source := await API().get_pep(self._pep.number),
                     encoding="utf-8",
                 )
-            except IOError:
+            except OSError:
                 pass
             except API.RequestError as error:
                 pep_source = "Error downloading PEP source"
@@ -151,7 +151,7 @@ class PEPViewer(ModalScreen[None]):
         """Refresh the PEP source."""
         try:
             self._cache_name.unlink(missing_ok=True)
-        except IOError:
+        except OSError:
             pass
         self._download_text()
 
@@ -178,7 +178,7 @@ class PEPViewer(ModalScreen[None]):
                 return
             try:
                 target.write_text(self.query_one(TextArea).text, encoding="utf-8")
-            except IOError as error:
+            except OSError as error:
                 self.notify(str(error), title="Save Failed", severity="error")
                 return
             self.notify(str(target), title="Saved")

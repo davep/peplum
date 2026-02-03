@@ -233,7 +233,7 @@ class Main(EnhancedScreen[None]):
                     )
                 )
             )
-        except IOError as error:
+        except OSError as error:
             self.notify(str(error), title="Error loading PEP data", severity="error")
 
     @work(thread=True)
@@ -248,7 +248,7 @@ class Main(EnhancedScreen[None]):
         # Store the raw data.
         try:
             pep_data().write_text(dumps(raw_data, indent=4), encoding="utf-8")
-        except IOError as error:
+        except OSError as error:
             self.notify(str(error), title="Error saving PEP data", severity="error")
             return
         # Now kick off loading the raw data.
@@ -529,7 +529,7 @@ class Main(EnhancedScreen[None]):
         """Save the notes."""
         try:
             self.notes.save()
-        except IOError as error:
+        except OSError as error:
             self.notify(
                 str(error), title="Unable to save notes", severity="error", timeout=8
             )
