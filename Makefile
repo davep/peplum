@@ -9,7 +9,7 @@ publish := uv publish --username=__token__ --keyring-provider=subprocess
 test    := $(run) pytest
 python  := $(run) python
 ruff    := $(run) ruff
-lint    := $(ruff) check --select I
+lint    := $(ruff) check
 fmt     := $(ruff) format
 mypy    := $(run) mypy
 mkdocs  := $(run) mkdocs
