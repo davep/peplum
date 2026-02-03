@@ -100,7 +100,7 @@ class AllView(CountView):
         """
         super().__init__(
             self.count_prompt(f"All [{(key_colour or 'dim')}]\\[{key}][/]", len(peps)),
-            id=f"_all_peps",
+            id="_all_peps",
         )
 
     @property
@@ -168,7 +168,7 @@ class PythonVersionView(CountView):
         self._version = version
         """The Python version to show."""
         super().__init__(
-            self.count_prompt(version.version or f"[dim i]None[/]", version.count),
+            self.count_prompt(version.version or "[dim i]None[/]", version.count),
             id=f"_python_version_{version.version}",
         )
 
