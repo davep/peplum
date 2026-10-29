@@ -13,15 +13,11 @@ from functools import total_ordering
 from itertools import chain
 from operator import attrgetter
 from pathlib import Path
-from typing import Literal, TypeAlias
+from typing import Literal, Self, TypeAlias
 
 ##############################################################################
 # Packaging imports.
 from packaging.version import InvalidVersion, Version
-
-##############################################################################
-# Typing extensions imports.
-from typing_extensions import Self
 
 ##############################################################################
 # Local imports.
