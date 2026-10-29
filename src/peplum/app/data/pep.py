@@ -126,8 +126,8 @@ class PostHistory:
         Returns:
             A `PostHistory` instance, or `None` if `None` was the input.
         """
-        if value is None:
-            return value
+        if value is None or value == "Pending":
+            return None
         if match := DATE_ONLY.match(value):
             return PostHistory(date=parse_date(value))
         if match := URL_ONLY.match(value):
