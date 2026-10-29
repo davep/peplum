@@ -8,6 +8,8 @@
   ([#71](https://github.com/davep/dhv/pull/71))
 - Added Python 3.14 as a tested/supported Python version.
   ([#73](https://github.com/davep/dhv/pull/73))
+- Handle `"Pending"` as a possible value for `PostHistory`.
+  ([#82](https://github.com/davep/peplum/pull/82))
 
 ## v1.0.1
 
