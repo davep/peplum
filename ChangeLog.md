@@ -10,6 +10,8 @@
   ([#73](https://github.com/davep/dhv/pull/73))
 - Handle `"Pending"` as a possible value for `PostHistory`.
   ([#82](https://github.com/davep/peplum/pull/82))
+- Dropped support for Python 3.10
+  ([#83](https://github.com/davep/peplum/pull/83))
 
 ## v1.0.1
 

@@ -4,11 +4,7 @@
 # Python imports.
 from json import dumps, loads
 from pathlib import Path
-from typing import Final
-
-##############################################################################
-# Typing extension imports.
-from typing_extensions import Self
+from typing import Final, Self
 
 ##############################################################################
 # Local imports.

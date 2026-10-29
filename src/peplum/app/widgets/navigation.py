@@ -7,6 +7,7 @@ from __future__ import annotations
 ##############################################################################
 # Python imports.
 from collections.abc import Callable
+from typing import Self
 
 ##############################################################################
 # Rich imports.
@@ -25,10 +26,6 @@ from textual.widgets.option_list import Option
 ##############################################################################
 # Textual enhanced imports.
 from textual_enhanced.widgets import EnhancedOptionList
-
-##############################################################################
-# Typing exception imports.
-from typing_extensions import Self
 
 ##############################################################################
 # Local imports.
